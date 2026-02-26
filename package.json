@@ -1,0 +1,15 @@
+{
+  "name": "odin-project-messaging-app",
+  "packageManager": "yarn@4.12.0",
+  "dependencies": {
+    "@reduxjs/toolkit": "^2.11.2",
+    "@thoughtbot/superglue": "^1.0.3",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "react-redux": "^9.2.0"
+  },
+  "devDependencies": {
+    "vite": "^6.2.6",
+    "vite-plugin-ruby": "^5.1.1"
+  }
+}
