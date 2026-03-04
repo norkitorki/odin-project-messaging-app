@@ -2,6 +2,7 @@ path = request.format.json? ? param_to_dig_path(params[:props_at]) : nil
 
 json.data(dig: path) do
   yield json
+  json.signedIn user_signed_in?
 end
 
 json.componentIdentifier active_template_virtual_path

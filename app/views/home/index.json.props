@@ -1,0 +1,30 @@
+if user_signed_in?
+  json.users User.all
+
+  json.signOutForm do
+    form_props(url: destroy_user_session_path, method: :delete) do |f|
+      f.submit 'Log Out'
+    end
+  end
+
+  json.addContactForm do
+    form_props(url: contacts_path, method: :post) do |f|
+      f.submit "+"
+    end
+  end
+
+  json.removeContactForm do
+    form_props(url: contacts_path, method: :delete) do |f|
+      f.submit "-"
+    end
+  end
+else
+  json.signInForm do
+    form_props(model: User, url: user_session_path, method: :post) do |f|
+      f.text_field :username, autofocus: true, autocomplete: "username"
+      f.password_field :password, autocomplete: "current-password"
+      f.check_box :remember_me
+      f.submit "Log in"
+    end
+  end
+end

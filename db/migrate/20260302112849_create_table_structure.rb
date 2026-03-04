@@ -26,7 +26,6 @@ class CreateTableStructure < ActiveRecord::Migration[8.1]
 
     create_table :users do |t|
       t.string :username
-      t.string :password
       t.string :pub_id
       t.index :username, unique: true
       t.index :pub_id, unique: true
