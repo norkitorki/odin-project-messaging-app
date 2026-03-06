@@ -21,7 +21,7 @@ class User < ApplicationRecord
     join_table: :contacts,
     foreign_key: :user_id,
     association_foreign_key: :contact_id,
-    before_add: :validate_contact
+    after_add: :create_opposite_contact
 
   before_destroy :destroy_contacts
 
@@ -41,9 +41,7 @@ class User < ApplicationRecord
     errors.add(:passwords, "do not match") if password != password_confirmation
   end
 
-  def validate_contact(user)
-    throw(:abort) if user == self || contacts.include?(user)
-
+  def create_opposite_contact(user)
     Contact.create!(user_id: user.id, contact_id: id)
   end
 
