@@ -28,7 +28,8 @@ class User < ApplicationRecord
   def remove_contact(user)
     return if !user.is_a?(self.class) || user == self
 
-    Contact.where(user_id: id, contact_id: user.id).or(Contact.where(user_id: user.id, contact_id: id)).destroy_all
+    removal = Contact.where(user_id: id, contact_id: user.id).or(Contact.where(user_id: user.id, contact_id: id)).destroy_all
+    removal.empty? ? false : true
   end
 
   def as_json
