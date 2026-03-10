@@ -24,7 +24,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_02_114215) do
   create_table "chats", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "name"
+    t.string "pub_id"
     t.datetime "updated_at", null: false
+    t.index ["pub_id"], name: "index_chats_on_pub_id", unique: true
   end
 
   create_table "contacts", force: :cascade do |t|

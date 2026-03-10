@@ -1,4 +1,7 @@
 class Chat < ApplicationRecord
+  include CoolId::Model
+  cool_id prefix: "c", length: 8, id_field: :pub_id
+
   has_many :chat_rooms, dependent: :destroy
   has_many :users, through: :chat_rooms, before_add: :skip_existing_user
 

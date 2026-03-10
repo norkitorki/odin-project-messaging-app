@@ -7,6 +7,8 @@ class CreateTableStructure < ActiveRecord::Migration[8.1]
 
     create_table :chats do |t|
       t.string :name
+      t.string :pub_id
+      t.index :pub_id, unique: true
 
       t.timestamps
     end
