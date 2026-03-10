@@ -3,7 +3,10 @@ class Chat < ApplicationRecord
   cool_id prefix: "c", length: 8, id_field: :pub_id
 
   has_many :chat_rooms, dependent: :destroy
-  has_many :users, through: :chat_rooms, before_add: :skip_existing_user
+  has_many :users,
+    through: :chat_rooms,
+    before_add: :skip_existing_user,
+    after_remove: Proc.new { |chat| chat.destroy if chat.users.count <= 1 }
 
   has_many :messages, dependent: :destroy
 
