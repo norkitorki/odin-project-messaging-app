@@ -39,10 +39,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_02_114215) do
   create_table "messages", force: :cascade do |t|
     t.bigint "chat_id"
     t.datetime "created_at", null: false
+    t.string "pub_id"
     t.datetime "updated_at", null: false
     t.bigint "user_id"
     t.string "value"
     t.index ["chat_id"], name: "index_messages_on_chat_id"
+    t.index ["pub_id"], name: "index_messages_on_pub_id", unique: true
     t.index ["user_id"], name: "index_messages_on_user_id"
   end
 

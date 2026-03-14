@@ -20,6 +20,8 @@ class CreateTableStructure < ActiveRecord::Migration[8.1]
 
     create_table :messages do |t|
       t.string :value
+      t.string :pub_id
+      t.index :pub_id, unique: true
       t.references :chat, index: true
       t.references :user, index: true
 
