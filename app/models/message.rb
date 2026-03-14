@@ -1,4 +1,7 @@
 class Message < ApplicationRecord
+  include CoolId::Model
+  cool_id prefix: "m", length: 8, id_field: :pub_id
+
   belongs_to :chat
   belongs_to :user
 
