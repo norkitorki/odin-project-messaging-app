@@ -1,0 +1,47 @@
+.header {
+  position: sticky;
+  top: 0;
+  color: #ffffff;
+  background: #071e25;
+  padding: 1rem;
+}
+
+.header a {
+  color: #ffffff;
+}
+
+.sideBar {
+  width: 50px;
+  height: 100vh;
+  background: #071e25;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sideBar svg {
+  width: 32px;
+  fill: #ffffff;
+}
+
+.heading {
+  font-size: 2rem;
+  font-weight: bold;
+  display: inline-block;
+}
+
+.header nav {
+  width: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 2rem;
+  padding: 0 2rem;
+}
+
+.header nav a {
+  font-size: 1.5rem;
+  text-decoration: none;
+}
