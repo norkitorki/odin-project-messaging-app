@@ -1,0 +1,18 @@
+json.chats current_user.chats.includes(:users, messages: [:user]).map { |c| { pub_id: c.pub_id, name: c.name, users: c.users, messages: c.messages.map { |m| { pub_id: m.pub_id, value: m.value, user: m.user, created_at: m.created_at.strftime("%-d %B %Y %H:%M:%S") } } } }
+
+json.addMessageForm do
+  form_props(url: add_message_path, method: :post) do |f|
+    f.text_area :message
+    f.submit "Send"
+  end
+end
+
+json.removeMessageForm do
+  form_props(url: remove_message_path, method: :delete)
+end
+
+json.leaveChatForm do
+  form_props(url: close_chat_path, method: :delete) do |f|
+    f.submit "Leave Chat"
+  end
+end

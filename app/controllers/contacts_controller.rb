@@ -1,15 +1,21 @@
 class ContactsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_user
+  before_action :set_contact
 
   def create
-    current_user.contacts << @user if @user
-    redirect_to root_path, notice: "#{@user.username} added to your contacts"
+    contact = Contact.new(user: current_user, contact: @contact)
+
+    if contact.save
+      redirect_back_or_to root_path, notice: "#{@contact.username} was added to your contacts"
+    else
+      redirect_to root_path, notice: "#{@contact.username} was not added to your contacts"
+    end
   end
 
   def destroy
-    current_user.remove_contact(@user) if @user
-    redirect_to root_path, notice: "#{@user.username} removed from your contacts"
+    removed = current_user.remove_contact(@contact) if @contact
+
+    redirect_back_or_to root_path, notice: "#{@contact.username} has #{removed ? "" : "not"} been removed from your contacts"
   end
 
   private
@@ -18,7 +24,7 @@ class ContactsController < ApplicationController
     params.permit(:pub_id)
   end
 
-  def set_user
-    @user = CoolId.locate(contacts_params[:pub_id])
+  def set_contact
+    @contact = CoolId.locate(contacts_params[:pub_id])
   end
 end

@@ -1,0 +1,77 @@
+.chatContainer {
+  margin: 1rem 2rem 1rem 0;
+  padding: 1rem;
+  border: 1px solid #ffffff;
+  overflow: hidden;
+}
+
+.messages {
+  padding: 0.5rem 0;
+}
+
+.messages > li {
+  padding-bottom: 0.75rem;
+}
+
+.authorImage {
+  display: inline-block;
+  width: 32px;
+  vertical-align: middle;
+  overflow: hidden;
+}
+
+.authorImage svg {
+  fill: #ffffff;
+}
+
+.messageAuthor {
+  width: max-content;
+  color: #0cc505;
+  background: #0000ff;
+  font-weight: bold;
+  padding: 0.5rem 0.75rem;
+  margin-left: 0.25rem;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.messageCreationDate {
+  font-size: 0.8rem;
+  padding-left: 0.5rem;
+}
+
+.messageDeleteForm {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.messageDeleteForm button[type="submit"] {
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border: none;
+  fill: #fc0404;
+  transition: transform 0.3s ease;
+}
+
+.messageDeleteForm button[type="submit"]:hover,
+.messageDeleteForm button[type="submit"]:focus {
+  transform: scale(1.2);
+}
+
+.messageValue {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 0 0 0.75rem;
+  white-space: pre-wrap;
+}
+
+.messageValue svg {
+  width: 16px;
+  height: 16px;
+  fill: #ffffff;
+  padding-right: 0.25rem;
+  align-self: flex-start;
+}

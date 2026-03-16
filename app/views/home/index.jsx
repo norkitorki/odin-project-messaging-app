@@ -10,52 +10,29 @@ import {
 import { useContent } from "@thoughtbot/superglue";
 
 export default function HomeIndex() {
-  const {
-    signedIn,
-    users,
-    addContactForm,
-    removeContactForm,
-    signOutForm,
-    signInForm,
-  } = useContent();
+  const { users, currentUser, addUsersToChatForm, signInForm } = useContent();
 
   return (
     <Layout>
-      <h1>Front Page</h1>
-
-      {signedIn ? (
+      {currentUser ? (
         <>
-          <ul>
+          <Form
+            {...addUsersToChatForm.form}
+            extras={addUsersToChatForm.extras}
+            data-sg-visit
+          >
             {users.map((user) => (
-              <li key={user.pub_id}>
-                {user.username}{" "}
-                <Form
-                  {...addContactForm.form}
-                  extras={addContactForm.extras}
-                  data-sg-visit
-                >
-                  <input type="hidden" name="pub_id" value={user.pub_id} />
-                  <SubmitButton {...addContactForm.inputs.submit} />
-                </Form>
-                <Form
-                  {...removeContactForm.form}
-                  extras={removeContactForm.extras}
-                  data-sg-visit
-                >
-                  <input type="hidden" name="pub_id" value={user.pub_id} />
-                  <SubmitButton {...removeContactForm.inputs.submit} />
-                </Form>
-              </li>
+              <label key={user.pub_id} style={{ display: "block" }}>
+                {user.username}
+                <input type="checkbox" name="user_ids[]" value={user.pub_id} />
+              </label>
             ))}
-          </ul>
-          <Form {...signOutForm.form} extras={signOutForm.extras}>
-            <SubmitButton {...signOutForm.inputs.submit} />
+            <SubmitButton {...addUsersToChatForm.inputs.submit} />
           </Form>
         </>
       ) : (
         <>
           <a href="/users/sign_up">Sign Up</a>
-          <a href="/users/sign_in">Log In</a>
           <Form {...signInForm.form} extras={signInForm.extras}>
             <div className="field">
               <TextField

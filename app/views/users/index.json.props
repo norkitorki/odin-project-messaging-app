@@ -1,0 +1,19 @@
+json.users User.where.not(id: current_user.id)
+
+json.addContactForm do
+  form_props(url: add_contact_path, method: :post) do |f|
+    f.submit "Add Contact"
+  end
+end
+
+json.removeContactForm do
+  form_props(url: remove_contact_path, method: :delete) do |f|
+    f.submit "Remove Contact"
+  end
+end
+
+json.openChatForm do
+  form_props(url: open_chat_path, method: :post) do |f|
+    f.submit "Open Chat"
+  end
+end
