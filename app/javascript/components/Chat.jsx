@@ -36,6 +36,7 @@ const EditMessageForm = ({ messageId, message, setEditingMessage }) => {
       {...editMessageForm.form}
       extras={editMessageForm.extras}
       onSubmit={onSubmit}
+      className={styles.messageEditForm}
       data-sg-visit
     >
       <input type="hidden" name="message_id" value={messageId} />
@@ -79,18 +80,18 @@ export function Chat({ chat }) {
                   </button>
                 </>
               )}
-              <span className={styles.messageValue}>
-                <ArrowRightBottom />
-                {editingMessage === message.pub_id ? (
-                  <EditMessageForm
-                    messageId={message.pub_id}
-                    message={message.value}
-                    setEditingMessage={setEditingMessage}
-                  />
-                ) : (
-                  message.value
-                )}
-              </span>
+              {editingMessage === message.pub_id ? (
+                <EditMessageForm
+                  messageId={message.pub_id}
+                  message={message.value}
+                  setEditingMessage={setEditingMessage}
+                />
+              ) : (
+                <p className={styles.message}>
+                  <ArrowRightBottom />
+                  <span>{message.value}</span>
+                </p>
+              )}
             </li>
           ))}
         </ol>

@@ -38,7 +38,8 @@
 }
 
 .messageCreationDate {
-  font-size: 0.8rem;
+  font-size: 0.7rem;
+  font-weight: bold;
   padding-left: 0.5rem;
 }
 
@@ -71,21 +72,15 @@
   transform: scale(1.2);
 }
 
-.messageValue {
-  display: block;
+.message {
+  max-width: min(1000px, 80%);
+  font-size: 0.95rem;
+  line-height: 1.25rem;
   padding: 0.25rem 0 0 0.75rem;
   white-space: pre-wrap;
 }
 
-.messageValue form {
-  display: inline-block;
-}
-
-.messageValue button[type="submit"] {
-  display: block;
-}
-
-.messageValue svg {
+.message > svg {
   display: inline-block;
   vertical-align: top;
   min-width: 16px;
@@ -93,4 +88,27 @@
   fill: #ffffff;
   padding-right: 0.25rem;
   align-self: flex-start;
+}
+
+.message > span {
+  max-width: 95%;
+  display: inline-block;
+}
+
+.messageEditForm textarea {
+  width: min(1000px, 80%);
+  max-width: 95%;
+  height: 100px;
+  color: #ffffff;
+  background: transparent;
+  border-color: #ffffff28;
+  border-radius: 0.5rem 0.5rem 0 0.5rem;
+  outline-color: inherit;
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+  scrollbar-width: thin;
+}
+
+.messageEditForm button[type="submit"] {
+  display: block;
 }
