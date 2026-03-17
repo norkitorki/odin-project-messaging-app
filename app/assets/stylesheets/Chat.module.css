@@ -47,29 +47,48 @@
   vertical-align: middle;
 }
 
-.messageDeleteForm button[type="submit"] {
-  width: 32px;
-  height: 32px;
+.messageDeleteForm button[type="submit"],
+.messageEditButton {
+  width: 22px;
+  height: 22px;
   background: transparent;
   border: none;
+  padding: 0;
+  margin: 0 0.1rem;
   fill: #fc0404;
   transition: transform 0.3s ease;
 }
 
+.messageEditButton {
+  fill: #ffffff;
+  vertical-align: middle;
+}
+
 .messageDeleteForm button[type="submit"]:hover,
-.messageDeleteForm button[type="submit"]:focus {
+.messageDeleteForm button[type="submit"]:focus,
+.messageEditButton:hover,
+.messageEditButton:focus {
   transform: scale(1.2);
 }
 
 .messageValue {
-  display: flex;
-  align-items: center;
-  padding: 0.5rem 0 0 0.75rem;
+  display: block;
+  padding: 0.25rem 0 0 0.75rem;
   white-space: pre-wrap;
 }
 
+.messageValue form {
+  display: inline-block;
+}
+
+.messageValue button[type="submit"] {
+  display: block;
+}
+
 .messageValue svg {
-  width: 16px;
+  display: inline-block;
+  vertical-align: top;
+  min-width: 16px;
   height: 16px;
   fill: #ffffff;
   padding-right: 0.25rem;

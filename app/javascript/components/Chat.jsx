@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "@stylesheets/Chat.module.css";
 import { useContent } from "@thoughtbot/superglue";
 import { Form, SubmitButton, TextArea } from "@javascript/components";
@@ -6,11 +6,48 @@ import {
   AccountCircle,
   ArrowRightBottom,
   Delete,
+  Edit,
 } from "@javascript/components/Icons";
 
+const DeleteMessageForm = ({ messageId }) => {
+  const { deleteMessageForm } = useContent();
+
+  return (
+    <Form
+      {...deleteMessageForm.form}
+      extras={deleteMessageForm.extras}
+      className={styles.messageDeleteForm}
+      data-sg-visit
+    >
+      <input type="hidden" name="message_id" value={messageId} />
+      <button type="submit" title="delete message">
+        <Delete />
+      </button>
+    </Form>
+  );
+};
+
+const EditMessageForm = ({ messageId, message, setEditingMessage }) => {
+  const { editMessageForm } = useContent();
+  const onSubmit = () => setEditingMessage(null);
+
+  return (
+    <Form
+      {...editMessageForm.form}
+      extras={editMessageForm.extras}
+      onSubmit={onSubmit}
+      data-sg-visit
+    >
+      <input type="hidden" name="message_id" value={messageId} />
+      <textarea defaultValue={message} name="message" />
+      <button type="submit">Update Message</button>
+    </Form>
+  );
+};
+
 export function Chat({ chat }) {
-  const { currentUser, addMessageForm, removeMessageForm, leaveChatForm } =
-    useContent();
+  const { currentUser, addMessageForm, leaveChatForm } = useContent();
+  const [editingMessage, setEditingMessage] = useState();
 
   return (
     <>
@@ -26,28 +63,33 @@ export function Chat({ chat }) {
                 {message.user.username}
               </span>
               <span className={styles.messageCreationDate}>
-                {message.created_at}
+                {message.created}
               </span>
               {message.user.pub_id === currentUser.pub_id && (
-                <Form
-                  {...removeMessageForm.form}
-                  extras={removeMessageForm.extras}
-                  className={styles.messageDeleteForm}
-                  data-sg-visit
-                >
-                  <input
-                    type="hidden"
-                    name="message_id"
-                    value={message.pub_id}
-                  />
-                  <button type="submit" title="delete message">
-                    <Delete />
+                <>
+                  <DeleteMessageForm messageId={message.pub_id} />
+                  <button
+                    onClick={() =>
+                      setEditingMessage(editingMessage ? null : message.pub_id)
+                    }
+                    title="edit message"
+                    className={styles.messageEditButton}
+                  >
+                    <Edit />
                   </button>
-                </Form>
+                </>
               )}
               <span className={styles.messageValue}>
                 <ArrowRightBottom />
-                {message.value}
+                {editingMessage === message.pub_id ? (
+                  <EditMessageForm
+                    messageId={message.pub_id}
+                    message={message.value}
+                    setEditingMessage={setEditingMessage}
+                  />
+                ) : (
+                  message.value
+                )}
               </span>
             </li>
           ))}

@@ -12,6 +12,13 @@ class MessagesController < ApplicationController
     redirect_back_or_to root_path
   end
 
+  def update
+    message = current_user.messages.find_by(pub_id: message_params[:message_id])
+
+    message&.update(value: message_params[:message])
+    redirect_back_or_to root_path, notice: "Message updated"
+  end
+
   def destroy
     message = current_user.messages.find_by(pub_id: message_params[:message_id])
 
