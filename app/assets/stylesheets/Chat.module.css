@@ -73,7 +73,7 @@
 }
 
 .message {
-  max-width: min(1000px, 80%);
+  max-width: min(1200px, 80%);
   font-size: 0.95rem;
   line-height: 1.25rem;
   padding: 0.25rem 0 0 0.75rem;
@@ -96,7 +96,7 @@
 }
 
 .messageEditForm textarea {
-  width: min(1000px, 80%);
+  width: min(1200px, 80%);
   max-width: 95%;
   height: 100px;
   color: #ffffff;
