@@ -29,20 +29,23 @@ const DeleteMessageForm = ({ messageId }) => {
 
 const EditMessageForm = ({ messageId, message, setEditingMessage }) => {
   const { editMessageForm } = useContent();
-  const onSubmit = () => setEditingMessage(null);
+  const reset = () => setEditingMessage(null);
 
   return (
-    <Form
-      {...editMessageForm.form}
-      extras={editMessageForm.extras}
-      onSubmit={onSubmit}
-      className={styles.messageEditForm}
-      data-sg-visit
-    >
-      <input type="hidden" name="message_id" value={messageId} />
-      <textarea defaultValue={message} name="message" />
-      <button type="submit">Update Message</button>
-    </Form>
+    <>
+      <Form
+        {...editMessageForm.form}
+        extras={editMessageForm.extras}
+        onSubmit={reset}
+        className={styles.messageEditForm}
+        data-sg-visit
+      >
+        <input type="hidden" name="message_id" value={messageId} />
+        <textarea defaultValue={message} name="message" />
+        <button type="submit">Update Message</button>
+      </Form>
+      <button onClick={reset}>Cancel</button>
+    </>
   );
 };
 
