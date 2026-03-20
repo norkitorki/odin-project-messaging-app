@@ -11,10 +11,6 @@ json.editMessageForm do
   form_props(url: update_message_path, method: :patch)
 end
 
-json.deleteMessageForm do
-  form_props(url: remove_message_path, method: :delete)
-end
-
 json.leaveChatForm do
   form_props(url: close_chat_path, method: :delete) do |f|
     f.submit "Leave Chat"

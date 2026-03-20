@@ -14,5 +14,4 @@ Rails.application.routes.draw do
 
   delete "/chats/close", to: "chats#destroy", as: :close_chat
   delete "contacts/remove", to: "contacts#destroy", as: :remove_contact
-  delete "/messages/remove", to: "messages#destroy", as: :remove_message
 end
