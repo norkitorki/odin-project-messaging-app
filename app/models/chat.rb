@@ -12,15 +12,15 @@ class Chat < ApplicationRecord
 
   belongs_to :admin, class_name: "User"
 
-  def self.open(admin, *users)
-    return nil if users.length <= 2 && users.first.id == users.last.id
+  def self.open(*users)
+    return nil if users.empty?
 
-    user_ids = users.map(&:id)
+    user_ids = users.map(&:id).uniq
     user_ids_sorted = user_ids.sort.join(",")
 
     shared_chats = Chat.joins(:users).where(users: user_ids).group(:id).having("count(users.id) = ?", user_ids.length)
     existing_chat = shared_chats.find { |chat| chat.users.ids.sort.join(",") == user_ids_sorted }
-    existing_chat || Chat.create!(users: users, admin: admin)
+    existing_chat || Chat.create!(users: users, admin: users.first)
   end
 
   def as_json
