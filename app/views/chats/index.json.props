@@ -1,4 +1,4 @@
-json.chats current_user.chats.includes(:users, messages: [:user]).map { |c| { pub_id: c.pub_id, name: c.name, users: c.users, messages: c.messages.map { |m| { pub_id: m.pub_id, value: m.value, user: m.user, created: "#{distance_of_time_in_words_to_now(m.created_at)} ago" } } } }
+json.chats current_user.chats.includes(:admin, :users).map(&:as_json)
 
 json.addMessageForm do
   form_props(url: add_message_path, method: :post) do |f|

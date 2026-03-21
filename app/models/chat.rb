@@ -10,7 +10,9 @@ class Chat < ApplicationRecord
 
   has_many :messages, dependent: :destroy
 
-  def self.open(*users)
+  belongs_to :admin, class_name: "User"
+
+  def self.open(admin, *users)
     return nil if users.length <= 2 && users.first.id == users.last.id
 
     user_ids = users.map(&:id)
@@ -18,11 +20,11 @@ class Chat < ApplicationRecord
 
     shared_chats = Chat.joins(:users).where(users: user_ids).group(:id).having("count(users.id) = ?", user_ids.length)
     existing_chat = shared_chats.find { |chat| chat.users.ids.sort.join(",") == user_ids_sorted }
-    existing_chat || Chat.create!(users: users)
+    existing_chat || Chat.create!(users: users, admin: admin)
   end
 
   def as_json
-    super.except("id")
+    super.except("id").merge({ pub_id: pub_id, name: name, admin: admin, users: users, messages: messages.ordered_by_creation })
   end
 
   private

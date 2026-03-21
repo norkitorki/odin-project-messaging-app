@@ -8,7 +8,6 @@ export default function ChatsIndex() {
 
   return (
     <Layout>
-      <h2>Chats</h2>
       <ul>
         {chats.map((chat) => (
           <li key={chat.pub_id}>

@@ -10,17 +10,22 @@ import {
 } from "@javascript/components/Icons";
 
 const DeleteMessageForm = ({ messageId }) => {
-  const { deleteMessageForm } = useContent();
+  const { editMessageForm } = useContent();
 
   return (
     <Form
-      {...deleteMessageForm.form}
-      extras={deleteMessageForm.extras}
+      {...editMessageForm.form}
+      extras={editMessageForm.extras}
       className={styles.messageDeleteForm}
       data-sg-visit
     >
       <input type="hidden" name="message_id" value={messageId} />
-      <button type="submit" title="delete message">
+      <input type="hidden" name="destroy" value={true} />
+      <button
+        type="submit"
+        title="delete message"
+        className={styles.messageDeleteButton}
+      >
         <Delete />
       </button>
     </Form>
@@ -53,36 +58,56 @@ export function Chat({ chat }) {
   const { currentUser, addMessageForm, leaveChatForm } = useContent();
   const [editingMessage, setEditingMessage] = useState();
 
+  console.log(chat);
+
   return (
     <>
       <div className={styles.chatContainer}>
         Members: {chat.users.map((user) => user.username).join(", ")}
+        <br />
+        Private Chat: {String(chat.private)}
         <ol className={styles.messages}>
           {chat.messages.map((message) => (
-            <li key={message.pub_id}>
-              <div className={styles.authorImage}>
-                {message.user.image || <AccountCircle />}
+            <li
+              key={message.pub_id}
+              className={message.deleted ? styles.deletedMessage : ""}
+            >
+              <div className={styles.authorDetails}>
+                <div className={styles.authorImage}>
+                  {message.user.image || <AccountCircle />}
+                </div>
+                <span className={styles.authorBadge}>
+                  {message.user.username}
+                </span>
+                {chat.admin.pub_id === message.user.pub_id && (
+                  <span className={styles.adminBadge}>Admin</span>
+                )}
+                <span className={styles.messageCreationDate}>
+                  {message.created}{" "}
+                  {message.created !== message.updated &&
+                    `(updated ${message.updated})`}
+                </span>
+                {!message.deleted &&
+                  (message.user.pub_id === currentUser.pub_id ||
+                    currentUser.pub_id === chat.admin.pub_id) && (
+                    <DeleteMessageForm messageId={message.pub_id} />
+                  )}
+                {!message.deleted &&
+                  message.user.pub_id === currentUser.pub_id && (
+                    <button
+                      onClick={() =>
+                        setEditingMessage(
+                          editingMessage ? null : message.pub_id,
+                        )
+                      }
+                      title="edit message"
+                      className={styles.messageEditButton}
+                    >
+                      <Edit />
+                    </button>
+                  )}
               </div>
-              <span className={styles.messageAuthor}>
-                {message.user.username}
-              </span>
-              <span className={styles.messageCreationDate}>
-                {message.created}
-              </span>
-              {message.user.pub_id === currentUser.pub_id && (
-                <>
-                  <DeleteMessageForm messageId={message.pub_id} />
-                  <button
-                    onClick={() =>
-                      setEditingMessage(editingMessage ? null : message.pub_id)
-                    }
-                    title="edit message"
-                    className={styles.messageEditButton}
-                  >
-                    <Edit />
-                  </button>
-                </>
-              )}
+
               {editingMessage === message.pub_id ? (
                 <EditMessageForm
                   messageId={message.pub_id}

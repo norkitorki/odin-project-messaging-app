@@ -22,10 +22,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_02_114215) do
   end
 
   create_table "chats", force: :cascade do |t|
+    t.bigint "admin_id"
     t.datetime "created_at", null: false
     t.string "name"
+    t.boolean "private", default: false
     t.string "pub_id"
     t.datetime "updated_at", null: false
+    t.index ["admin_id"], name: "index_chats_on_admin_id"
     t.index ["pub_id"], name: "index_chats_on_pub_id", unique: true
   end
 
