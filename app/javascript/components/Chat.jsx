@@ -79,7 +79,7 @@ export function Chat({ chat }) {
                 <span className={styles.authorBadge}>
                   {message.user.username}
                 </span>
-                {chat.admin.pub_id === message.user.pub_id && (
+                {chat.admin_id === message.user.pub_id && (
                   <span className={styles.adminBadge}>Admin</span>
                 )}
                 <span className={styles.messageCreationDate}>
@@ -89,7 +89,7 @@ export function Chat({ chat }) {
                 </span>
                 {!message.deleted &&
                   (message.user.pub_id === currentUser.pub_id ||
-                    currentUser.pub_id === chat.admin.pub_id) && (
+                    currentUser.pub_id === chat.admin_id) && (
                     <DeleteMessageForm messageId={message.pub_id} />
                   )}
                 {!message.deleted &&

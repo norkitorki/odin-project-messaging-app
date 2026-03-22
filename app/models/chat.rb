@@ -24,7 +24,7 @@ class Chat < ApplicationRecord
   end
 
   def as_json
-    super.except("id").merge({ pub_id: pub_id, name: name, admin: admin, users: users, messages: messages.ordered_by_creation })
+    super.except("id", "admin_id").merge({ admin_id: admin.pub_id, users: users, messages: messages.ordered_by_creation })
   end
 
   private
