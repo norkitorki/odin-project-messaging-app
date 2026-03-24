@@ -16,6 +16,16 @@ class User < ApplicationRecord
 
   has_many :messages, dependent: :destroy
 
+  has_many :received_requests,
+    class_name: "Request",
+    foreign_key: :receiver_id,
+    dependent: :destroy
+
+  has_many :initiated_requests,
+    class_name: "Request",
+    foreign_key: :initiator_id,
+    dependent: :destroy
+
   has_and_belongs_to_many :contacts,
     class_name: "User",
     join_table: :contacts,

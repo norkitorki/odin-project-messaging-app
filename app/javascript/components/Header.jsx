@@ -25,6 +25,9 @@ export default function Header() {
               <a href="/chats" data-sg-visit>
                 Chats
               </a>
+              <a href="/requests" data-sg-visit>
+                Requests
+              </a>
               <div>
                 <p>Signed in as {currentUser.username} </p>
                 <Form {...signOutForm.form} extras={signOutForm.extras}>

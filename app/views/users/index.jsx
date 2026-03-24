@@ -4,8 +4,13 @@ import { Layout } from "@javascript/components";
 import { Form, SubmitButton } from "@javascript/components";
 
 export default function UsersIndex() {
-  const { users, addContactForm, removeContactForm, openChatForm } =
-    useContent();
+  const {
+    users,
+    addContactForm,
+    friendRequestForm,
+    removeContactForm,
+    openChatForm,
+  } = useContent();
 
   return (
     <Layout>
@@ -13,6 +18,18 @@ export default function UsersIndex() {
         {users.map((user) => (
           <li key={user.pub_id}>
             {user.username}
+            <Form
+              {...friendRequestForm.form}
+              extras={friendRequestForm.extras}
+              data-sg-visit
+            >
+              <input {...friendRequestForm.inputs.requestType} />
+              <input
+                {...friendRequestForm.inputs.receiver}
+                value={user.pub_id}
+              />
+              <SubmitButton {...friendRequestForm.inputs.submit} />
+            </Form>
             <Form
               {...addContactForm.form}
               extras={addContactForm.extras}

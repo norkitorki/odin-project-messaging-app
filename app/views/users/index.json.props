@@ -6,6 +6,14 @@ json.addContactForm do
   end
 end
 
+json.friendRequestForm do
+  form_props(url: add_request_path, method: :post) do |f|
+    f.hidden_field :requestType, value: "friend", id: nil
+    f.hidden_field :receiver, id: nil
+    f.submit "Send Friend Request"
+  end
+end
+
 json.removeContactForm do
   form_props(url: remove_contact_path, method: :delete) do |f|
     f.submit "Remove Contact"
