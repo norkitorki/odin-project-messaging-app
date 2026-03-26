@@ -44,10 +44,10 @@ class RequestsController < ApplicationController
     return redirect_back_or_to root_path, notice: "#{@receiver.username} is already your friend" if current_user.contacts.include?(@receiver)
 
     request = current_user.initiated_requests.find_or_initialize_by(receiver: @receiver, request_type: request_params[:requestType])
-    request.save if request.new_record?
-    notice = "Friend request #{request.new_record? ? "was sent" : "is still pending"}"
+    new_record = request.new_record?
+    request.save if new_record
 
-    redirect_back_or_to root_path, notice: notice
+    redirect_back_or_to root_path, notice: "Friend request #{new_record ? "was sent" : "is still pending"}"
   end
 
   def update_friend_request
