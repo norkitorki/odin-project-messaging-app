@@ -1,22 +1,14 @@
 if user_signed_in?
   json.users User.where.not(id: current_user.id)
 
-  json.chats current_user.chats.includes(messages: [:user]).map { |c| { pub_id: c.pub_id, name: c.name, messages: c.messages.map { |m| { value: m.value, user: m.user, created_at: m.created_at } } } }
-
-  json.openChatForm do
-    form_props(url: open_chat_path, method: :post) do |f|
-      f.submit "Open Chat"
-    end
-  end
-
   json.addUsersToChatForm do
-    form_props(url: open_chat_path, method: :post) do |f|
+    form_props(url: join_chat_path, method: :post) do |f|
       f.submit "Open Chat With Users"
     end
   end
 
   json.leaveChatForm do
-    form_props(url: close_chat_path, method: :delete) do |f|
+    form_props(url: leave_chat_path, method: :delete) do |f|
       f.submit "Leave Chat"
     end
   end

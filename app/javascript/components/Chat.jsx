@@ -58,15 +58,25 @@ export function Chat({ chat }) {
   const {
     currentUser,
     addMessageForm,
+    joinChatForm,
     deleteChatForm,
+    leaveChatForm,
   } = useContent();
   const [editingMessage, setEditingMessage] = useState();
-
-  console.log(chat);
 
   return (
     <>
       <div className={styles.chatContainer}>
+        {!chat.private && (
+          <Form
+            {...joinChatForm.form}
+            extras={joinChatForm.extras}
+            data-sg-visit
+          >
+            <input type="hidden" name="chat_id" value={chat.pub_id} />
+            <SubmitButton {...joinChatForm.inputs.submit} />
+          </Form>
+        )}
         {chat.admin_id === currentUser.pub_id && (
           <Form
             {...deleteChatForm.form}

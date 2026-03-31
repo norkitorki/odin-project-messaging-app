@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   get "/requests/:pub_id", to: "requests#show", as: :request
   get "/users", to: "users#index", as: :users
 
+  post "/chat/join", to: "chat_members#create", as: :join_chat
   post "/chats/create", to: "chats#create", as: :create_chat
   post "/contacts/add", to: "contacts#create", as: :add_contact
   post "/messages/add", to: "messages#create", as: :add_message
@@ -17,6 +18,7 @@ Rails.application.routes.draw do
   patch "/messages/update", to: "messages#update", as: :update_message
   patch "/requests/update", to: "requests#update", as: :update_request
 
+  delete "/chat/leave", to: "chat_members#destroy", as: :leave_chat
   delete "/chats/delete", to: "chats#destroy", as: :delete_chat
   delete "/contacts/remove", to: "contacts#destroy", as: :remove_contact
 end

@@ -12,6 +12,12 @@ json.editMessageForm do
   form_props(url: update_message_path, method: :patch)
 end
 
+json.joinChatForm do
+  form_props(url: join_chat_path, method: :post) do |f|
+    f.submit "Join Chat"
+  end
+end
+
 json.deleteChatForm do
   form_props(url: delete_chat_path, method: :delete) do |f|
     f.submit "Delete Chat"
@@ -19,7 +25,7 @@ json.deleteChatForm do
 end
 
 json.leaveChatForm do
-  form_props(url: close_chat_path, method: :delete) do |f|
+  form_props(url: leave_chat_path, method: :delete) do |f|
     f.submit "Leave Chat"
   end
 end
