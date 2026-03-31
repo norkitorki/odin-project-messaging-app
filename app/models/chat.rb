@@ -6,7 +6,7 @@ class Chat < ApplicationRecord
   has_many :users,
     through: :chat_rooms,
     before_add: :skip_existing_user,
-    after_remove: Proc.new { |chat| chat.destroy if chat.users.count <= 1 }
+    after_remove: Proc.new { |chat| chat.destroy if chat.users.count < 1 }
 
   has_many :messages, dependent: :destroy
 

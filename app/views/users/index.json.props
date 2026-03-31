@@ -19,9 +19,3 @@ json.removeContactForm do
     f.submit "Remove Contact"
   end
 end
-
-json.openChatForm do
-  form_props(url: open_chat_path, method: :post) do |f|
-    f.submit "Open Chat"
-  end
-end

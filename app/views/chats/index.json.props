@@ -1,4 +1,5 @@
-json.chats current_user.chats.includes(:admin, :users).map(&:as_json)
+json.chats Chat.includes(:admin, :users).where(private: false)
+json.privateChats current_user.chats.includes(:admin, :users).where(private: true)
 
 json.addMessageForm do
   form_props(url: add_message_path, method: :post) do |f|
@@ -9,6 +10,12 @@ end
 
 json.editMessageForm do
   form_props(url: update_message_path, method: :patch)
+end
+
+json.deleteChatForm do
+  form_props(url: delete_chat_path, method: :delete) do |f|
+    f.submit "Delete Chat"
+  end
 end
 
 json.leaveChatForm do

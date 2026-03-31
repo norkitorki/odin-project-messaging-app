@@ -1,24 +1,34 @@
 class ChatsController < ApplicationController
   before_action :authenticate_user!
-  before_action :use_jsx_rendering_defaults, only: :index
+  before_action :use_jsx_rendering_defaults, only: [ :index, :new ]
 
   def index
   end
 
-  def create
-    user_ids = params[:user_ids].map { |id| CoolId.locate(id) }
-    Chat.open(current_user, *user_ids)
+  def new
+  end
 
-    redirect_back_or_to root_path
+  def create
+    chat = Chat.new(name: chat_params[:name], private: chat_params[:private] ? true : false, admin: current_user, users: [ current_user ])
+
+    if chat.save
+      redirect_to chats_path
+    else
+      @errors = chat.errors
+      render :new, status: :unprocessable_entity
+    end
   end
 
   def destroy
     chat = CoolId.locate(params[:chat_id])
+    chat.destroy if chat
 
-    if chat
-      chat.users.delete(current_user)
+    redirect_back_or_to chats_path
+  end
 
-      redirect_back_or_to root_path
-    end
+  private
+
+  def chat_params
+    params.permit(:name, :private)
   end
 end

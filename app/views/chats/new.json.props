@@ -1,0 +1,8 @@
+json.newChatForm do 
+  form_props(url: create_chat_path, method: :post) do |f|
+    f.text_field :name
+    f.submit "Create Chat"
+  end
+end
+
+json.formErrors @errors

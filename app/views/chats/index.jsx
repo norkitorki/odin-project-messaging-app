@@ -4,12 +4,23 @@ import { Layout } from "@javascript/components";
 import { Chat } from "@javascript/components/Chat";
 
 export default function ChatsIndex() {
-  const { chats } = useContent();
+  const { chats, privateChats } = useContent();
 
   return (
     <Layout>
+      <a href="/chats/new" data-sg-visit>
+        Create Chat
+      </a>
       <ul>
         {chats.map((chat) => (
+          <li key={chat.pub_id}>
+            <Chat chat={chat} />
+          </li>
+        ))}
+      </ul>
+      <h2>Private Chats</h2>
+      <ul>
+        {privateChats.map((chat) => (
           <li key={chat.pub_id}>
             <Chat chat={chat} />
           </li>
