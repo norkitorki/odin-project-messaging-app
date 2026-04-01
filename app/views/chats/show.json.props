@@ -1,0 +1,30 @@
+json.chat Chat.find_by(pub_id: params[:pub_id]).json_with_messages
+
+json.addMessageForm do
+  form_props(url: add_message_path, method: :post) do |f|
+    f.text_area :message
+    f.submit "Send"
+  end
+end
+
+json.editMessageForm do
+  form_props(url: update_message_path, method: :patch)
+end
+
+json.joinChatForm do
+  form_props(url: join_chat_path, method: :post) do |f|
+    f.submit "Join Chat"
+  end
+end
+
+json.deleteChatForm do
+  form_props(url: delete_chat_path, method: :delete) do |f|
+    f.submit "Delete Chat"
+  end
+end
+
+json.leaveChatForm do
+  form_props(url: leave_chat_path, method: :delete) do |f|
+    f.submit "Leave Chat"
+  end
+end

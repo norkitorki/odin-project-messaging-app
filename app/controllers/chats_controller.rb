@@ -1,11 +1,14 @@
 class ChatsController < ApplicationController
   before_action :authenticate_user!
-  before_action :use_jsx_rendering_defaults, only: [ :index, :new ]
+  before_action :use_jsx_rendering_defaults, except: [ :create, :destroy ]
 
   def index
   end
 
   def new
+  end
+
+  def show
   end
 
   def create

@@ -1,10 +1,9 @@
 import React from "react";
 import { useContent } from "@thoughtbot/superglue";
 import { Layout } from "@javascript/components";
-import { Chat } from "@javascript/components/Chat";
 
 export default function ChatsIndex() {
-  const { chats, privateChats } = useContent();
+  const { chats } = useContent();
 
   return (
     <Layout>
@@ -14,15 +13,12 @@ export default function ChatsIndex() {
       <ul>
         {chats.map((chat) => (
           <li key={chat.pub_id}>
-            <Chat chat={chat} />
-          </li>
-        ))}
-      </ul>
-      <h2>Private Chats</h2>
-      <ul>
-        {privateChats.map((chat) => (
-          <li key={chat.pub_id}>
-            <Chat chat={chat} />
+            {chat.name && <p>{chat.name}</p>}
+            <p>Users: {chat.users.map((user) => user.username).join(", ")}</p>
+            <p>Private: {chat.private ? "true" : "false"}</p>
+            <a href={`/chats/${chat.pub_id}`} data-sg-visit>
+              Show
+            </a>
           </li>
         ))}
       </ul>
