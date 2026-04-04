@@ -9,6 +9,10 @@ class ChatsController < ApplicationController
   end
 
   def show
+    c = Chat.find_by(pub_id: params[:pub_id])
+    return redirect_back_or_to chats_path, notice: "Chat is private" if c.private && !c.users.include?(current_user)
+
+    @chat = c.json_with_messages
   end
 
   def create
