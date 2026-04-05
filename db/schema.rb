@@ -57,6 +57,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_22_113722) do
     t.bigint "initiator_id"
     t.string "pub_id"
     t.bigint "receiver_id"
+    t.string "reference_pub_id"
     t.string "request_type"
     t.datetime "updated_at", null: false
     t.index ["initiator_id"], name: "index_requests_on_initiator_id"
