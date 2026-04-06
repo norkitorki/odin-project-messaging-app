@@ -1,4 +1,15 @@
-json.chat Chat.find_by(pub_id: params[:pub_id]).json_with_messages
+json.chat @chat
+
+if @chat["private"] && current_user.pub_id == @chat[:admin][:pub_id]
+  json.chatRequestForm do
+    form_props(url: add_request_path, method: :post) do |f|
+      f.hidden_field :chatId, value: @chat["pub_id"], name: :chat_id, id: nil
+      f.hidden_field :requestType, value: "chat", id: nil
+      f.text_field :receiver
+      f.submit "Invite To Chat"
+    end
+  end
+end
 
 json.addMessageForm do
   form_props(url: add_message_path, method: :post) do |f|

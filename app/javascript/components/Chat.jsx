@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import styles from "@stylesheets/Chat.module.css";
 import { useContent } from "@thoughtbot/superglue";
-import { Form, SubmitButton, TextArea } from "@javascript/components";
+import {
+  Form,
+  SubmitButton,
+  TextArea,
+  TextField,
+} from "@javascript/components";
 import {
   AccountCircle,
   ArrowRightBottom,
@@ -57,6 +62,7 @@ const EditMessageForm = ({ messageId, message, setEditingMessage }) => {
 export function Chat({ chat }) {
   const {
     currentUser,
+    chatRequestForm,
     addMessageForm,
     joinChatForm,
     deleteChatForm,
@@ -67,6 +73,18 @@ export function Chat({ chat }) {
   return (
     <>
       <div className={styles.chatContainer}>
+        {chat.private && currentUser.pub_id === chat.admin.pub_id && (
+          <Form
+            {...chatRequestForm.form}
+            extras={chatRequestForm.extras}
+            data-sg-visit
+          >
+            <input {...chatRequestForm.inputs.chatId} />
+            <input {...chatRequestForm.inputs.requestType} />
+            <TextField {...chatRequestForm.inputs.receiver} label="Username" />
+            <SubmitButton {...chatRequestForm.inputs.submit} />
+          </Form>
+        )}
         {!chat.private && (
           <Form
             {...joinChatForm.form}
