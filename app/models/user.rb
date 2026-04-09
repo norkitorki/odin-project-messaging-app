@@ -49,7 +49,7 @@ class User < ApplicationRecord
   private
 
   def passwords_match
-    errors.add(:passwords, "do not match") if password != password_confirmation
+    errors.add(:password_confirmation, "does not match password") if password != password_confirmation
   end
 
   def create_opposite_contact(user)

@@ -11,7 +11,13 @@ json.data(dig: path) do
 
     json.signOutForm do
       form_props(url: destroy_user_session_path, method: :delete) do |f|
-        f.submit 'Log Out'
+        f.submit "Log Out"
+      end
+    end
+
+    json.deleteUserForm do
+      form_props(url: user_registration_path, method: :delete) do |f|
+        f.submit "Delete User"
       end
     end
   end

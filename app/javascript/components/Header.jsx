@@ -5,7 +5,7 @@ import { Form, SubmitButton } from "@components/Inputs";
 import { AccountCircle } from "@components/Icons";
 
 export default function Header() {
-  const { currentUser, signOutForm } = useContent();
+  const { currentUser, signOutForm, deleteUserForm } = useContent();
   const contacts = currentUser?.contacts || [];
 
   return (
@@ -30,8 +30,19 @@ export default function Header() {
               </a>
               <div>
                 <p>Signed in as {currentUser.username} </p>
-                <Form {...signOutForm.form} extras={signOutForm.extras}>
+                <Form
+                  {...signOutForm.form}
+                  extras={signOutForm.extras}
+                  data-sg-visit
+                >
                   <SubmitButton {...signOutForm.inputs.submit} />
+                </Form>
+                <Form
+                  {...deleteUserForm.form}
+                  extras={deleteUserForm.extras}
+                  data-sg-visit
+                >
+                  <SubmitButton {...deleteUserForm.inputs.submit} />
                 </Form>
               </div>
             </>

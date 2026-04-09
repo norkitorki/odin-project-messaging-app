@@ -1,39 +1,24 @@
 import React from "react";
+import { useContent } from "@thoughtbot/superglue";
 import {
-  Checkbox,
   Form,
   Layout,
   PasswordField,
   SubmitButton,
   TextField,
 } from "@javascript/components";
-import { useContent } from "@thoughtbot/superglue";
 
 export default function HomeIndex() {
-  const { users, currentUser, addUsersToChatForm, signInForm } = useContent();
+  const { currentUser, signInForm } = useContent();
 
   return (
     <Layout>
-      {currentUser ? (
+      {currentUser ? null : (
         <>
-          <Form
-            {...addUsersToChatForm.form}
-            extras={addUsersToChatForm.extras}
-            data-sg-visit
-          >
-            {users.map((user) => (
-              <label key={user.pub_id} style={{ display: "block" }}>
-                {user.username}
-                <input type="checkbox" name="user_ids[]" value={user.pub_id} />
-              </label>
-            ))}
-            <SubmitButton {...addUsersToChatForm.inputs.submit} />
-          </Form>
-        </>
-      ) : (
-        <>
-          <a href="/users/sign_up">Sign Up</a>
-          <Form {...signInForm.form} extras={signInForm.extras}>
+          <a href="/sign_up" data-sg-visit>
+            Sign Up
+          </a>
+          <Form {...signInForm.form} extras={signInForm.extras} data-sg-visit>
             <div className="field">
               <TextField
                 {...signInForm.inputs.username}
@@ -44,12 +29,6 @@ export default function HomeIndex() {
               <PasswordField
                 {...signInForm.inputs.password}
                 label={<p>Password</p>}
-              />
-            </div>
-            <div className="field">
-              <Checkbox
-                {...signInForm.inputs.remember_me}
-                label={<p>Remember</p>}
               />
             </div>
             <div className="actions">

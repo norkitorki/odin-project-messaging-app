@@ -12,7 +12,7 @@ export const Layout = ({ children }) => {
       <main className={styles.mainContent}>
         {flash.success && <p>{flash.success}</p>}
         {flash.notice && <p>{flash.notice}</p>}
-        {flash.error && <p>{flash.error}</p>}
+        {flash.alert && <p>{flash.alert}</p>}
         {children}
       </main>
     </div>
