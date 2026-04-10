@@ -12,6 +12,8 @@ class Chat < ApplicationRecord
 
   belongs_to :admin, class_name: "User"
 
+  before_destroy :delete_associated_requests
+
   def self.open(*users)
     return nil if users.empty?
 
@@ -35,5 +37,9 @@ class Chat < ApplicationRecord
 
   def skip_existing_user(user)
     throw(:abort) if users.include?(user)
+  end
+
+  def delete_associated_requests
+    Request.where(reference_pub_id: pub_id).destroy_all
   end
 end
