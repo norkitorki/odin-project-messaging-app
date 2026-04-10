@@ -3,8 +3,9 @@ module RequestsHelper
 
   def create_chat_request
     chat = CoolId.locate(params[:chat_id])
-    receiver = User.find_by(username: params[:receiver])
+    return redirect_back_or_to chats_path, alert: "You are not authorized to invite users to this chat" if chat.admin != current_user
 
+    receiver = User.find_by(username: params[:receiver])
     if chat && receiver
       return redirect_back_or_to chats_path, notice: "User is already a chat member" if chat.users.include?(receiver)
 
