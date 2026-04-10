@@ -13,9 +13,7 @@ class RequestsController < ApplicationController
   end
 
   def create
-    @request_type = params[:requestType]
-
-    case @request_type
+    case params[:requestType]
     when "chat" then create_chat_request
     when "friend" then create_friend_request
     else redirect_back_or_to root_path, notice: "Invalid request type"

@@ -8,7 +8,7 @@ module RequestsHelper
     if chat && receiver
       return redirect_back_or_to chats_path, notice: "User is already a chat member" if chat.users.include?(receiver)
 
-      request = current_user.initiated_requests.find_or_initialize_by(receiver: receiver, request_type: @request_type, reference_pub_id: chat.pub_id)
+      request = current_user.initiated_requests.find_or_initialize_by(receiver: receiver, request_type: "chat", reference_pub_id: chat.pub_id)
       new_record = request.new_record?
       request.save if new_record
 
@@ -23,7 +23,7 @@ module RequestsHelper
 
     return redirect_back_or_to root_path, notice: "#{receiver.username} is already your friend" if current_user.contacts.include?(receiver)
 
-    request = current_user.initiated_requests.find_or_initialize_by(receiver: receiver, request_type: @request_type)
+    request = current_user.initiated_requests.find_or_initialize_by(receiver: receiver, request_type: "friend")
     new_record = request.new_record?
     request.save if new_record
 
