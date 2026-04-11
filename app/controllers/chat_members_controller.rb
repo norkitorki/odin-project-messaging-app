@@ -12,11 +12,11 @@ class ChatMembersController < ApplicationController
       end
     else
       users = params[:user_ids]&.map { |id| CoolId.locate(id) }
-      Chat.open(current_user, *users)
+      chat = Chat.open(current_user, *users)
       notice = "You created a chat"
     end
 
-    redirect_to chats_path, notice: notice
+    redirect_to chat_path(pub_id: chat.pub_id), notice: notice
   end
 
   def destroy
@@ -26,7 +26,7 @@ class ChatMembersController < ApplicationController
       chat.users.delete(current_user)
       chat.messages.where(user: current_user).destroy_all
 
-      redirect_to chats_path, notice: "You left a chat"
+      redirect_to chats_path, notice: "You left a chat", status: :see_other
     end
   end
 end

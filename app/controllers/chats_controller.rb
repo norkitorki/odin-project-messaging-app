@@ -19,7 +19,7 @@ class ChatsController < ApplicationController
     chat = Chat.new(name: chat_params[:name], private: chat_params[:private] ? true : false, admin: current_user, users: [ current_user ])
 
     if chat.save
-      redirect_to chat_path(pub_id: chat.pub_id)
+      redirect_to chat_path(pub_id: chat.pub_id), notice: "Chat created"
     else
       @errors = chat.errors
       render :new, status: :unprocessable_entity
