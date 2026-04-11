@@ -16,7 +16,7 @@ class User < ApplicationRecord
 
   has_many :messages, dependent: :destroy
 
-  has_many :received_requests,
+  has_many :requests,
     class_name: "Request",
     foreign_key: :receiver_id,
     dependent: :destroy

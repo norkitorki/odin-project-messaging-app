@@ -3,13 +3,13 @@ import { Layout } from "@javascript/components";
 import { useContent } from "@thoughtbot/superglue";
 
 export default function RequestsIndex() {
-  const { received_requests } = useContent();
+  const { requests } = useContent();
 
   return (
     <Layout>
       <h2>Requests</h2>
       <br />
-      {received_requests.map((request) => (
+      {requests.map((request) => (
         <a
           key={request.pub_id}
           href={`/requests/${request.pub_id}`}
