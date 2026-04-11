@@ -175,7 +175,6 @@ export function Chat({ chat }) {
         <TextArea {...addMessageForm.inputs.message} />
         <SubmitButton {...addMessageForm.inputs.submit} />
       </Form>
-      <Form />
       <Form {...leaveChatForm.form} extras={leaveChatForm.extras} data-sg-visit>
         <input type="hidden" name="chat_id" value={chat.pub_id} />
         <SubmitButton {...leaveChatForm.inputs.submit} />
