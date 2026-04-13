@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   get "/requests", to: "requests#index", as: :requests
   get "/requests/:pub_id", to: "requests#show", as: :request
   get "/users", to: "users#index", as: :users
+  get "/users/:pub_id", to: "users#show", as: :user
   get "/sign_up", to: "users#new", as: :new_user
 
   post "/chat/join", to: "chat_members#create", as: :join_chat

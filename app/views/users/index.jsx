@@ -9,41 +9,13 @@ export default function UsersIndex() {
 
   return (
     <Layout>
-      <ul>
-        {users.map((user) => (
-          <li key={user.pub_id}>
+      {users.map((user) => (
+        <p key={user.pub_id}>
+          <a href={`/users/${user.pub_id}`} data-sg-visit>
             {user.username}
-            <Form
-              {...friendRequestForm.form}
-              extras={friendRequestForm.extras}
-              data-sg-visit
-            >
-              <input {...friendRequestForm.inputs.requestType} />
-              <input
-                {...friendRequestForm.inputs.receiver}
-                value={user.pub_id}
-              />
-              <SubmitButton {...friendRequestForm.inputs.submit} />
-            </Form>
-            <Form
-              {...addContactForm.form}
-              extras={addContactForm.extras}
-              data-sg-visit
-            >
-              <input type="hidden" name="pub_id" value={user.pub_id} />
-              <SubmitButton {...addContactForm.inputs.submit} />
-            </Form>
-            <Form
-              {...removeContactForm.form}
-              extras={removeContactForm.extras}
-              data-sg-visit
-            >
-              <input type="hidden" name="pub_id" value={user.pub_id} />
-              <SubmitButton {...removeContactForm.inputs.submit} />
-            </Form>
-          </li>
-        ))}
-      </ul>
+          </a>
+        </p>
+      ))}
     </Layout>
   );
 }
