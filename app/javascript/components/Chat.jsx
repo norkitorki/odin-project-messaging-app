@@ -13,6 +13,7 @@ import {
   Delete,
   Edit,
 } from "@javascript/components/Icons";
+import ImageViewer, { openImageViewer } from "./ImageViewer";
 
 const DeleteMessageForm = ({ messageId }) => {
   const { editMessageForm } = useContent();
@@ -37,24 +38,33 @@ const DeleteMessageForm = ({ messageId }) => {
   );
 };
 
-const EditMessageForm = ({ messageId, message, setEditingMessage }) => {
+const EditMessageForm = ({ message, setEditingMessage }) => {
   const { editMessageForm } = useContent();
-  const reset = () => setEditingMessage(null);
+  const cancelForm = () => setEditingMessage(null);
 
   return (
     <>
       <Form
         {...editMessageForm.form}
         extras={editMessageForm.extras}
-        onSubmit={reset}
+        onSubmit={cancelForm}
         className={styles.messageEditForm}
         data-sg-visit
       >
-        <input type="hidden" name="message_id" value={messageId} />
-        <textarea defaultValue={message} name="message" />
+        <input type="hidden" name="message_id" value={message.pub_id} />
+        <textarea defaultValue={message.value} name="message" />
+        <fieldset>
+          <legend>Delete Images</legend>
+          {message.images.previews.map((preview) => (
+            <label key={preview.key}>
+              <img src={preview.url} alt={preview.filename} />
+              <input type="checkbox" name="images[]" value={preview.key} />
+            </label>
+          ))}
+        </fieldset>
         <button type="submit">Update Message</button>
       </Form>
-      <button onClick={reset}>Cancel</button>
+      <button onClick={cancelForm}>Cancel</button>
     </>
   );
 };
@@ -69,6 +79,15 @@ export function Chat({ chat }) {
     leaveChatForm,
   } = useContent();
   const [editingMessage, setEditingMessage] = useState();
+  const [imageIndex, setImageIndex] = useState();
+
+  const openImageInViewer = (event) => {
+    const index = event.target.dataset.imageIndex;
+    if (!index) return;
+
+    setImageIndex(Number(index));
+    openImageViewer(event.target);
+  };
 
   return (
     <>
@@ -152,15 +171,32 @@ export function Chat({ chat }) {
 
               {editingMessage === message.pub_id ? (
                 <EditMessageForm
-                  messageId={message.pub_id}
-                  message={message.value}
+                  message={message}
                   setEditingMessage={setEditingMessage}
                 />
               ) : (
-                <p className={styles.message}>
-                  <ArrowRightBottom />
-                  <span>{message.value}</span>
-                </p>
+                <>
+                  <p className={styles.message}>
+                    <ArrowRightBottom />
+                    <span>{message.value}</span>
+                  </p>
+                  {message.images.previews.length > 0 && (
+                    <div onClick={openImageInViewer}>
+                      {message.images.previews.map((preview, index) => (
+                        <img
+                          key={index}
+                          src={preview.url}
+                          alt={preview.filename}
+                          data-image-index={index}
+                        />
+                      ))}
+                      <ImageViewer
+                        images={message.images.full}
+                        defaultIndex={imageIndex}
+                      />
+                    </div>
+                  )}
+                </>
               )}
             </li>
           ))}
@@ -173,6 +209,7 @@ export function Chat({ chat }) {
       >
         <input type="hidden" name="chat_id" value={chat.pub_id} />
         <TextArea {...addMessageForm.inputs.message} />
+        <input type="file" {...addMessageForm.inputs.images} />
         <SubmitButton {...addMessageForm.inputs.submit} />
       </Form>
       <Form {...leaveChatForm.form} extras={leaveChatForm.extras} data-sg-visit>

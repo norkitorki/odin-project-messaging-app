@@ -6,7 +6,10 @@ class MessagesController < ApplicationController
 
     if chat
       message = message_params[:message]
-      chat.messages.create(value: message, user_id: current_user.id) if chat && !message&.empty?
+      if chat && !message&.empty?
+        message = chat.messages.create!(value: message, user_id: current_user.id)
+        message.images.attach(params[:images])
+      end
     end
 
     redirect_back_or_to root_path
@@ -17,6 +20,7 @@ class MessagesController < ApplicationController
 
     message = current_user.messages.find_by(pub_id: message_params[:message_id])
     message&.value = message_params[:message]
+    message_params[:images]&.each { |key| message.images.find { |img| img.key == key }.purge }
     notice = "Message #{message&.save ? '' : 'not'} updated"
 
     redirect_back_or_to root_path, notice: notice
@@ -25,7 +29,7 @@ class MessagesController < ApplicationController
   private
 
   def message_params
-    params.permit(:chat_id, :message, :message_id)
+    params.permit(:chat_id, :message, :message_id, images: [])
   end
 
   def mark_as_deleted
@@ -36,6 +40,7 @@ class MessagesController < ApplicationController
     if auth_user
       message.value = "Message removed by #{auth_user}"
       message.deleted = true
+      message.images.purge_later
       message.save(validate: false)
     end
 

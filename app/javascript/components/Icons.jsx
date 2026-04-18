@@ -29,3 +29,27 @@ export const Edit = () => (
     <path d="M12,2C6.47,2 2,6.47 2,12C2,17.53 6.47,22 12,22C17.53,22 22,17.53 22,12C22,6.47 17.53,2 12,2M15.1,7.07C15.24,7.07 15.38,7.12 15.5,7.23L16.77,8.5C17,8.72 17,9.07 16.77,9.28L15.77,10.28L13.72,8.23L14.72,7.23C14.82,7.12 14.96,7.07 15.1,7.07M13.13,8.81L15.19,10.87L9.13,16.93H7.07V14.87L13.13,8.81Z" />
   </svg>
 );
+
+// https://pictogrammers.com/library/mdi/icon/arrow-left-thin/
+export const ArrowLeft = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 22">
+    <title>previous image</title>
+    <path d="M5 12V10H6V9H7V8H8V7H9V6H11V8H10V9H9V10H18V12H9V13H10V14H11V16H9V15H8V14H7V13H6V12" />
+  </svg>
+);
+
+// https://pictogrammers.com/library/mdi/icon/arrow-right-thin/
+export const ArrowRight = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 22">
+    <title>next image</title>
+    <path d="M17 10V12H16V13H15V14H14V15H13V16H11V14H12V13H13V12H4V10H13V9H12V8H11V6H13V7H14V8H15V9H16V10" />
+  </svg>
+);
+
+// https://pictogrammers.com/library/mdi/icon/close/
+export const CloseButton = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <title>close image viewer</title>
+    <path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
+  </svg>
+);

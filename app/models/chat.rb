@@ -30,7 +30,7 @@ class Chat < ApplicationRecord
   end
 
   def json_with_messages
-    as_json.merge({ admin: admin, messages: messages.ordered_by_creation })
+    as_json.merge({ admin: admin, messages: messages.includes(:user).ordered_by_creation })
   end
 
   private
