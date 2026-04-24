@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import styles from "@stylesheets/Chat.module.css";
 import { useContent } from "@thoughtbot/superglue";
 import {
@@ -79,14 +79,15 @@ export function Chat({ chat }) {
     leaveChatForm,
   } = useContent();
   const [editingMessage, setEditingMessage] = useState();
-  const [imageIndex, setImageIndex] = useState();
+  const photoViewerRef = useRef();
 
   const openImageInViewer = (event) => {
     const index = event.target.dataset.imageIndex;
-    if (!index) return;
+    const messageId = event.target.parentElement.dataset.messageId;
+    if (!index || !messageId) return;
 
-    setImageIndex(Number(index));
-    openImageViewer(event.target);
+    const images = chat.images[messageId].full;
+    openImageViewer(photoViewerRef.current, images, Number(index));
   };
 
   return (
@@ -180,20 +181,21 @@ export function Chat({ chat }) {
                     <ArrowRightBottom />
                     <span>{message.value}</span>
                   </p>
-                  {message.images.previews.length > 0 && (
-                    <div onClick={openImageInViewer}>
-                      {message.images.previews.map((preview, index) => (
-                        <img
-                          key={index}
-                          src={preview.url}
-                          alt={preview.filename}
-                          data-image-index={index}
-                        />
-                      ))}
-                      <ImageViewer
-                        images={message.images.full}
-                        defaultIndex={imageIndex}
-                      />
+                  {chat.images[message.pub_id] && (
+                    <div
+                      onClick={openImageInViewer}
+                      data-message-id={message.pub_id}
+                    >
+                      {chat.images[message.pub_id].previews.map(
+                        (preview, index) => (
+                          <img
+                            key={index}
+                            src={preview.url}
+                            alt={preview.filename}
+                            data-image-index={index}
+                          />
+                        ),
+                      )}
                     </div>
                   )}
                 </>
@@ -216,6 +218,7 @@ export function Chat({ chat }) {
         <input type="hidden" name="chat_id" value={chat.pub_id} />
         <SubmitButton {...leaveChatForm.inputs.submit} />
       </Form>
+      <ImageViewer ref={photoViewerRef} />
     </>
   );
 }

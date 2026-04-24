@@ -19,8 +19,7 @@ class Message < ApplicationRecord
     super.except("id", "chat_id", "user_id", "created_at", "updated_at").merge({
       user: user,
       created: created_at_time_in_words_to_now,
-      updated: updated_at_time_in_words_to_now,
-      images: collect_images
+      updated: updated_at_time_in_words_to_now
     })
   end
 
@@ -36,18 +35,5 @@ class Message < ApplicationRecord
 
   def not_marked_as_deleted
     errors.add(:message, "marked as deleted") if deleted
-  end
-
-  def collect_images
-    store = { previews: [], full: [] }
-    images.includes(:blob).each do |image|
-      store[:previews] << {
-        url: Rails.application.routes.url_helpers.rails_blob_path(image.variant(:preview), disposition: "attachment", only_path: true),
-        filename: image.filename.to_s,
-        key: image.key
-      }
-      store[:full] << Rails.application.routes.url_helpers.rails_blob_path(image, disposition: "attachment", only_path: true)
-    end
-    store
   end
 end

@@ -26,11 +26,11 @@ class Chat < ApplicationRecord
   end
 
   def as_json
-    super.except("id", "admin_id", "updated_at").merge({ users: users })
+    super.except("id", "admin_id", "updated_at").merge({ admin: admin, users: users })
   end
 
   def json_with_messages
-    as_json.merge({ admin: admin, messages: messages.includes(:user).ordered_by_creation })
+    as_json.merge({ messages: messages.includes(:user).ordered_by_creation, images: message_images })
   end
 
   private
@@ -41,5 +41,22 @@ class Chat < ApplicationRecord
 
   def delete_associated_requests
     Request.where(reference_pub_id: pub_id).destroy_all
+  end
+
+  def message_images
+    store = {}
+    messages.joins(:images_blobs).preload(:images_blobs).distinct.each do |message|
+      obj = { previews: [], full: [] }
+      message.images.each do |image|
+        obj[:previews] << {
+          url: Rails.application.routes.url_helpers.rails_blob_path(image.variant(:preview), disposition: "attachment", only_path: true),
+          filename: image.filename.to_s,
+          key: image.key
+        }
+        obj[:full] << Rails.application.routes.url_helpers.rails_blob_path(image, disposition: "attachment", only_path: true)
+      end
+      store[message.pub_id] = obj
+    end
+    store
   end
 end
