@@ -38,7 +38,7 @@ const DeleteMessageForm = ({ messageId }) => {
   );
 };
 
-const EditMessageForm = ({ message, setEditingMessage }) => {
+const EditMessageForm = ({ message, imagePreviews, setEditingMessage }) => {
   const { editMessageForm } = useContent();
   const cancelForm = () => setEditingMessage(null);
 
@@ -53,15 +53,17 @@ const EditMessageForm = ({ message, setEditingMessage }) => {
       >
         <input type="hidden" name="message_id" value={message.pub_id} />
         <textarea defaultValue={message.value} name="message" />
-        <fieldset>
-          <legend>Delete Images</legend>
-          {message.images.previews.map((preview) => (
-            <label key={preview.key}>
-              <img src={preview.url} alt={preview.filename} />
-              <input type="checkbox" name="images[]" value={preview.key} />
-            </label>
-          ))}
-        </fieldset>
+        {imagePreviews?.length > 0 && (
+          <fieldset>
+            <legend>Delete Images</legend>
+            {imagePreviews.map((preview) => (
+              <label key={preview.key}>
+                <img src={preview.url} alt={preview.filename} />
+                <input type="checkbox" name="images[]" value={preview.key} />
+              </label>
+            ))}
+          </fieldset>
+        )}
         <button type="submit">Update Message</button>
       </Form>
       <button onClick={cancelForm}>Cancel</button>
@@ -173,6 +175,7 @@ export function Chat({ chat }) {
               {editingMessage === message.pub_id ? (
                 <EditMessageForm
                   message={message}
+                  imagePreviews={chat.images[message.pub_id]?.previews}
                   setEditingMessage={setEditingMessage}
                 />
               ) : (
