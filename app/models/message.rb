@@ -3,6 +3,8 @@ class Message < ApplicationRecord
   include CoolId::Model
   cool_id prefix: "m", length: 8, id_field: :pub_id
 
+  IMAGE_CONTENT_TYPES = %w[ image/png image/jpeg ].freeze
+
   scope :ordered_by_creation, -> { order(:created_at) }
 
   belongs_to :chat
@@ -14,6 +16,7 @@ class Message < ApplicationRecord
 
   validate :not_marked_as_deleted
   validates :value, presence: true
+  validates :images, content_type: IMAGE_CONTENT_TYPES, size: { less_than: 3.megabytes }
 
   def as_json
     super.except("id", "chat_id", "user_id", "created_at", "updated_at").merge({

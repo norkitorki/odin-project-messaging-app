@@ -14,7 +14,7 @@ end
 json.addMessageForm do
   form_props(url: add_message_path, method: :post) do |f|
     f.text_area :message
-    f.file_field :images, multiple: true
+    f.file_field :images, multiple: true, accept: Message::IMAGE_CONTENT_TYPES.join(',')
     f.submit "Send"
   end
 end

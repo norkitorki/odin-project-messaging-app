@@ -68,3 +68,4 @@ end
 gem "superglue"
 gem "vite_rails"
 gem "devise"
+gem "active_storage_validations"
