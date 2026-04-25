@@ -20,7 +20,11 @@ json.addMessageForm do
 end
 
 json.editMessageForm do
-  form_props(url: update_message_path, method: :patch)
+  form_props(url: update_message_path, method: :patch) do |f|
+    f.hidden_field :message_id, id: false
+    f.text_area :message, id: false
+    f.check_box :images, name: "images[]", id: false
+  end
 end
 
 json.joinChatForm do

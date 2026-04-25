@@ -51,15 +51,18 @@ const EditMessageForm = ({ message, imagePreviews, setEditingMessage }) => {
         className={styles.messageEditForm}
         data-sg-visit
       >
-        <input type="hidden" name="message_id" value={message.pub_id} />
-        <textarea defaultValue={message.value} name="message" />
+        <input {...editMessageForm.inputs.messageId} value={message.pub_id} />
+        <textarea
+          {...editMessageForm.inputs.message}
+          defaultValue={message.value}
+        />
         {imagePreviews?.length > 0 && (
           <fieldset>
             <legend>Delete Images</legend>
             {imagePreviews.map((preview) => (
               <label key={preview.key}>
                 <img src={preview.url} alt={preview.filename} />
-                <input type="checkbox" name="images[]" value={preview.key} />
+                <input {...editMessageForm.inputs.images} value={preview.key} />
               </label>
             ))}
           </fieldset>
