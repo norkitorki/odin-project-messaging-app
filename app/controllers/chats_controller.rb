@@ -12,7 +12,10 @@ class ChatsController < ApplicationController
     c = Chat.find_by(pub_id: params[:pub_id])
     return redirect_back_or_to chats_path, notice: "Chat is private" if c.private && !c.users.include?(current_user)
 
-    @chat = c.json_with_messages
+    @page = params[:page] ? params[:page].to_i : 1
+    @chat = c.json_with_images
+    @messages = c.messages.includes(:user).ordered_by_creation.offset((@page - 1) * 30).limit(30)
+    @page_count = c.pages
   end
 
   def create

@@ -29,8 +29,13 @@ class Chat < ApplicationRecord
     super.except("id", "admin_id", "updated_at").merge({ admin: admin, users: users })
   end
 
-  def json_with_messages
-    as_json.merge({ messages: messages.includes(:user).ordered_by_creation, images: message_images })
+  def json_with_images
+    as_json.merge({ images: message_images })
+  end
+
+  def pages
+    message_count = messages.count
+    message_count % 30 == 0 ? message_count / 30 : (message_count / 30) + 1
   end
 
   private

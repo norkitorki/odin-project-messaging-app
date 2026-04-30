@@ -77,11 +77,13 @@ const EditMessageForm = ({ message, imagePreviews, setEditingMessage }) => {
 export function Chat({ chat }) {
   const {
     currentUser,
+    messages,
     chatRequestForm,
     addMessageForm,
     joinChatForm,
     deleteChatForm,
     leaveChatForm,
+    pages,
   } = useContent();
   const [editingMessage, setEditingMessage] = useState();
   const photoViewerRef = useRef();
@@ -97,6 +99,24 @@ export function Chat({ chat }) {
 
   return (
     <>
+      <p>
+        <a href={pages.paths[0]} data-sg-visit>
+          First
+        </a>
+        {pages.paths.map((path, index) => (
+          <a
+            key={index}
+            href={path}
+            style={{ color: index + 1 === pages.current ? "green" : "" }}
+            data-sg-visit
+          >
+            {index + 1}
+          </a>
+        ))}
+        <a href={pages.paths[pages.count - 1]} data-sg-visit>
+          Last
+        </a>
+      </p>
       <div className={styles.chatContainer}>
         {chat.private && currentUser.pub_id === chat.admin.pub_id && (
           <Form
@@ -130,11 +150,9 @@ export function Chat({ chat }) {
             <SubmitButton {...deleteChatForm.inputs.submit} />
           </Form>
         )}
-        Members: {chat.users.map((user) => user.username).join(", ")}
-        <br />
-        Private Chat: {String(chat.private)}
+        Private: {String(chat.private)}
         <ol className={styles.messages}>
-          {chat.messages.map((message) => (
+          {messages.map((message) => (
             <li
               key={message.pub_id}
               className={message.deleted ? styles.deletedMessage : ""}
@@ -183,7 +201,7 @@ export function Chat({ chat }) {
                 />
               ) : (
                 <>
-                  <p className={styles.message}>
+                  <p className={styles.message} id={message.pub_id}>
                     <ArrowRightBottom />
                     <span>{message.value}</span>
                   </p>

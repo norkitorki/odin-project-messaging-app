@@ -9,6 +9,7 @@ class MessagesController < ApplicationController
       if chat && !message&.empty?
         message = chat.messages.create!(value: message, user_id: current_user.id)
         message.images.attach(params[:images])
+        return redirect_to chat_path(pub_id: chat.pub_id, page: chat.pages)
       end
     end
 
@@ -20,7 +21,7 @@ class MessagesController < ApplicationController
 
     message = current_user.messages.find_by(pub_id: message_params[:message_id])
     message&.value = message_params[:message]
-    message_params[:images]&.each { |key| message.images.find { |img| img.key == key }.purge }
+    message_params[:images]&.each { |key| message.images.find { |img| img.key == key }.purge_later }
     notice = "Message #{message&.save ? '' : 'not'} updated"
 
     redirect_back_or_to root_path, notice: notice
@@ -33,7 +34,7 @@ class MessagesController < ApplicationController
   end
 
   def mark_as_deleted
-    message = CoolId.locate(message_params[:message_id])
+    message = Message.find_by(pub_id: message_params[:message_id])
     auth_user = message&.chat.admin == current_user && "Admin" ||
                 message&.user == current_user && "User"
 

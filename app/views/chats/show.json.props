@@ -1,5 +1,13 @@
 json.chat @chat
 
+json.messages @messages
+
+json.pages do
+  json.current @page
+  json.count @page_count
+  json.paths (1..@page_count).map { |i| chat_path(pub_id: @chat["pub_id"], page: i) }
+end
+
 if @chat["private"] && current_user.pub_id == @chat[:admin][:pub_id]
   json.chatRequestForm do
     form_props(url: add_request_path, method: :post) do |f|
