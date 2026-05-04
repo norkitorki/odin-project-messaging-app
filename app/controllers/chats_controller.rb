@@ -9,13 +9,18 @@ class ChatsController < ApplicationController
   end
 
   def show
-    c = Chat.find_by(pub_id: params[:pub_id])
-    return redirect_back_or_to chats_path, notice: "Chat is private" if c.private && !c.users.include?(current_user)
+    chat = Chat.find_by(pub_id: params[:pub_id])
+    return redirect_back_or_to chats_path, notice: "Chat is private" if chat.private && !chat.users.include?(current_user)
+
+    if params[:message]
+      index = chat&.messages.order(:created_at).index { |m| !m.deleted && m.pub_id == params[:message] }
+      return redirect_to_message(chat, index) if index
+    end
 
     @page = params[:page] ? params[:page].to_i : 1
-    @chat = c.json_with_images
-    @messages = c.messages.includes(:user).ordered_by_creation.offset((@page - 1) * 30).limit(30)
-    @page_count = c.pages
+    @chat = chat.json_with_images
+    @messages = chat.messages.includes(:user).ordered_by_creation.offset((@page - 1) * 30).limit(30)
+    @page_count = chat.pages
   end
 
   def create
@@ -40,5 +45,11 @@ class ChatsController < ApplicationController
 
   def chat_params
     params.permit(:name, :private)
+  end
+
+  def redirect_to_message(chat, index)
+    index += 1
+    page = index % 30 == 0 ? index / 30 : (index / 30) + 1
+    redirect_to chat_path(pub_id: chat.pub_id, page: page, m: params[:message])
   end
 end

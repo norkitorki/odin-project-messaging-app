@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "@stylesheets/Chat.module.css";
 import { useContent } from "@thoughtbot/superglue";
 import {
@@ -12,6 +12,7 @@ import {
   ArrowRightBottom,
   Delete,
   Edit,
+  Link,
 } from "@javascript/components/Icons";
 import ImageViewer, { openImageViewer } from "./ImageViewer";
 
@@ -84,9 +85,19 @@ export function Chat({ chat }) {
     deleteChatForm,
     leaveChatForm,
     pages,
+    messageQuery,
   } = useContent();
   const [editingMessage, setEditingMessage] = useState();
   const photoViewerRef = useRef();
+
+  useEffect(() => {
+    if (messageQuery) {
+      const timeoutId = setTimeout(() =>
+        document.getElementById(messageQuery)?.scrollIntoView(),
+      );
+      return () => clearTimeout(timeoutId);
+    }
+  }, [messageQuery]);
 
   const openImageInViewer = (event) => {
     const index = event.target.dataset.imageIndex;
@@ -95,6 +106,12 @@ export function Chat({ chat }) {
 
     const images = chat.images[messageId].full;
     openImageViewer(photoViewerRef.current, images, Number(index));
+  };
+
+  const copyMessageLink = async (messageId) => {
+    const url = `${location.origin}/chats/${chat.pub_id}?message=${messageId}`;
+    await navigator.clipboard.writeText(url);
+    alert("Message link copied to clipboard");
   };
 
   return (
@@ -154,10 +171,11 @@ export function Chat({ chat }) {
         <ol className={styles.messages}>
           {messages.map((message) => (
             <li
+              id={message.pub_id}
               key={message.pub_id}
-              className={message.deleted ? styles.deletedMessage : ""}
+              className={`${message.deleted ? styles.deletedMessage : ""} ${messageQuery === message.pub_id ? styles.queriedMessage : ""}`}
             >
-              <div className={styles.authorDetails}>
+              <div className={styles.messageDetails}>
                 <div className={styles.authorImage}>
                   {message.user.image || <AccountCircle />}
                 </div>
@@ -191,6 +209,15 @@ export function Chat({ chat }) {
                       <Edit />
                     </button>
                   )}
+                {!message.deleted && (
+                  <button
+                    title="copy message link"
+                    className={styles.messageLinkButton}
+                    onClick={() => copyMessageLink(message.pub_id)}
+                  >
+                    <Link />
+                  </button>
+                )}
               </div>
 
               {editingMessage === message.pub_id ? (
@@ -201,7 +228,7 @@ export function Chat({ chat }) {
                 />
               ) : (
                 <>
-                  <p className={styles.message} id={message.pub_id}>
+                  <p className={styles.message}>
                     <ArrowRightBottom />
                     <span>{message.value}</span>
                   </p>

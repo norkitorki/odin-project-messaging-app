@@ -1,5 +1,7 @@
 json.chat @chat
 
+json.messageQuery params[:m]
+
 json.messages @messages
 
 json.pages do
