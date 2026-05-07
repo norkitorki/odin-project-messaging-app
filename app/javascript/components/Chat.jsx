@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import styles from "@stylesheets/Chat.module.css";
 import { useContent } from "@thoughtbot/superglue";
 import {
@@ -7,73 +7,8 @@ import {
   TextArea,
   TextField,
 } from "@javascript/components";
-import {
-  AccountCircle,
-  ArrowRightBottom,
-  Delete,
-  Edit,
-  Link,
-} from "@javascript/components/Icons";
 import ImageViewer, { openImageViewer } from "./ImageViewer";
-
-const DeleteMessageForm = ({ messageId }) => {
-  const { editMessageForm } = useContent();
-
-  return (
-    <Form
-      {...editMessageForm.form}
-      extras={editMessageForm.extras}
-      className={styles.messageDeleteForm}
-      data-sg-visit
-    >
-      <input type="hidden" name="message_id" value={messageId} />
-      <input type="hidden" name="destroy" value={true} />
-      <button
-        type="submit"
-        title="delete message"
-        className={styles.messageDeleteButton}
-      >
-        <Delete />
-      </button>
-    </Form>
-  );
-};
-
-const EditMessageForm = ({ message, imagePreviews, setEditingMessage }) => {
-  const { editMessageForm } = useContent();
-  const cancelForm = () => setEditingMessage(null);
-
-  return (
-    <>
-      <Form
-        {...editMessageForm.form}
-        extras={editMessageForm.extras}
-        onSubmit={cancelForm}
-        className={styles.messageEditForm}
-        data-sg-visit
-      >
-        <input {...editMessageForm.inputs.messageId} value={message.pub_id} />
-        <textarea
-          {...editMessageForm.inputs.message}
-          defaultValue={message.value}
-        />
-        {imagePreviews?.length > 0 && (
-          <fieldset>
-            <legend>Delete Images</legend>
-            {imagePreviews.map((preview) => (
-              <label key={preview.key}>
-                <img src={preview.url} alt={preview.filename} />
-                <input {...editMessageForm.inputs.images} value={preview.key} />
-              </label>
-            ))}
-          </fieldset>
-        )}
-        <button type="submit">Update Message</button>
-      </Form>
-      <button onClick={cancelForm}>Cancel</button>
-    </>
-  );
-};
+import Message from "./Message";
 
 export function Chat({ chat }) {
   const {
@@ -87,8 +22,9 @@ export function Chat({ chat }) {
     pages,
     messageQuery,
   } = useContent();
-  const [editingMessage, setEditingMessage] = useState();
-  const photoViewerRef = useRef();
+  const imageViewerRef = useRef();
+
+  console.log("Chat rendered");
 
   useEffect(() => {
     if (messageQuery) {
@@ -105,13 +41,7 @@ export function Chat({ chat }) {
     if (!index || !messageId) return;
 
     const images = chat.images[messageId].full;
-    openImageViewer(photoViewerRef.current, images, Number(index));
-  };
-
-  const copyMessageLink = async (messageId) => {
-    const url = `${location.origin}/chats/${chat.pub_id}?message=${messageId}`;
-    await navigator.clipboard.writeText(url);
-    alert("Message link copied to clipboard");
+    openImageViewer(imageViewerRef.current, images, Number(index));
   };
 
   return (
@@ -175,82 +105,11 @@ export function Chat({ chat }) {
               key={message.pub_id}
               className={`${message.deleted ? styles.deletedMessage : ""} ${messageQuery === message.pub_id ? styles.queriedMessage : ""}`}
             >
-              <div className={styles.messageDetails}>
-                <div className={styles.authorImage}>
-                  {message.user.image || <AccountCircle />}
-                </div>
-                <span className={styles.authorBadge}>
-                  {message.user.username}
-                </span>
-                {chat.admin_id === message.user.pub_id && (
-                  <span className={styles.adminBadge}>Admin</span>
-                )}
-                <span className={styles.messageCreationDate}>
-                  {message.created}{" "}
-                  {message.created !== message.updated &&
-                    `(updated ${message.updated})`}
-                </span>
-                {!message.deleted &&
-                  (message.user.pub_id === currentUser.pub_id ||
-                    currentUser.pub_id === chat.admin_id) && (
-                    <DeleteMessageForm messageId={message.pub_id} />
-                  )}
-                {!message.deleted &&
-                  message.user.pub_id === currentUser.pub_id && (
-                    <button
-                      onClick={() =>
-                        setEditingMessage(
-                          editingMessage ? null : message.pub_id,
-                        )
-                      }
-                      title="edit message"
-                      className={styles.messageEditButton}
-                    >
-                      <Edit />
-                    </button>
-                  )}
-                {!message.deleted && (
-                  <button
-                    title="copy message link"
-                    className={styles.messageLinkButton}
-                    onClick={() => copyMessageLink(message.pub_id)}
-                  >
-                    <Link />
-                  </button>
-                )}
-              </div>
-
-              {editingMessage === message.pub_id ? (
-                <EditMessageForm
-                  message={message}
-                  imagePreviews={chat.images[message.pub_id]?.previews}
-                  setEditingMessage={setEditingMessage}
-                />
-              ) : (
-                <>
-                  <p className={styles.message}>
-                    <ArrowRightBottom />
-                    <span>{message.value}</span>
-                  </p>
-                  {chat.images[message.pub_id] && (
-                    <div
-                      onClick={openImageInViewer}
-                      data-message-id={message.pub_id}
-                    >
-                      {chat.images[message.pub_id].previews.map(
-                        (preview, index) => (
-                          <img
-                            key={index}
-                            src={preview.url}
-                            alt={preview.filename}
-                            data-image-index={index}
-                          />
-                        ),
-                      )}
-                    </div>
-                  )}
-                </>
-              )}
+              <Message
+                message={message}
+                chat={chat}
+                openImageInViewer={openImageInViewer}
+              />
             </li>
           ))}
         </ol>
@@ -269,7 +128,7 @@ export function Chat({ chat }) {
         <input type="hidden" name="chat_id" value={chat.pub_id} />
         <SubmitButton {...leaveChatForm.inputs.submit} />
       </Form>
-      <ImageViewer ref={photoViewerRef} />
+      <ImageViewer ref={imageViewerRef} />
     </>
   );
 }

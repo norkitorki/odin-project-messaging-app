@@ -1,8 +1,5 @@
 .chatContainer {
   margin: 1rem 2rem 1rem 0;
-  padding: 1rem;
-  border: 1px solid #ffffff;
-  overflow: hidden;
 }
 
 .messages {
@@ -13,119 +10,8 @@
   padding-bottom: 0.75rem;
 }
 
-.messageDetails {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.authorImage {
-  width: 32px;
-  overflow: hidden;
-}
-
-.authorImage svg {
-  fill: #ffffff;
-}
-
-.authorBadge {
-  color: #0cc505;
-  background: #0000ff;
-  font-weight: bold;
-  padding: 0.5rem 0.75rem;
-  border-radius: 8px;
-  display: inline-block;
-  vertical-align: middle;
-}
-
-.adminBadge {
-  color: #9c10ec;
-  font-size: 0.7rem;
-  font-weight: bold;
-}
-
-.messageCreationDate {
-  font-size: 0.7rem;
-  font-weight: bold;
-}
-
-.messageDeleteButton {
-  width: 22px;
-  height: 22px;
-  background: transparent;
-  border: none;
-  padding: 0;
-  fill: #fc0404;
-  transition: transform 0.3s ease;
-}
-
-.messageEditButton {
-  composes: messageDeleteButton;
-  fill: #ffffff;
-}
-
-.messageLinkButton {
-  composes: messageDeleteButton;
-  fill: #ffffff;
-}
-
-.messageDeleteButton:hover,
-.messageDeleteButton:focus,
-.messageEditButton:hover,
-.messageEditButton:focus {
-  transform: scale(1.2);
-}
-
-.message {
-  max-width: min(1200px, 80%);
-  font-size: 0.95rem;
-  line-height: 1.25rem;
-  padding: 0.25rem 0 0 0.75rem;
-  white-space: pre-wrap;
-}
-
 .queriedMessage {
   padding: 0.5rem 0;
   outline: 1px solid #0b3b49;
   border-radius: 4px;
-}
-
-.deletedMessage .message {
-  font-size: 0.8rem;
-  font-weight: bold;
-  font-style: italic;
-}
-
-.message > svg {
-  display: inline-block;
-  vertical-align: top;
-  min-width: 16px;
-  height: 16px;
-  fill: #ffffff;
-  padding-right: 0.25rem;
-  align-self: flex-start;
-}
-
-.message > span {
-  max-width: 95%;
-  display: inline-block;
-}
-
-.messageEditForm textarea {
-  width: min(1200px, 80%);
-  max-width: 95%;
-  height: 100px;
-  color: #ffffff;
-  background: transparent;
-  border-color: #ffffff28;
-  border-radius: 0.5rem 0.5rem 0 0.5rem;
-  outline-color: inherit;
-  margin: 0.5rem 0;
-  padding: 0.5rem;
-  scrollbar-width: thin;
-}
-
-.messageEditForm button[type="submit"] {
-  display: block;
 }
