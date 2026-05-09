@@ -66,6 +66,7 @@ const EditMessageForm = ({ message, imagePreviews, setEditingMessage }) => {
 export default function Message({ message, chat, openImageInViewer }) {
   const { currentUser } = useContent();
   const [editingMessage, setEditingMessage] = useState();
+  const replies = message.replies;
 
   const copyMessageLink = async (messageId) => {
     const url = `${location.origin}/chats/${chat.pub_id}?message=${messageId}`;
@@ -125,9 +126,9 @@ export default function Message({ message, chat, openImageInViewer }) {
         />
       ) : (
         <>
-          <p className={styles.message}>
+          <div className={styles.message}>
             <ArrowRightBottom />
-            <span>
+            <p>
               {message.value}
               {chat.images[message.pub_id] && (
                 <span
@@ -147,8 +148,30 @@ export default function Message({ message, chat, openImageInViewer }) {
                   )}
                 </span>
               )}
-            </span>
-          </p>
+            </p>
+            {replies.length > 0 && (
+              <div className={styles.replies}>
+                <details>
+                  <summary>{replies.length} Replies</summary>
+                  <ol className={styles.replies}>
+                    {message.replies.map((message) => (
+                      <li
+                        id={message.pub_id}
+                        key={message.pub_id}
+                        className={`${message.deleted ? styles.deletedMessage : ""}`}
+                      >
+                        <Message
+                          message={message}
+                          chat={chat}
+                          openImageInViewer={openImageInViewer}
+                        />
+                      </li>
+                    ))}
+                  </ol>
+                </details>
+              </div>
+            )}
+          </div>
         </>
       )}
     </details>

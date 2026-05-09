@@ -6,6 +6,7 @@ class Message < ApplicationRecord
   IMAGE_CONTENT_TYPES = %w[ image/png image/jpeg ].freeze
 
   scope :ordered_by_creation, -> { order(:created_at) }
+  scope :top, -> { where(parent_id: nil) }
 
   belongs_to :chat
   belongs_to :user
@@ -14,15 +15,22 @@ class Message < ApplicationRecord
     attachable.variant :preview, resize_to_limit: [ 75, 75 ]
   end
 
+  has_many :replies,
+    class_name: "Message",
+    foreign_key: :parent_id,
+    dependent: :destroy,
+    before_add: :set_chat_id
+
   validate :not_marked_as_deleted
   validates :value, presence: true
   validates :images, content_type: IMAGE_CONTENT_TYPES, size: { less_than: 3.megabytes }
 
   def as_json
-    super.except("id", "chat_id", "user_id", "created_at", "updated_at").merge({
+    super.except("id", "chat_id", "user_id", "created_at", "updated_at", "parent_id").merge({
       user: user,
       created: created_at_time_in_words_to_now,
-      updated: updated_at_time_in_words_to_now
+      updated: updated_at_time_in_words_to_now,
+      replies: replies
     })
   end
 
@@ -38,5 +46,9 @@ class Message < ApplicationRecord
 
   def not_marked_as_deleted
     errors.add(:message, "marked as deleted") if deleted
+  end
+
+  def set_chat_id(message)
+    message.chat = chat
   end
 end

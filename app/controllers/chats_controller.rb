@@ -19,7 +19,7 @@ class ChatsController < ApplicationController
 
     @page = params[:page] ? params[:page].to_i : 1
     @chat = chat.json_with_images
-    @messages = chat.messages.includes(:user).ordered_by_creation.offset((@page - 1) * 30).limit(30)
+    @messages = chat.messages.includes(:user, :replies).top.ordered_by_creation.offset((@page - 1) * 30).limit(30)
     @page_count = chat.pages
   end
 

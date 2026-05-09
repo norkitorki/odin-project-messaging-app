@@ -99,6 +99,10 @@
   display: inline-block;
 }
 
+.replies {
+  padding: 0.75rem 0 0 0.75rem;
+}
+
 .messageImages {
   display: block;
   padding-top: 0.5rem;
