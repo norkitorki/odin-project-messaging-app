@@ -94,7 +94,7 @@
   align-self: flex-start;
 }
 
-.message > span {
+.message > p {
   max-width: 95%;
   display: inline-block;
 }
