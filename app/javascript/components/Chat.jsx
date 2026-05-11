@@ -1,14 +1,15 @@
 import React, { useEffect, useRef } from "react";
 import styles from "@stylesheets/Chat.module.css";
 import { useContent } from "@thoughtbot/superglue";
-import {
-  Form,
-  SubmitButton,
-  TextArea,
-  TextField,
-} from "@javascript/components";
 import ImageViewer, { openImageViewer } from "./ImageViewer";
 import Message from "./Message";
+import {
+  AddMessageForm,
+  ChatRequestForm,
+  DeleteChatForm,
+  JoinChatForm,
+  LeaveChatForm,
+} from "@javascript/components/Forms";
 
 export function Chat({ chat }) {
   const {
@@ -23,8 +24,6 @@ export function Chat({ chat }) {
     messageQuery,
   } = useContent();
   const imageViewerRef = useRef();
-
-  console.log("Chat rendered");
 
   useEffect(() => {
     if (messageQuery) {
@@ -66,36 +65,11 @@ export function Chat({ chat }) {
       </p>
       <div className={styles.chatContainer}>
         {chat.private && currentUser.pub_id === chat.admin.pub_id && (
-          <Form
-            {...chatRequestForm.form}
-            extras={chatRequestForm.extras}
-            data-sg-visit
-          >
-            <input {...chatRequestForm.inputs.chatId} />
-            <input {...chatRequestForm.inputs.requestType} />
-            <TextField {...chatRequestForm.inputs.receiver} label="Username" />
-            <SubmitButton {...chatRequestForm.inputs.submit} />
-          </Form>
+          <ChatRequestForm form={chatRequestForm} />
         )}
-        {!chat.private && (
-          <Form
-            {...joinChatForm.form}
-            extras={joinChatForm.extras}
-            data-sg-visit
-          >
-            <input type="hidden" name="chat_id" value={chat.pub_id} />
-            <SubmitButton {...joinChatForm.inputs.submit} />
-          </Form>
-        )}
+        {!chat.private && <JoinChatForm form={joinChatForm} />}
         {chat.admin_id === currentUser.pub_id && (
-          <Form
-            {...deleteChatForm.form}
-            extras={deleteChatForm.extras}
-            data-sg-visit
-          >
-            <input type="hidden" name="chat_id" value={chat.pub_id} />
-            <SubmitButton {...deleteChatForm.inputs.submit} />
-          </Form>
+          <DeleteChatForm form={deleteChatForm} />
         )}
         Private: {String(chat.private)}
         <ol className={styles.messages}>
@@ -114,20 +88,8 @@ export function Chat({ chat }) {
           ))}
         </ol>
       </div>
-      <Form
-        {...addMessageForm.form}
-        extras={addMessageForm.extras}
-        data-sg-visit
-      >
-        <input type="hidden" name="chat_id" value={chat.pub_id} />
-        <TextArea {...addMessageForm.inputs.message} />
-        <input type="file" {...addMessageForm.inputs.images} />
-        <SubmitButton {...addMessageForm.inputs.submit} />
-      </Form>
-      <Form {...leaveChatForm.form} extras={leaveChatForm.extras} data-sg-visit>
-        <input type="hidden" name="chat_id" value={chat.pub_id} />
-        <SubmitButton {...leaveChatForm.inputs.submit} />
-      </Form>
+      <AddMessageForm form={addMessageForm} />
+      <LeaveChatForm form={leaveChatForm} />
       <ImageViewer ref={imageViewerRef} />
     </>
   );

@@ -1,6 +1,7 @@
 import React from "react";
-import { Form, Layout } from "@javascript/components";
+import { Layout } from "@javascript/components";
 import { useContent } from "@thoughtbot/superglue";
+import { RequestResponseForm } from "@javascript/components/Forms";
 
 const RequestForm = ({ children }) => {
   const { requestForm } = useContent();
@@ -8,17 +9,8 @@ const RequestForm = ({ children }) => {
   return (
     <>
       <div>{children}</div>
-      <Form {...requestForm.form} extras={requestForm.extras} data-sg-visit>
-        <input {...requestForm.inputs.request} />
-        <input {...requestForm.inputs.requestType} />
-        <input {...requestForm.inputs.accept} />
-        <button type="submit">Accept</button>
-      </Form>
-      <Form {...requestForm.form} extras={requestForm.extras} data-sg-visit>
-        <input {...requestForm.inputs.request} />
-        <input {...requestForm.inputs.requestType} />
-        <button type="submit">Decline</button>
-      </Form>
+      <RequestResponseForm form={requestForm} accept={true} />
+      <RequestResponseForm form={requestForm} accept={false} />
     </>
   );
 };

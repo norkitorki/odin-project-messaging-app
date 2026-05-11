@@ -1,8 +1,8 @@
 import React from "react";
 import styles from "@stylesheets/Header.module.css";
 import { useContent } from "@thoughtbot/superglue";
-import { Form, SubmitButton } from "@components/Inputs";
 import { AccountCircle } from "@components/Icons";
+import { DeleteUserForm, SignOutForm } from "@javascript/components/Forms";
 
 export default function Header() {
   const { currentUser, signOutForm, deleteUserForm } = useContent();
@@ -30,20 +30,8 @@ export default function Header() {
               </a>
               <div>
                 <p>Signed in as {currentUser.username} </p>
-                <Form
-                  {...signOutForm.form}
-                  extras={signOutForm.extras}
-                  data-sg-visit
-                >
-                  <SubmitButton {...signOutForm.inputs.submit} />
-                </Form>
-                <Form
-                  {...deleteUserForm.form}
-                  extras={deleteUserForm.extras}
-                  data-sg-visit
-                >
-                  <SubmitButton {...deleteUserForm.inputs.submit} />
-                </Form>
+                <SignOutForm form={signOutForm} />
+                <DeleteUserForm form={deleteUserForm} />
               </div>
             </>
           ) : (

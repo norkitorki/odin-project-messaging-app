@@ -24,7 +24,7 @@ class ChatsController < ApplicationController
   end
 
   def create
-    chat = Chat.new(name: chat_params[:name], private: chat_params[:private] ? true : false, admin: current_user, users: [ current_user ])
+    chat = Chat.new(name: chat_params[:name], private: chat_params[:private] == "1" ? true : false, admin: current_user, users: [ current_user ])
 
     if chat.save
       redirect_to chat_path(pub_id: chat.pub_id), notice: "Chat created"

@@ -1,14 +1,8 @@
 json.user CoolId.locate(params[:pub_id])
 
-json.addContactForm do
-  form_props(url: add_contact_path, method: :post) do |f|
-    f.submit "Add Contact"
-  end
-end
-
 json.friendRequestForm do
   form_props(url: add_request_path, method: :post) do |f|
-    f.hidden_field :requestType, value: "friend", id: nil
+    f.hidden_field :requestType, name: :request_type, value: "friend", id: nil
     f.hidden_field :receiver, id: nil
     f.submit "Send Friend Request"
   end
@@ -16,6 +10,7 @@ end
 
 json.removeContactForm do
   form_props(url: remove_contact_path, method: :delete) do |f|
+    f.hidden_field :userId, name: :user_id, id: nil
     f.submit "Remove Contact"
   end
 end

@@ -7,7 +7,7 @@ end
 json.requestForm do
   form_props(url: update_request_path, method: :patch) do |f|
     f.hidden_field :request, value: @request.pub_id, id: nil
-    f.hidden_field :requestType, value: @request.request_type, id: nil
+    f.hidden_field :requestType, name: :request_type, value: @request.request_type, id: nil
     f.hidden_field :accept, value: true, id: nil
   end
 end

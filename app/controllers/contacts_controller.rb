@@ -21,10 +21,10 @@ class ContactsController < ApplicationController
   private
 
   def contacts_params
-    params.permit(:pub_id)
+    params.permit(:user_id)
   end
 
   def set_contact
-    @contact = CoolId.locate(contacts_params[:pub_id])
+    @contact = CoolId.locate(contacts_params[:user_id])
   end
 end

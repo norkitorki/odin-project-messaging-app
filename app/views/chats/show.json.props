@@ -14,7 +14,7 @@ if @chat["private"] && current_user.pub_id == @chat[:admin][:pub_id]
   json.chatRequestForm do
     form_props(url: add_request_path, method: :post) do |f|
       f.hidden_field :chatId, value: @chat["pub_id"], name: :chat_id, id: nil
-      f.hidden_field :requestType, value: "chat", id: nil
+      f.hidden_field :requestType, name: :request_type, value: "chat", id: nil
       f.text_field :receiver
       f.submit "Invite To Chat"
     end
@@ -23,6 +23,7 @@ end
 
 json.addMessageForm do
   form_props(url: add_message_path, method: :post) do |f|
+    f.hidden_field :chatId, value: @chat["pub_id"], name: :chat_id, id: nil
     f.text_area :message
     f.file_field :images, multiple: true, accept: Message::IMAGE_CONTENT_TYPES.join(',')
     f.submit "Send"
@@ -31,26 +32,37 @@ end
 
 json.editMessageForm do
   form_props(url: update_message_path, method: :patch) do |f|
-    f.hidden_field :message_id, id: nil
+    f.hidden_field :messageId, name: :message_id, id: nil
     f.text_area :message, id: nil
     f.check_box :images, name: "images[]", id: nil
+    f.submit "Update Message"
+  end
+end
+
+json.deleteMessageForm do
+  form_props(url: update_message_path, method: :patch) do |f|
+    f.hidden_field :messageId, name: :message_id, id: nil
+    f.hidden_field :destroy, value: true, id: nil
   end
 end
 
 json.joinChatForm do
   form_props(url: join_chat_path, method: :post) do |f|
+    f.hidden_field :chatId, value: @chat["pub_id"], name: :chat_id, id: nil
     f.submit "Join Chat"
   end
 end
 
 json.deleteChatForm do
   form_props(url: delete_chat_path, method: :delete) do |f|
+    f.hidden_field :chatId, value: @chat["pub_id"], name: :chat_id, id: nil
     f.submit "Delete Chat"
   end
 end
 
 json.leaveChatForm do
   form_props(url: leave_chat_path, method: :delete) do |f|
+    f.hidden_field :chatId, value: @chat["pub_id"], name: :chat_id, id: nil
     f.submit "Leave Chat"
   end
 end

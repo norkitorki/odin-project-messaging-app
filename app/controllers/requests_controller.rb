@@ -13,7 +13,7 @@ class RequestsController < ApplicationController
   end
 
   def create
-    case params[:requestType]
+    case params[:request_type]
     when "chat" then create_chat_request
     when "friend" then create_friend_request
     else redirect_back_or_to root_path, notice: "Invalid request type"
@@ -21,7 +21,7 @@ class RequestsController < ApplicationController
   end
 
   def update
-    @request_type = params[:requestType]
+    @request_type = params[:request_type]
     accepted = !params[:accept].nil?
 
     if accepted
