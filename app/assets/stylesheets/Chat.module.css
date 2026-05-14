@@ -9,9 +9,3 @@
 .messages > li {
   padding-bottom: 0.75rem;
 }
-
-.queriedMessage {
-  padding: 0.5rem 0;
-  outline: 1px solid #0b3b49;
-  border-radius: 4px;
-}
