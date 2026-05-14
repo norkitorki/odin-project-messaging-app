@@ -42,6 +42,7 @@ export default function Message({ message, chat, openImageInViewer }) {
 
   return (
     <details
+      id={message.pub_id}
       className={`${styles.messageContainer} ${message.pub_id === messageQuery ? styles.queriedMessage : ""}`}
       open
     >
@@ -97,7 +98,6 @@ export default function Message({ message, chat, openImageInViewer }) {
           )}
         </div>
       </summary>
-
       {editingMessage === message.pub_id ? (
         <>
           <EditMessageForm

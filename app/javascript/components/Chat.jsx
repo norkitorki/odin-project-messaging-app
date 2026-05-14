@@ -68,7 +68,7 @@ export function Chat({ chat }) {
         Private: {String(chat.private)}
         <ol className={styles.messages}>
           {messages.map((message) => (
-            <li id={message.pub_id} key={message.pub_id}>
+            <li key={message.pub_id}>
               <Message
                 message={message}
                 chat={chat}
