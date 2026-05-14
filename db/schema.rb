@@ -71,7 +71,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_07_090229) do
     t.bigint "chat_id"
     t.datetime "created_at", null: false
     t.boolean "deleted", default: false
-    t.bigint "parent_id"
+    t.string "parent_id"
     t.string "pub_id"
     t.datetime "updated_at", null: false
     t.bigint "user_id"

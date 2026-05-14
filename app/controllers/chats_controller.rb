@@ -13,8 +13,14 @@ class ChatsController < ApplicationController
     return redirect_back_or_to chats_path, notice: "Chat is private" if chat.private && !chat.users.include?(current_user)
 
     if params[:message]
-      index = chat&.messages.order(:created_at).index { |m| !m.deleted && m.pub_id == params[:message] }
-      return redirect_to_message(chat, index) if index
+      message_id = params[:message]
+      parent_id = params[:parent]
+      chat&.messages.ordered_by_creation.each.with_index do |message, i|
+        if !message.deleted
+          break redirect_to_message(chat, i, message_id, parent_id) if message.pub_id == parent_id
+          break redirect_to_message(chat, i, message_id) if message.pub_id == message_id
+        end
+      end
     end
 
     @page = params[:page] ? params[:page].to_i : 1
@@ -47,9 +53,9 @@ class ChatsController < ApplicationController
     params.permit(:name, :private)
   end
 
-  def redirect_to_message(chat, index)
+  def redirect_to_message(chat, index, message_id, parent_id = nil)
     index += 1
     page = index % 30 == 0 ? index / 30 : (index / 30) + 1
-    redirect_to chat_path(pub_id: chat.pub_id, page: page, m: params[:message])
+    redirect_to chat_path(pub_id: chat.pub_id, page: page, m: message_id, p: parent_id)
   end
 end

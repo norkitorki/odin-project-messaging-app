@@ -28,9 +28,10 @@ export const AddContactForm = ({ form }) => (
   </Form>
 );
 
-export const AddMessageForm = ({ form }) => (
+export const AddMessageForm = ({ form, parentId = null }) => (
   <Form {...form.form} extras={form.extras} data-sg-visit>
     <input {...form.inputs.chatId} />
+    {parentId && <input {...form.inputs.parentId} value={parentId} />}
     <TextArea {...form.inputs.message} />
     <input type="file" {...form.inputs.images} />
     <SubmitButton {...form.inputs.submit} />

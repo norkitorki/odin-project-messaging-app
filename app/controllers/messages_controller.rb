@@ -6,9 +6,11 @@ class MessagesController < ApplicationController
 
     if chat
       message = message_params[:message]
+      parent_id = message_params[:parent_id]
       if chat && !message&.empty?
-        message = chat.messages.create!(value: message, user_id: current_user.id)
+        message = chat.messages.create!(value: message, user_id: current_user.id, parent_id: parent_id)
         message.images.attach(params[:images])
+        return redirect_to chat_path(pub_id: chat.pub_id, message: parent_id) if parent_id
         return redirect_to chat_path(pub_id: chat.pub_id, page: chat.pages)
       end
     end
@@ -30,7 +32,7 @@ class MessagesController < ApplicationController
   private
 
   def message_params
-    params.permit(:chat_id, :message, :message_id, images: [])
+    params.permit(:chat_id, :message, :message_id, :parent_id, images: [])
   end
 
   def mark_as_deleted

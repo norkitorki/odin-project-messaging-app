@@ -58,6 +58,11 @@
   fill: #ffffff;
 }
 
+.messageReplyButton {
+  composes: messageDeleteButton;
+  fill: #ffffff;
+}
+
 .messageLinkButton {
   composes: messageDeleteButton;
   fill: #ffffff;
@@ -76,6 +81,12 @@
   line-height: 1.25rem;
   padding: 0.25rem 0 0 0.75rem;
   white-space: pre-wrap;
+}
+
+.queriedMessage {
+  padding: 0.5rem 0;
+  outline: 1px solid #0b3b49;
+  border-radius: 4px;
 }
 
 .deletedMessage .message {

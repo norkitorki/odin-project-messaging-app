@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import styles from "@stylesheets/Chat.module.css";
 import { useContent } from "@thoughtbot/superglue";
 import ImageViewer, { openImageViewer } from "./ImageViewer";
@@ -42,18 +42,8 @@ export function Chat({ chat }) {
     deleteChatForm,
     leaveChatForm,
     pages,
-    messageQuery,
   } = useContent();
   const imageViewerRef = useRef();
-
-  useEffect(() => {
-    if (messageQuery) {
-      const timeoutId = setTimeout(() =>
-        document.getElementById(messageQuery)?.scrollIntoView(),
-      );
-      return () => clearTimeout(timeoutId);
-    }
-  }, [messageQuery]);
 
   const openImageInViewer = (event) => {
     const index = event.target.dataset.imageIndex;
@@ -81,7 +71,7 @@ export function Chat({ chat }) {
             <li
               id={message.pub_id}
               key={message.pub_id}
-              className={`${message.deleted ? styles.deletedMessage : ""} ${messageQuery === message.pub_id ? styles.queriedMessage : ""}`}
+              className={message.deleted ? styles.deletedMessage : ""}
             >
               <Message
                 message={message}

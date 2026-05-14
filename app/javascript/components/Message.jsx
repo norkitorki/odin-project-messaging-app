@@ -1,25 +1,50 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "@stylesheets/Message.module.css";
 import { useContent } from "@thoughtbot/superglue";
-import { ArrowRightBottom, AccountCircle, Edit, Link } from "./Icons";
+import { ArrowRightBottom, AccountCircle, Edit, Link, Reply } from "./Icons";
 import {
+  AddMessageForm,
   DeleteMessageForm,
   EditMessageForm,
 } from "@javascript/components/Forms";
 
 export default function Message({ message, chat, openImageInViewer }) {
-  const { currentUser, deleteMessageForm, editMessageForm } = useContent();
+  const {
+    currentUser,
+    deleteMessageForm,
+    editMessageForm,
+    addMessageForm,
+    messageQuery,
+    parentQuery,
+  } = useContent();
   const [editingMessage, setEditingMessage] = useState();
+  const [replying, setReplying] = useState(false);
   const replies = message.replies;
 
-  const copyMessageLink = async (messageId) => {
-    const url = `${location.origin}/chats/${chat.pub_id}?message=${messageId}`;
+  useEffect(() => {
+    const id = messageQuery || parentQuery;
+    if (id) {
+      const timeoutId = setTimeout(() =>
+        document.getElementById(id)?.scrollIntoView(),
+      );
+      return () => clearTimeout(timeoutId);
+    }
+  }, [messageQuery, parentQuery]);
+
+  const editMessage = () =>
+    setEditingMessage(editingMessage ? null : message.pub_id);
+  const replyToMessage = () => setReplying(!replying);
+  const copyMessageLink = async (messageId, parentId) => {
+    const url = `${location.origin}/chats/${chat.pub_id}?message=${messageId}&parent=${parentId}`;
     await navigator.clipboard.writeText(url);
     alert("Message link copied to clipboard");
   };
 
   return (
-    <details className={styles.messageContainer} open>
+    <details
+      className={`${styles.messageContainer} ${message.pub_id === messageQuery ? styles.queriedMessage : ""}`}
+      open
+    >
       <summary>
         <div className={styles.messageDetails}>
           <div className={styles.authorImage}>
@@ -45,20 +70,27 @@ export default function Message({ message, chat, openImageInViewer }) {
             )}
           {!message.deleted && message.user.pub_id === currentUser.pub_id && (
             <button
-              onClick={() =>
-                setEditingMessage(editingMessage ? null : message.pub_id)
-              }
               title="edit message"
               className={styles.messageEditButton}
+              onClick={editMessage}
             >
               <Edit />
+            </button>
+          )}
+          {!message.deleted && !message.parent_id && (
+            <button
+              title="reply to message"
+              className={styles.messageReplyButton}
+              onClick={replyToMessage}
+            >
+              <Reply />
             </button>
           )}
           {!message.deleted && (
             <button
               title="copy message link"
               className={styles.messageLinkButton}
-              onClick={() => copyMessageLink(message.pub_id)}
+              onClick={() => copyMessageLink(message.pub_id, message.parent_id)}
             >
               <Link />
             </button>
@@ -101,16 +133,25 @@ export default function Message({ message, chat, openImageInViewer }) {
                 </span>
               )}
             </p>
+            {!message.parent_id && replying && (
+              <>
+                <AddMessageForm
+                  form={addMessageForm}
+                  parentId={message.pub_id}
+                />
+                <button onClick={replyToMessage}>Hide Form</button>
+              </>
+            )}
             {replies.length > 0 && (
               <div className={styles.replies}>
-                <details>
+                <details open={parentQuery === message.pub_id ? true : false}>
                   <summary>{replies.length} Replies</summary>
-                  <ol className={styles.replies}>
+                  <ol>
                     {message.replies.map((message) => (
                       <li
                         id={message.pub_id}
                         key={message.pub_id}
-                        className={`${message.deleted ? styles.deletedMessage : ""}`}
+                        className={message.deleted ? styles.deletedMessage : ""}
                       >
                         <Message
                           message={message}

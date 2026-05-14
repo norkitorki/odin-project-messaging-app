@@ -16,7 +16,9 @@ class Message < ApplicationRecord
   end
 
   has_many :replies,
+    -> { order(:created_at) },
     class_name: "Message",
+    primary_key: :pub_id,
     foreign_key: :parent_id,
     dependent: :destroy,
     before_add: :set_chat_id
@@ -26,7 +28,7 @@ class Message < ApplicationRecord
   validates :images, content_type: IMAGE_CONTENT_TYPES, size: { less_than: 3.megabytes }
 
   def as_json
-    super.except("id", "chat_id", "user_id", "created_at", "updated_at", "parent_id").merge({
+    super.except("id", "chat_id", "user_id", "created_at", "updated_at").merge({
       user: user,
       created: created_at_time_in_words_to_now,
       updated: updated_at_time_in_words_to_now,
