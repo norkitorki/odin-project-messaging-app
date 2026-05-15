@@ -8,10 +8,9 @@ class MessagesController < ApplicationController
       message = message_params[:message]
       parent_id = message_params[:parent_id]
       if chat && !message&.empty?
-        message = chat.messages.create!(value: message, user_id: current_user.id, parent_id: parent_id)
-        message.images.attach(params[:images])
-        return redirect_to chat_path(pub_id: chat.pub_id, message: parent_id) if parent_id
-        return redirect_to chat_path(pub_id: chat.pub_id, page: chat.pages)
+        new_message = chat.messages.create!(value: message, user_id: current_user.id, parent_id: parent_id)
+        new_message.images.attach(params[:images])
+        return redirect_to chat_path(pub_id: chat.pub_id, message: new_message.pub_id, parent: parent_id)
       end
     end
 
