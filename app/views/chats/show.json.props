@@ -4,6 +4,7 @@ json.messageQuery params[:m]
 json.parentQuery params[:p]
 
 json.messages @messages
+json.replies @replies
 
 json.pages do
   json.current @page

@@ -42,6 +42,7 @@ export function Chat({ chat }) {
     deleteChatForm,
     leaveChatForm,
     pages,
+    replies,
   } = useContent();
   const imageViewerRef = useRef();
 
@@ -72,6 +73,7 @@ export function Chat({ chat }) {
               <Message
                 message={message}
                 chat={chat}
+                replies={replies[message.pub_id]}
                 openImageInViewer={openImageInViewer}
               />
             </li>

@@ -31,8 +31,7 @@ class Message < ApplicationRecord
     super.except("id", "chat_id", "user_id", "created_at", "updated_at").merge({
       user: user,
       created: created_at_time_in_words_to_now,
-      updated: updated_at_time_in_words_to_now,
-      replies: replies
+      updated: updated_at_time_in_words_to_now
     })
   end
 

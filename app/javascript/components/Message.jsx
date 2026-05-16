@@ -8,7 +8,7 @@ import {
   EditMessageForm,
 } from "@javascript/components/Forms";
 
-export default function Message({ message, chat, openImageInViewer }) {
+export default function Message({ message, chat, replies, openImageInViewer }) {
   const {
     currentUser,
     deleteMessageForm,
@@ -19,7 +19,6 @@ export default function Message({ message, chat, openImageInViewer }) {
   } = useContent();
   const [editingMessage, setEditingMessage] = useState();
   const [replying, setReplying] = useState(false);
-  const replies = message.replies;
 
   useEffect(() => {
     const id = messageQuery || parentQuery;
@@ -142,12 +141,12 @@ export default function Message({ message, chat, openImageInViewer }) {
                 <button onClick={replyToMessage}>Hide Form</button>
               </>
             )}
-            {replies.length > 0 && (
+            {replies?.length > 0 && (
               <div className={styles.replies}>
                 <details open={parentQuery === message.pub_id ? true : false}>
                   <summary>{replies.length} Replies</summary>
                   <ol>
-                    {message.replies.map((message) => (
+                    {replies.map((message) => (
                       <li
                         id={message.pub_id}
                         key={message.pub_id}

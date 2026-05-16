@@ -25,7 +25,8 @@ class ChatsController < ApplicationController
 
     @page = params[:page] ? params[:page].to_i : 1
     @chat = chat.json_with_images
-    @messages = chat.messages.includes(:user, :replies).top.ordered_by_creation.offset((@page - 1) * 30).limit(30)
+    @messages = chat.messages.includes(:user).top.ordered_by_creation.offset((@page - 1) * 30).limit(30)
+    @replies = chat_replies(chat.id)
     @page_count = chat.pages
   end
 
@@ -57,5 +58,13 @@ class ChatsController < ApplicationController
     index += 1
     page = index % 30 == 0 ? index / 30 : (index / 30) + 1
     redirect_to chat_path(pub_id: chat.pub_id, page: page, m: message_id, p: parent_id)
+  end
+
+  def chat_replies(chat_id)
+    replies = {}
+    Message.includes(:user).where(chat_id: chat_id).where(parent_id: @messages.map(&:pub_id)).order(:created_at).each do |m|
+      replies[m.parent_id] ? replies[m.parent_id] << m : replies[m.parent_id] = [ m ]
+    end
+    replies
   end
 end
