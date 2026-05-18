@@ -62,7 +62,7 @@ class ChatsController < ApplicationController
 
   def chat_replies(chat_id)
     replies = {}
-    Message.includes(:user).where(chat_id: chat_id).where(parent_id: @messages.map(&:pub_id)).order(:created_at).each do |m|
+    Message.includes(:user).where(chat_id: chat_id, parent_id: @messages.map(&:pub_id)).order(:created_at).each do |m|
       replies[m.parent_id] ? replies[m.parent_id] << m : replies[m.parent_id] = [ m ]
     end
     replies
