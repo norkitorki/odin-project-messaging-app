@@ -35,7 +35,7 @@ class Chat < ApplicationRecord
 
   def pages
     message_count = messages.count
-    message_count % 30 == 0 ? message_count / 30 : (message_count / 30) + 1
+    message_count > 0 && message_count % 30 == 0 ? message_count / 30 : (message_count / 30) + 1
   end
 
   private
