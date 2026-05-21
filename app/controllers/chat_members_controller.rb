@@ -7,8 +7,9 @@ class ChatMembersController < ApplicationController
     if chat_id
       chat = CoolId.locate(chat_id)
       if chat && !chat.private
-        chat.users << current_user
-        notice = "You joined a chat"
+        existing_user = chat.users.include?(current_user)
+        chat.users << current_user unless existing_user
+        notice = existing_user ? "You are already a member" : "You joined the chat"
       end
     else
       users = params[:user_ids]&.map { |id| CoolId.locate(id) }
