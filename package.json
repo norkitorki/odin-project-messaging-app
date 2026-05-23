@@ -1,6 +1,6 @@
 {
   "name": "odin-project-messaging-app",
-  "packageManager": "yarn@4.14.1",
+  "packageManager": "yarn@4.15.0",
   "dependencies": {
     "@reduxjs/toolkit": "^2.11.2",
     "@thoughtbot/superglue": "^1.0.3",
