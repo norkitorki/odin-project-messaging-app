@@ -10,27 +10,7 @@ import {
   JoinChatForm,
   LeaveChatForm,
 } from "@javascript/components/Forms";
-
-const Pagination = ({ pages }) => (
-  <p>
-    <a href={pages.paths[0]} data-sg-visit>
-      First
-    </a>
-    {pages.paths.map((path, index) => (
-      <a
-        key={index}
-        href={path}
-        style={{ color: index + 1 === pages.current ? "green" : "" }}
-        data-sg-visit
-      >
-        {index + 1}
-      </a>
-    ))}
-    <a href={pages.paths[pages.count - 1]} data-sg-visit>
-      Last
-    </a>
-  </p>
-);
+import Pagination from "./Pagination";
 
 export function Chat({ chat }) {
   const {
@@ -58,7 +38,7 @@ export function Chat({ chat }) {
   return (
     <>
       <div className={styles.chatContainer}>
-        <Pagination pages={pages} />
+        {pages.count > 1 && <Pagination pages={pages} />}
         {chat.private && currentUser.pub_id === chat.admin.pub_id && (
           <ChatRequestForm form={chatRequestForm} />
         )}
