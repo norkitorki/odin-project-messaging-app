@@ -8,9 +8,6 @@ export default function ChatsShow() {
 
   return (
     <Layout>
-      <a href="/chats" data-sg-visit>
-        Back To Chats
-      </a>
       <Chat chat={chat} />
     </Layout>
   );
