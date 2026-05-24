@@ -12,22 +12,21 @@ class ChatsController < ApplicationController
     chat = Chat.find_by(pub_id: params[:pub_id])
     return redirect_back_or_to chats_path, notice: "Chat is private" if chat.private && !chat.users.include?(current_user)
 
-    if params[:message]
-      message_id = params[:message]
-      parent_id = params[:parent]
-      chat&.messages.ordered_by_creation.each.with_index do |message, i|
-        if !message.deleted
-          break redirect_to_message(chat, i, message_id, parent_id) if message.pub_id == parent_id
-          break redirect_to_message(chat, i, message_id) if message.pub_id == message_id
-        end
+    if chat
+      messages = chat.messages.ordered_by_creation.top
+      if params[:message]
+        message_id = params[:message]
+        parent_id = params[:parent] || nil
+        index = messages.index { |m| !m.deleted && (m.pub_id == parent_id || m.pub_id == message_id) }
+        return redirect_to_message(chat, index, message_id, parent_id) if index
       end
-    end
 
-    @page = params[:page] ? params[:page].to_i : 1
-    @chat = chat.json_with_images
-    @messages = chat.messages.includes(:user).top.ordered_by_creation.offset((@page - 1) * 30).limit(30)
-    @replies = chat_replies(chat.id)
-    @page_count = chat.pages
+      @page_count = chat.pages
+      @page = params[:page] ? params[:page].to_i : @page_count
+      @chat = chat.json_with_images
+      @messages = messages.includes(:user).offset((@page - 1) * 30).limit(30)
+      @replies = chat_replies(chat.id)
+    end
   end
 
   def create
@@ -55,9 +54,8 @@ class ChatsController < ApplicationController
   end
 
   def redirect_to_message(chat, index, message_id, parent_id = nil)
-    index += 1
-    page = index % 30 == 0 ? index / 30 : (index / 30) + 1
-    redirect_to chat_path(pub_id: chat.pub_id, page: page, m: message_id, p: parent_id)
+    page = index / 30 + 1
+    redirect_to chat_path(pub_id: chat.pub_id, page: page < 1 ? 1 : page, m: message_id, p: parent_id)
   end
 
   def chat_replies(chat_id)
