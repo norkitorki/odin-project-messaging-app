@@ -22,10 +22,14 @@ export default function Message({ message, chat, replies, openImageInViewer }) {
 
   useEffect(() => {
     const id = messageQuery || parentQuery;
-    if (id) {
-      const timeoutId = setTimeout(() =>
-        document.getElementById(id)?.scrollIntoView(),
-      );
+    if (id === message.pub_id) {
+      const timeoutId = setTimeout(() => {
+        const element = document.getElementById(id);
+        if (element) {
+          const rect = element.getBoundingClientRect();
+          window.scroll({ top: rect.top - rect.height, behavior: "smooth" });
+        }
+      }, 0);
       return () => clearTimeout(timeoutId);
     }
   }, [messageQuery, parentQuery]);
@@ -34,7 +38,7 @@ export default function Message({ message, chat, replies, openImageInViewer }) {
     setEditingMessage(editingMessage ? null : message.pub_id);
   const replyToMessage = () => setReplying(!replying);
   const copyMessageLink = async (messageId, parentId) => {
-    const url = `${location.origin}/chats/${chat.pub_id}?message=${messageId}&parent=${parentId}`;
+    const url = `${location.origin}/chats/${chat.pub_id}?message=${messageId}${parentId ? `&parent=${parentId}` : ""}`;
     await navigator.clipboard.writeText(url);
     alert("Message link copied to clipboard");
   };
