@@ -48,11 +48,16 @@ export default function Message({ message, chat, replies, openImageInViewer }) {
     alert("Message link copied to clipboard");
   };
 
+  const messageDeleted = message.deleted;
+  const isSubMessage = message.parent_id !== null;
+  const userIsAuthor = message.user.pub_id === currentUser.pub_id;
+  const userIsAdmin = chat.admin_id === currentUser.pub_id;
+
   return (
     <details
       id={message.pub_id}
       className={`${styles.messageContainer} ${message.pub_id === messageQuery ? styles.queriedMessage : ""}`}
-      open
+      open={!messageDeleted}
     >
       <summary>
         <div className={styles.messageDetails}>
@@ -60,24 +65,29 @@ export default function Message({ message, chat, replies, openImageInViewer }) {
             {message.user.image || <AccountCircle />}
           </div>
           <span className={styles.authorBadge}>{message.user.username}</span>
-          {chat.admin_id === message.user.pub_id && (
+          {chat.admin.pub_id === message.user.pub_id && (
             <span className={styles.adminBadge}>Admin</span>
           )}
-          <span className={styles.messageCreationDate}>
-            {message.created}{" "}
-            {message.created !== message.updated &&
-              `(updated ${message.updated})`}
-          </span>
-          {!message.deleted &&
-            (message.user.pub_id === currentUser.pub_id ||
-              currentUser.pub_id === chat.admin_id) && (
-              <DeleteMessageForm
-                form={deleteMessageForm}
-                messageId={message.pub_id}
-                styles={styles}
-              />
+          <span
+            className={`${styles.messageCreationDate} ${messageDeleted ? styles.deletedMessage : ""}`}
+          >
+            {messageDeleted ? (
+              `${message.value} ${message.updated}`
+            ) : (
+              <>
+                {message.created}
+                {message.created !== message.updated &&
+                  ` (updated ${message.updated})`}
+              </>
             )}
-          {!message.deleted && message.user.pub_id === currentUser.pub_id && (
+          </span>
+          {!messageDeleted && (userIsAuthor || userIsAdmin) && (
+            <DeleteMessageForm
+              form={deleteMessageForm}
+              messageId={message.pub_id}
+            />
+          )}
+          {!messageDeleted && userIsAuthor && (
             <button
               title="edit message"
               className={styles.messageEditButton}
@@ -86,7 +96,7 @@ export default function Message({ message, chat, replies, openImageInViewer }) {
               <Edit />
             </button>
           )}
-          {!message.deleted && !message.parent_id && (
+          {!messageDeleted && !isSubMessage && (
             <button
               title="reply to message"
               className={styles.messageReplyButton}
@@ -95,7 +105,7 @@ export default function Message({ message, chat, replies, openImageInViewer }) {
               <Reply />
             </button>
           )}
-          {!message.deleted && (
+          {!messageDeleted && (
             <button
               title="copy message link"
               className={styles.messageLinkButton}
@@ -107,17 +117,14 @@ export default function Message({ message, chat, replies, openImageInViewer }) {
         </div>
       </summary>
       {editingMessage === message.pub_id ? (
-        <>
-          <EditMessageForm
-            form={editMessageForm}
-            message={message}
-            imagePreviews={chat.images[message.pub_id]?.previews}
-            styles={styles}
-            setEditingMessage={setEditingMessage}
-          />
-        </>
+        <EditMessageForm
+          form={editMessageForm}
+          message={message}
+          imagePreviews={chat.images[message.pub_id]?.previews}
+          setEditingMessage={setEditingMessage}
+        />
       ) : (
-        <>
+        !messageDeleted && (
           <div className={styles.message}>
             <ArrowRightBottom />
             <p>
@@ -141,14 +148,8 @@ export default function Message({ message, chat, replies, openImageInViewer }) {
                 </span>
               )}
             </p>
-            {!message.parent_id && replying && (
-              <>
-                <AddMessageForm
-                  form={addMessageForm}
-                  parentId={message.pub_id}
-                />
-                <button onClick={replyToMessage}>Hide Form</button>
-              </>
+            {!isSubMessage && replying && (
+              <AddMessageForm form={addMessageForm} parentId={message.pub_id} />
             )}
             {replies?.length > 0 && (
               <div className={styles.replies}>
@@ -159,7 +160,7 @@ export default function Message({ message, chat, replies, openImageInViewer }) {
                       <li
                         id={message.pub_id}
                         key={message.pub_id}
-                        className={message.deleted ? styles.deletedMessage : ""}
+                        className={messageDeleted ? styles.deletedMessage : ""}
                       >
                         <Message
                           message={message}
@@ -173,7 +174,7 @@ export default function Message({ message, chat, replies, openImageInViewer }) {
               </div>
             )}
           </div>
-        </>
+        )
       )}
     </details>
   );
