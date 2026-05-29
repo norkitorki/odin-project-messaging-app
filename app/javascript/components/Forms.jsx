@@ -1,4 +1,6 @@
 import React from "react";
+import chatStyles from "@stylesheets/Chat.module.css";
+import messageStyles from "@stylesheets/Message.module.css";
 import {
   Checkbox,
   Form,
@@ -28,12 +30,24 @@ export const AddContactForm = ({ form }) => (
   </Form>
 );
 
-export const AddMessageForm = ({ form, parentId = null }) => (
-  <Form {...form.form} extras={form.extras} data-sg-visit>
+export const AddMessageForm = ({ form, messageValue, parentId = null }) => (
+  <Form
+    {...form.form}
+    extras={form.extras}
+    className={chatStyles.messageForm}
+    data-sg-visit
+  >
     <input {...form.inputs.chatId} />
     {parentId && <input {...form.inputs.parentId} value={parentId} />}
-    <TextArea {...form.inputs.message} />
-    <input type="file" {...form.inputs.images} />
+    <TextArea
+      {...form.inputs.message}
+      className={messageStyles.messageInput}
+      value={messageValue}
+    />
+    <label>
+      <p>Images</p>
+      <input type="file" {...form.inputs.images} />
+    </label>
     <SubmitButton {...form.inputs.submit} />
   </Form>
 );
@@ -54,11 +68,11 @@ export const DeleteChatForm = ({ form }) => (
   </Form>
 );
 
-export const DeleteMessageForm = ({ form, messageId, styles }) => (
+export const DeleteMessageForm = ({ form, messageId }) => (
   <Form
     {...form.form}
     extras={form.extras}
-    className={styles.messageDeleteForm}
+    className={messageStyles.messageDeleteForm}
     data-sg-visit
   >
     <input {...form.inputs.messageId} value={messageId} />
@@ -66,7 +80,7 @@ export const DeleteMessageForm = ({ form, messageId, styles }) => (
     <button
       type="submit"
       title="delete message"
-      className={styles.messageDeleteButton}
+      className={messageStyles.messageDeleteButton}
     >
       <Delete />
     </button>
@@ -83,7 +97,6 @@ export const EditMessageForm = ({
   form,
   message,
   imagePreviews,
-  styles,
   setEditingMessage,
 }) => {
   const cancelForm = () => setEditingMessage(null);
@@ -94,11 +107,15 @@ export const EditMessageForm = ({
         {...form.form}
         extras={form.extras}
         onSubmit={cancelForm}
-        className={styles.messageEditForm}
+        className={messageStyles.messageEditForm}
         data-sg-visit
       >
         <input {...form.inputs.messageId} value={message.pub_id} />
-        <textarea {...form.inputs.message} defaultValue={message.value} />
+        <textarea
+          {...form.inputs.message}
+          className={messageStyles.messageInput}
+          defaultValue={message.value}
+        />
         {imagePreviews?.length > 0 && (
           <fieldset>
             <legend>Delete Images</legend>
@@ -112,7 +129,6 @@ export const EditMessageForm = ({
         )}
         <SubmitButton {...form.inputs.submit} />
       </Form>
-      <button onClick={cancelForm}>Cancel</button>
     </>
   );
 };
