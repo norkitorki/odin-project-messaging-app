@@ -34,9 +34,14 @@ export default function Message({ message, chat, replies, openImageInViewer }) {
     }
   }, [messageQuery, parentQuery]);
 
-  const editMessage = () =>
+  const editMessage = () => {
+    setReplying(false);
     setEditingMessage(editingMessage ? null : message.pub_id);
-  const replyToMessage = () => setReplying(!replying);
+  };
+  const replyToMessage = () => {
+    setEditingMessage(null);
+    setReplying(!replying);
+  };
   const copyMessageLink = async (messageId, parentId) => {
     const url = `${location.origin}/chats/${chat.pub_id}?message=${messageId}${parentId ? `&parent=${parentId}` : ""}`;
     await navigator.clipboard.writeText(url);
