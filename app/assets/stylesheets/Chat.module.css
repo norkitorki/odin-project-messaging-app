@@ -23,3 +23,13 @@
 .messages > li {
   padding-bottom: 0.75rem;
 }
+
+.messageForm {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.messageForm button[type="submit"] {
+  max-width: max-content;
+}

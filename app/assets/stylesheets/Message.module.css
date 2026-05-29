@@ -75,11 +75,16 @@
   transform: scale(1.2);
 }
 
+.deletedMessage {
+  color: #9b0f0f;
+  font-style: italic;
+}
+
 .message {
   max-width: min(1200px, 80%);
   font-size: 0.95rem;
   line-height: 1.25rem;
-  padding: 0.25rem 0 0 0.75rem;
+  padding: 0.5rem 0 0 0.75rem;
   white-space: pre-wrap;
 }
 
@@ -87,12 +92,6 @@
   padding: 0.5rem 0;
   outline: 1px solid #0b3b49;
   border-radius: 4px;
-}
-
-.deletedMessage .message {
-  font-size: 0.8rem;
-  font-weight: bold;
-  font-style: italic;
 }
 
 .message > svg {
@@ -125,7 +124,7 @@
   cursor: pointer;
 }
 
-.messageEditForm textarea {
+.messageInput {
   width: min(1200px, 80%);
   max-width: 95%;
   height: 100px;
@@ -134,7 +133,6 @@
   border-color: #ffffff28;
   border-radius: 0.5rem 0.5rem 0 0.5rem;
   outline-color: inherit;
-  margin: 0.5rem 0;
   padding: 0.5rem;
   scrollbar-width: thin;
 }
