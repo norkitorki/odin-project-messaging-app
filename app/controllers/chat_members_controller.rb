@@ -25,7 +25,8 @@ class ChatMembersController < ApplicationController
 
     if chat
       chat.users.delete(current_user)
-      chat.messages.where(user: current_user).destroy_all
+      chat.messages.joins(:images_blobs).where(user: current_user).distinct.destroy_all
+      chat.messages.where(user: current_user).delete_all
 
       redirect_to chats_path, notice: "You left a chat", status: :see_other
     end
