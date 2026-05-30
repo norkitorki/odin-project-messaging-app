@@ -17,7 +17,7 @@ class ChatMembersController < ApplicationController
       notice = "You created a chat"
     end
 
-    redirect_to chat_path(pub_id: chat.pub_id), notice: notice
+    redirect_to chat_path(pub_id: chat_id), notice: notice
   end
 
   def destroy
