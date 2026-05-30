@@ -20,7 +20,7 @@ class Message < ApplicationRecord
     class_name: "Message",
     primary_key: :pub_id,
     foreign_key: :parent_id,
-    dependent: :destroy,
+    dependent: :destroy_async,
     before_add: :set_chat_id
 
   validate :not_marked_as_deleted

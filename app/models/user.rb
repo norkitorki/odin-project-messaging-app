@@ -11,10 +11,10 @@ class User < ApplicationRecord
   validates :password_confirmation, presence: true
   validate :passwords_match
 
-  has_many :chat_rooms, dependent: :destroy
+  has_many :chat_rooms, dependent: :destroy_async
   has_many :chats, through: :chat_rooms
 
-  has_many :messages, dependent: :destroy
+  has_many :messages, dependent: :destroy_async
 
   has_many :requests,
     class_name: "Request",
