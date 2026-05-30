@@ -24,6 +24,7 @@ class Message < ApplicationRecord
     before_add: :set_chat_id
 
   validate :not_marked_as_deleted
+  validate :user_is_chat_member
   validates :value, presence: true
   validates :images, content_type: IMAGE_CONTENT_TYPES, size: { less_than: 3.megabytes }
 
@@ -47,6 +48,10 @@ class Message < ApplicationRecord
 
   def not_marked_as_deleted
     errors.add(:message, "marked as deleted") if deleted
+  end
+
+  def user_is_chat_member
+    errors.add(:user, "is not a chat member") unless chat.users.include?(user)
   end
 
   def set_chat_id(message)
