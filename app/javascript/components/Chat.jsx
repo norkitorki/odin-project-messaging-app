@@ -35,6 +35,10 @@ export function Chat({ chat }) {
     openImageViewer(imageViewerRef.current, images, Number(index));
   };
 
+  const userIsMember = chat.users.some(
+    (user) => user.pub_id === currentUser.pub_id,
+  );
+
   return (
     <>
       <div className={styles.chatContainer}>
@@ -42,10 +46,8 @@ export function Chat({ chat }) {
         {chat.private && currentUser.pub_id === chat.admin.pub_id && (
           <ChatRequestForm form={chatRequestForm} />
         )}
-        {!chat.private &&
-          !chat.users.find((user) => user.pub_id === currentUser.pub_id) && (
-            <JoinChatForm form={joinChatForm} />
-          )}
+        {!chat.private && userIsMember && <JoinChatForm form={joinChatForm} />}
+        {userIsMember && <LeaveChatForm form={leaveChatForm} />}
         {chat.admin_id === currentUser.pub_id && (
           <DeleteChatForm form={deleteChatForm} />
         )}
@@ -62,8 +64,7 @@ export function Chat({ chat }) {
           ))}
         </ol>
       </div>
-      <AddMessageForm form={addMessageForm} />
-      <LeaveChatForm form={leaveChatForm} />
+      {userIsMember && <AddMessageForm form={addMessageForm} />}
       <ImageViewer ref={imageViewerRef} />
     </>
   );
