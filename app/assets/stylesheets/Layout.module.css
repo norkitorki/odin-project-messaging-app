@@ -1,6 +1,9 @@
+body {
+  background: #1b1818;
+}
+
 .mainContent {
   min-height: 100vh;
   color: #ffffff;
-  background: #1b1818;
   padding: 1.5rem 0 0 calc(50px + 1.5rem);
 }
