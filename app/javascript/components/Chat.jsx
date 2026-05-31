@@ -46,7 +46,7 @@ export function Chat({ chat }) {
         {chat.private && currentUser.pub_id === chat.admin.pub_id && (
           <ChatRequestForm form={chatRequestForm} />
         )}
-        {!chat.private && userIsMember && <JoinChatForm form={joinChatForm} />}
+        {!chat.private && !userIsMember && <JoinChatForm form={joinChatForm} />}
         {userIsMember && <LeaveChatForm form={leaveChatForm} />}
         {chat.admin_id === currentUser.pub_id && (
           <DeleteChatForm form={deleteChatForm} />
