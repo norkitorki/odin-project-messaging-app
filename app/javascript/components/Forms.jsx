@@ -143,7 +143,7 @@ export const FriendRequestForm = ({ form, userId }) => (
   <Form {...form.form} extras={form.extras} data-sg-visit>
     <input {...form.inputs.requestType} />
     <input {...form.inputs.receiver} value={userId} />
-    <SubmitButton {...form.inputs.submit} />
+    <SubmitButton {...form.inputs.submit} className={layoutStyles.buttonInfo} />
   </Form>
 );
 
@@ -204,7 +204,10 @@ export const NewUserForm = ({ form }) => (
 export const RemoveContactForm = ({ form, userId }) => (
   <Form {...form.form} extras={form.extras} data-sg-visit>
     <input {...form.inputs.userId} value={userId} />
-    <SubmitButton {...form.inputs.submit} />
+    <SubmitButton
+      {...form.inputs.submit}
+      className={layoutStyles.buttonDanger}
+    />
   </Form>
 );
 
