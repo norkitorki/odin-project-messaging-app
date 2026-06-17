@@ -8,8 +8,11 @@ class ChatMembersController < ApplicationController
       chat = CoolId.locate(chat_id)
       if chat && !chat.private
         existing_user = chat.users.include?(current_user)
-        chat.users << current_user unless existing_user
-        notice = existing_user ? "You are already a member" : "You joined the chat"
+        if !existing_user
+          chat.users << current_user
+          flash[:success] = "You joined the chat"
+        end
+        notice = "You are already a member"
       end
     else
       users = params[:user_ids]&.map { |id| CoolId.locate(id) }
@@ -17,7 +20,7 @@ class ChatMembersController < ApplicationController
       notice = "You created a chat"
     end
 
-    redirect_to chat_path(pub_id: chat_id), notice: notice
+    redirect_to chat_path(pub_id: chat_id), notice: flash[:success] ? nil : notice
   end
 
   def destroy
@@ -28,7 +31,7 @@ class ChatMembersController < ApplicationController
       chat.messages.joins(:images_blobs).where(user: current_user).distinct.destroy_all
       chat.messages.where(user: current_user).delete_all
 
-      redirect_to chats_path, notice: "You left a chat", status: :see_other
+      redirect_to chats_path, alert: "You left a chat", status: :see_other
     end
   end
 end

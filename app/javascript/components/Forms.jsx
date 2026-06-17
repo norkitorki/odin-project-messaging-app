@@ -1,8 +1,9 @@
 import React from "react";
-import chatStyles from "@stylesheets/Chat.module.css";
-import messageStyles from "@stylesheets/Message.module.css";
+import layoutStyles from "@stylesheets/Layout.module.css";
+import styles from "@stylesheets/Forms.module.css";
 import {
   Checkbox,
+  FileField,
   Form,
   PasswordField,
   SubmitButton,
@@ -15,7 +16,7 @@ const ErrorMessages = ({ errors, property }) => {
   if (!errors || !errors[property]) return null;
 
   return (
-    <div>
+    <div className={styles.formErrors}>
       {errors[property].map((message, index) => (
         <p key={index}>{message}</p>
       ))}
@@ -34,21 +35,25 @@ export const AddMessageForm = ({ form, messageValue, parentId = null }) => (
   <Form
     {...form.form}
     extras={form.extras}
-    className={chatStyles.messageForm}
+    className={styles.messageForm}
     data-sg-visit
   >
     <input {...form.inputs.chatId} />
     {parentId && <input {...form.inputs.parentId} value={parentId} />}
     <TextArea
-      {...form.inputs.message}
-      className={messageStyles.messageInput}
+      {...form.inputs.value}
+      className={styles.messageInput}
       value={messageValue}
+      label="Add Message"
+      required
     />
-    <label>
-      <p>Images</p>
-      <input type="file" {...form.inputs.images} />
-    </label>
-    <SubmitButton {...form.inputs.submit} />
+    <FileField
+      {...form.inputs.images}
+      className={styles.imageSelector}
+      label="Images"
+    />
+
+    <SubmitButton {...form.inputs.submit} className={layoutStyles.buttonInfo} />
   </Form>
 );
 
@@ -69,18 +74,13 @@ export const DeleteChatForm = ({ form }) => (
 );
 
 export const DeleteMessageForm = ({ form, messageId }) => (
-  <Form
-    {...form.form}
-    extras={form.extras}
-    className={messageStyles.messageDeleteForm}
-    data-sg-visit
-  >
+  <Form {...form.form} extras={form.extras} data-sg-visit>
     <input {...form.inputs.messageId} value={messageId} />
-    <input type="hidden" name="destroy" value="true" />
+    <input {...form.inputs.destroy} />
     <button
       type="submit"
       title="delete message"
-      className={messageStyles.messageDeleteButton}
+      className={styles.messageDeleteButton}
     >
       <Delete />
     </button>
@@ -89,7 +89,10 @@ export const DeleteMessageForm = ({ form, messageId }) => (
 
 export const DeleteUserForm = ({ form }) => (
   <Form {...form.form} extras={form.extras} data-sg-visit>
-    <SubmitButton {...form.inputs.submit} />
+    <SubmitButton
+      {...form.inputs.submit}
+      className={styles.headerUserActions}
+    />
   </Form>
 );
 
@@ -107,13 +110,13 @@ export const EditMessageForm = ({
         {...form.form}
         extras={form.extras}
         onSubmit={cancelForm}
-        className={messageStyles.messageEditForm}
+        className={styles.messageEditForm}
         data-sg-visit
       >
         <input {...form.inputs.messageId} value={message.pub_id} />
         <textarea
-          {...form.inputs.message}
-          className={messageStyles.messageInput}
+          {...form.inputs.value}
+          className={styles.messageInput}
           defaultValue={message.value}
         />
         {imagePreviews?.length > 0 && (
@@ -127,7 +130,10 @@ export const EditMessageForm = ({
             ))}
           </fieldset>
         )}
-        <SubmitButton {...form.inputs.submit} />
+        <SubmitButton
+          {...form.inputs.submit}
+          className={layoutStyles.buttonInfo}
+        />
       </Form>
     </>
   );
@@ -144,37 +150,54 @@ export const FriendRequestForm = ({ form, userId }) => (
 export const JoinChatForm = ({ form }) => (
   <Form {...form.form} extras={form.extras} data-sg-visit>
     <input {...form.inputs.chatId} />
-    <SubmitButton {...form.inputs.submit} />
+    <SubmitButton {...form.inputs.submit} className={layoutStyles.buttonInfo} />
   </Form>
 );
 
 export const LeaveChatForm = ({ form }) => (
   <Form {...form.form} extras={form.extras} data-sg-visit>
     <input {...form.inputs.chatId} />
-    <SubmitButton {...form.inputs.submit} />
+    <SubmitButton
+      {...form.inputs.submit}
+      className={layoutStyles.buttonDanger}
+    />
   </Form>
 );
 
 export const NewChatForm = ({ form }) => (
-  <Form {...form.form} extras={form.extras} data-sg-visit>
+  <Form
+    {...form.form}
+    extras={form.extras}
+    className={styles.newChatForm}
+    data-sg-visit
+  >
     <TextField {...form.inputs.name} label="Name" />
-    <Checkbox {...form.inputs.private} label={"Private Chat?"} />
-    <SubmitButton {...form.inputs.submit} />
+    <ErrorMessages errors={form.errors} property={"name"} />
+    <label>
+      Private Chat?
+      <Checkbox {...form.inputs.private} />
+    </label>
+    <SubmitButton {...form.inputs.submit} className={layoutStyles.buttonInfo} />
   </Form>
 );
 
 export const NewUserForm = ({ form }) => (
-  <Form {...form.form} extras={form.extras} data-sg-visit>
-    <TextField {...form.inputs.username} label={<p>Username</p>} />
+  <Form
+    {...form.form}
+    extras={form.extras}
+    className={styles.newUserForm}
+    data-sg-visit
+  >
+    <TextField {...form.inputs.username} label="Username" />
     <ErrorMessages errors={form.errors} property={"username"} />
-    <PasswordField {...form.inputs.password} label={<p>Password</p>} />
+    <PasswordField {...form.inputs.password} label="Password" />
     <ErrorMessages errors={form.errors} property={"password"} />
     <PasswordField
       {...form.inputs.passwordConfirmation}
-      label={<p>Password Confirmation</p>}
+      label="Password Confirmation"
     />
     <ErrorMessages errors={form.errors} property={"password_confirmation"} />
-    <SubmitButton {...form.inputs.submit} />
+    <SubmitButton {...form.inputs.submit} className={layoutStyles.buttonInfo} />
   </Form>
 );
 
@@ -196,20 +219,22 @@ export const RequestResponseForm = ({ form, accept = false }) => (
 
 export const SignOutForm = ({ form }) => (
   <Form {...form.form} extras={form.extras} data-sg-visit>
-    <SubmitButton {...form.inputs.submit} />
+    <SubmitButton
+      {...form.inputs.submit}
+      className={styles.headerUserActions}
+    />
   </Form>
 );
 
 export const SignInForm = ({ form }) => (
-  <Form {...form.form} extras={form.extras} data-sg-visit>
-    <div className="field">
-      <TextField {...form.inputs.username} label={<p>Username</p>} />
-    </div>
-    <div className="field">
-      <PasswordField {...form.inputs.password} label={<p>Password</p>} />
-    </div>
-    <div className="actions">
-      <SubmitButton {...form.inputs.submit} />
-    </div>
+  <Form
+    {...form.form}
+    extras={form.extras}
+    className={styles.signInForm}
+    data-sg-visit
+  >
+    <TextField {...form.inputs.username} label="Username" />
+    <PasswordField {...form.inputs.password} label="Password" />
+    <SubmitButton {...form.inputs.submit} className={layoutStyles.buttonInfo} />
   </Form>
 );

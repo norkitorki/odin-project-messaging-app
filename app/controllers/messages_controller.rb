@@ -2,15 +2,13 @@ class MessagesController < ApplicationController
   before_action :authenticate_user!
 
   def create
-    chat = current_user.chats.find_by(pub_id: message_params[:chat_id])
+    chat = current_user.chats.find_by(pub_id: params[:chat_id])
 
     if chat
-      message = message_params[:message]
-      parent_id = message_params[:parent_id]
-      if chat && !message&.empty?
-        new_message = chat.messages.create!(value: message, user_id: current_user.id, parent_id: parent_id)
-        new_message.images.attach(params[:images])
-        return redirect_to chat_path(pub_id: chat.pub_id, message: new_message.pub_id, parent: parent_id)
+      message = current_user.messages.new(message_params.merge({ chat_id: chat.id }))
+      if message.save
+        message.images.attach(params[:images])
+        return redirect_to chat_path(pub_id: chat.pub_id, message: message.pub_id, parent: message.parent_id)
       end
     end
 
@@ -20,8 +18,8 @@ class MessagesController < ApplicationController
   def update
     return mark_as_deleted if params[:destroy]
 
-    message = current_user.messages.find_by(pub_id: message_params[:message_id])
-    message&.value = message_params[:message]
+    message = current_user.messages.find_by(pub_id: params[:message_id])
+    message&.value = message_params[:value]
     message_params[:images]&.each { |key| message.images.find { |img| img.key == key }.purge_later }
     notice = "Message #{message&.save ? '' : 'not'} updated"
 
@@ -31,11 +29,11 @@ class MessagesController < ApplicationController
   private
 
   def message_params
-    params.permit(:chat_id, :message, :message_id, :parent_id, images: [])
+    params.require(:message).permit(:value, :parent_id, images: [])
   end
 
   def mark_as_deleted
-    message = Message.find_by(pub_id: message_params[:message_id])
+    message = Message.find_by(pub_id: params[:message_id])
     auth_user = message&.chat.admin == current_user && "Admin" ||
                 message&.user == current_user && "User"
 

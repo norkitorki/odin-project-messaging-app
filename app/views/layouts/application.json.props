@@ -16,7 +16,7 @@ json.data(dig: path) do
     end
 
     json.deleteUserForm do
-      form_props(url: user_registration_path, method: :delete) do |f|
+      form_props(url: destroy_user_path, method: :delete) do |f|
         f.submit "Delete User"
       end
     end

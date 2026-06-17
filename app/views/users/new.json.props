@@ -1,5 +1,5 @@
 json.newUserForm do
-  form_props(model: @user, url: user_registration_path) do |f|
+  form_props(model: @user, url: new_user_registration_path) do |f|
     f.text_field :username
     f.password_field :password, autocomplete: :new_password
     f.password_field :passwordConfirmation, name: "user[password_confirmation]", autocomplete: :new_password_confirmation

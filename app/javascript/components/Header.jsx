@@ -28,8 +28,8 @@ export default function Header() {
               <a href="/requests" data-sg-visit>
                 Requests
               </a>
-              <div>
-                <p>Signed in as {currentUser.username} </p>
+              <div className={styles.userDetails}>
+                <p>Welcome back {currentUser.username}</p>
                 <SignOutForm form={signOutForm} />
                 <DeleteUserForm form={deleteUserForm} />
               </div>

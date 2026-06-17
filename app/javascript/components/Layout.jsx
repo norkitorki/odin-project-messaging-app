@@ -10,9 +10,13 @@ export const Layout = ({ children }) => {
     <div>
       <Header />
       <main className={styles.mainContent}>
-        {flash.success && <p>{flash.success}</p>}
-        {flash.notice && <p>{flash.notice}</p>}
-        {flash.alert && <p>{flash.alert}</p>}
+        <div className={styles.flash}>
+          {flash.success && (
+            <p className={styles.flashSuccess}>{flash.success}</p>
+          )}
+          {flash.notice && <p className={styles.flashNotice}>{flash.notice}</p>}
+          {flash.alert && <p className={styles.flashAlert}>{flash.alert}</p>}
+        </div>
         {children}
       </main>
     </div>

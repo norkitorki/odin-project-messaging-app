@@ -1,0 +1,96 @@
+.headerUserActions {
+  composes: buttonDanger from "./Layout.module.css";
+  font-size: 0.75rem;
+}
+
+.formErrors p {
+  max-width: max-content;
+  font-size: 0.8rem;
+  font-weight: bold;
+  padding: 0.5rem;
+  border: 2px solid #770c0c;
+  border-radius: 8px;
+}
+
+.newChatForm,
+.newUserForm,
+.signInForm {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem 1rem 1rem 0;
+}
+
+.newChatForm label,
+.newUserForm label,
+.signInForm label {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.newChatForm input[type="text"],
+.newUserForm input,
+.signInForm input {
+  max-width: min(400px, 80%);
+  color: #ffffff;
+  background: transparent;
+  outline: 1px solid inherit;
+  border-color: #ffffff28;
+  border-radius: 6px;
+  padding: 0.5rem;
+}
+
+.newChatForm input[type="text"]:invalid,
+.newUserForm input:invalid,
+.signInForm input:invalid {
+  outline-color: #971111;
+}
+
+.messageDeleteButton {
+  width: 22px;
+  height: 22px;
+  background: transparent;
+  border: none;
+  padding: 0;
+  fill: #fc0404;
+  transition: transform 0.3s ease;
+}
+
+.messageDeleteButton:hover,
+.messageDeleteButton:focus {
+  transform: scale(1.2);
+}
+
+.messageForm {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding-bottom: 1rem;
+}
+
+.messageForm label {
+  max-width: max-content;
+  font-weight: bold;
+}
+
+.messageInput {
+  width: min(1200px, 80%);
+  max-width: 95%;
+  height: 100px;
+  color: #ffffff;
+  background: transparent;
+  border-color: #ffffff28;
+  border-radius: 0.5rem 0.5rem 0 0.5rem;
+  outline-color: inherit;
+  padding: 0.5rem;
+  scrollbar-width: thin;
+}
+
+.imageSelector,
+.addMessageButton {
+  max-width: max-content;
+}
+
+.messageEditForm button[type="submit"] {
+  display: block;
+}

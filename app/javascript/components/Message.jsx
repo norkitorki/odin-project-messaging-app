@@ -64,7 +64,13 @@ export default function Message({ message, chat, replies, openImageInViewer }) {
           <div className={styles.authorImage}>
             {message.user.image || <AccountCircle />}
           </div>
-          <span className={styles.authorBadge}>{message.user.username}</span>
+          <a
+            className={styles.authorBadge}
+            href={`/users/${message.user.pub_id}`}
+            data-sg-visit
+          >
+            {message.user.username}
+          </a>
           {chat.admin.pub_id === message.user.pub_id && (
             <span className={styles.adminBadge}>Admin</span>
           )}
@@ -98,8 +104,8 @@ export default function Message({ message, chat, replies, openImageInViewer }) {
           )}
           {!messageDeleted && !isSubMessage && (
             <button
-              title="reply to message"
-              className={styles.messageReplyButton}
+              title={replying ? "close reply form" : "reply to message"}
+              className={`${styles.messageReplyButton} ${replying ? styles.replying : ""}`}
               onClick={replyToMessage}
             >
               <Reply />

@@ -8,7 +8,7 @@ export default function ChatsNew() {
 
   return (
     <Layout>
-      <h2>New Chat</h2>
+      <h2>Create Chat</h2>
       <NewChatForm form={newChatForm} />
     </Layout>
   );

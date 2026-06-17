@@ -1,23 +1,34 @@
 import React from "react";
+import styles from "@stylesheets/Chat.module.css";
 import { useContent } from "@thoughtbot/superglue";
 import { Layout } from "@javascript/components";
+import { Lock } from "@javascript/components/Icons";
 
 export default function ChatsIndex() {
   const { chats } = useContent();
 
   return (
     <Layout>
-      <a href="/chats/new" data-sg-visit>
+      <a href="/chats/new" className={styles.createChatLink} data-sg-visit>
         Create Chat
       </a>
-      <ul>
+      <ul className={styles.chatList}>
         {chats.map((chat) => (
           <li key={chat.pub_id}>
-            {chat.name && <p>{chat.name}</p>}
-            <p>Users: {chat.users.map((user) => user.username).join(", ")}</p>
-            <p>Private: {chat.private ? "true" : "false"}</p>
-            <a href={`/chats/${chat.pub_id}`} data-sg-visit>
-              Show
+            <h2>
+              {chat.name}{" "}
+              <span className={styles.userCountBadge}>
+                {chat.users.length} Users
+              </span>{" "}
+              {chat.private && <Lock />}
+            </h2>
+            <a
+              href={`/chats/${chat.pub_id}`}
+              className={styles.enterChatLink}
+              title={`Ènter${chat.private ? " private" : ""} chat`}
+              data-sg-visit
+            >
+              Enter
             </a>
           </li>
         ))}

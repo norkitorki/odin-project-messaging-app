@@ -3,8 +3,7 @@ if !user_signed_in?
     form_props(model: User, url: user_session_path, method: :post) do |f|
       f.text_field :username, autofocus: true, autocomplete: "username"
       f.password_field :password, autocomplete: "current-password"
-      f.check_box :remember_me
-      f.submit "Log in"
+      f.submit "Sign in"
     end
   end
 end
