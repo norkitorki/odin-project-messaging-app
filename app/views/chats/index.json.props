@@ -1,1 +1,1 @@
-json.chats Chat.includes(:users)
+json.chats Chat.includes(:admin, :users)
