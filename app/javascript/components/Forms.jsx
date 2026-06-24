@@ -53,7 +53,7 @@ export const AddMessageForm = ({ form, messageValue, parentId = null }) => (
       label="Images"
     />
 
-    <SubmitButton {...form.inputs.submit} className={layoutStyles.buttonInfo} />
+    <SubmitButton {...form.inputs.submit} className={styles.buttonSubmit} />
   </Form>
 );
 
@@ -62,7 +62,7 @@ export const ChatRequestForm = ({ form }) => (
     <input {...form.inputs.chatId} />
     <input {...form.inputs.requestType} />
     <TextField {...form.inputs.receiver} label="Username" />
-    <SubmitButton {...form.inputs.submit} />
+    <SubmitButton {...form.inputs.submit} className={styles.buttonSubmit} />
   </Form>
 );
 
@@ -130,10 +130,7 @@ export const EditMessageForm = ({
             ))}
           </fieldset>
         )}
-        <SubmitButton
-          {...form.inputs.submit}
-          className={layoutStyles.buttonInfo}
-        />
+        <SubmitButton {...form.inputs.submit} className={styles.buttonSubmit} />
       </Form>
     </>
   );
@@ -177,7 +174,7 @@ export const NewChatForm = ({ form }) => (
       Private Chat?
       <Checkbox {...form.inputs.private} />
     </label>
-    <SubmitButton {...form.inputs.submit} className={layoutStyles.buttonInfo} />
+    <SubmitButton {...form.inputs.submit} className={styles.buttonSubmit} />
   </Form>
 );
 
@@ -197,7 +194,7 @@ export const NewUserForm = ({ form }) => (
       label="Password Confirmation"
     />
     <ErrorMessages errors={form.errors} property={"password_confirmation"} />
-    <SubmitButton {...form.inputs.submit} className={layoutStyles.buttonInfo} />
+    <SubmitButton {...form.inputs.submit} className={styles.buttonSubmit} />
   </Form>
 );
 
@@ -238,6 +235,6 @@ export const SignInForm = ({ form }) => (
   >
     <TextField {...form.inputs.username} label="Username" />
     <PasswordField {...form.inputs.password} label="Password" />
-    <SubmitButton {...form.inputs.submit} className={layoutStyles.buttonInfo} />
+    <SubmitButton {...form.inputs.submit} className={styles.buttonSubmit} />
   </Form>
 );
