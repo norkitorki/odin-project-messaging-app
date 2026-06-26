@@ -1,1 +1,1 @@
-json.requests current_user.requests
+json.requests current_user.requests.order(created_at: :desc)

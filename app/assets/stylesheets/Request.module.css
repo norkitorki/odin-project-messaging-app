@@ -1,0 +1,65 @@
+.requestContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 0 1rem 1rem 0;
+}
+
+.request {
+  composes: button from "./Layout.module.css";
+  outline: 1px solid #098686;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #079b93;
+  text-decoration: none;
+  padding: 1rem;
+  transition: all 0.2s ease;
+}
+
+.request:focus,
+.request:hover {
+  background: #09868633;
+}
+
+.created {
+  color: #ffffff;
+  font-size: 0.7rem;
+  vertical-align: middle;
+  padding-right: 0.5rem;
+}
+
+.requestType {
+  color: #08a31c;
+}
+
+.formContainer {
+  padding: 1rem 1rem 1rem 0;
+}
+
+.formContainer form {
+  display: inline-block;
+  margin-right: 0.75rem;
+}
+
+.requestDescription {
+  max-width: max-content;
+  background: #071e25;
+  font-size: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 4px;
+}
+
+.initiator {
+  color: #08a31c;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.initiator:focus,
+.initiator:hover {
+  text-decoration: underline;
+}

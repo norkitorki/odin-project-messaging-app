@@ -213,7 +213,12 @@ export const RequestResponseForm = ({ form, accept = false }) => (
     <input {...form.inputs.request} />
     <input {...form.inputs.requestType} />
     {accept && <input {...form.inputs.accept} />}
-    <button type="submit">{accept ? "Accept" : "Decline"}</button>
+    <button
+      type="submit"
+      className={accept ? styles.buttonSubmit : layoutStyles.buttonDanger}
+    >
+      {accept ? "Accept" : "Decline"}
+    </button>
   </Form>
 );
 
