@@ -71,36 +71,30 @@
 }
 
 .message {
+  background: #071e25;
+  width: max-content;
   max-width: min(1200px, 80%);
   font-size: 0.95rem;
   line-height: 1.25rem;
-  padding: 0.5rem 0 0 0.75rem;
+  margin: 0.5rem 0;
+  padding: 1rem;
   white-space: pre-wrap;
+  border: 1px solid #ffffff3d;
+  border-radius: 6px;
+}
+
+.replies .message {
+  padding: 0.5rem;
+  border: none;
 }
 
 .message form {
   margin-top: 1rem;
 }
 
-.queriedMessage {
-  padding: 0.5rem 0;
-  outline: 1px solid #0b3b49;
-  border-radius: 4px;
-}
-
-.message > svg {
-  display: inline-block;
-  vertical-align: top;
-  min-width: 16px;
-  height: 16px;
-  fill: #ffffff;
-  padding-right: 0.25rem;
-  align-self: flex-start;
-}
-
-.message > p {
-  max-width: 95%;
-  display: inline-block;
+.queriedMessage > .message {
+  border: 1px solid #21c4e0;
+  border-radius: 6px;
 }
 
 .replies {

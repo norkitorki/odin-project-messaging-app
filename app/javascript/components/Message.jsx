@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "@stylesheets/Message.module.css";
 import { useContent } from "@thoughtbot/superglue";
-import { ArrowRightBottom, AccountCircle, Edit, Link, Reply } from "./Icons";
+import { AccountCircle, Edit, Link, Reply } from "./Icons";
 import {
   AddMessageForm,
   DeleteMessageForm,
@@ -132,28 +132,23 @@ export default function Message({ message, chat, replies, openImageInViewer }) {
       ) : (
         !messageDeleted && (
           <div className={styles.message}>
-            <ArrowRightBottom />
-            <p>
-              {message.value}
-              {chat.images[message.pub_id] && (
-                <span
-                  onClick={openImageInViewer}
-                  data-message-id={message.pub_id}
-                  className={styles.messageImages}
-                >
-                  {chat.images[message.pub_id].previews.map(
-                    (preview, index) => (
-                      <img
-                        key={index}
-                        src={preview.url}
-                        alt={preview.filename}
-                        data-image-index={index}
-                      />
-                    ),
-                  )}
-                </span>
-              )}
-            </p>
+            {message.value}
+            {chat.images[message.pub_id] && (
+              <div
+                onClick={openImageInViewer}
+                data-message-id={message.pub_id}
+                className={styles.messageImages}
+              >
+                {chat.images[message.pub_id].previews.map((preview, index) => (
+                  <img
+                    key={index}
+                    src={preview.url}
+                    alt={preview.filename}
+                    data-image-index={index}
+                  />
+                ))}
+              </div>
+            )}
             {!isSubMessage && replying && (
               <AddMessageForm form={addMessageForm} parentId={message.pub_id} />
             )}
