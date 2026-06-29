@@ -10,7 +10,7 @@ import {
   TextArea,
   TextField,
 } from "@javascript/components";
-import { Delete } from "./Icons";
+import { Delete, Logout } from "./Icons";
 
 const ErrorMessages = ({ errors, property }) => {
   if (!errors || !errors[property]) return null;
@@ -224,10 +224,9 @@ export const RequestResponseForm = ({ form, accept = false }) => (
 
 export const SignOutForm = ({ form }) => (
   <Form {...form.form} extras={form.extras} data-sg-visit>
-    <SubmitButton
-      {...form.inputs.submit}
-      className={styles.headerUserActions}
-    />
+    <button type="submit" className={styles.signOutButton}>
+      <Logout />
+    </button>
   </Form>
 );
 

@@ -12,6 +12,16 @@
   border-radius: 8px;
 }
 
+.signOutButton {
+  background: transparent;
+  border: none;
+}
+
+.signOutButton svg {
+  width: 24px;
+  fill: #ac0a0a;
+}
+
 .newChatForm,
 .newUserForm,
 .signInForm {
