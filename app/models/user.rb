@@ -1,6 +1,4 @@
 class User < ApplicationRecord
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable, :rememberable
 
   include CoolId::Model
@@ -45,13 +43,13 @@ class User < ApplicationRecord
   end
 
   def as_json
-    super.except("id", "created_at", "updated_at")
+    super.except("id", "created_at")
   end
 
   private
 
   def passwords_match
-    errors.add(:password_confirmation, "does not match password") if password != password_confirmation
+    errors.add(:password_confirmation, "doesn't match password") if password != password_confirmation
   end
 
   def create_opposite_contact(user)
