@@ -10,5 +10,9 @@ class UsersController < ApplicationController
   end
 
   def show
+    @user = User.find_by(pub_id: params[:pub_id])
+  end
+
+  def edit
   end
 end

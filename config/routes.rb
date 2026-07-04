@@ -4,6 +4,10 @@ Rails.application.routes.draw do
     sessions: "users/sessions"
   }
 
+  devise_scope :user do
+    put "update", to: "users/registrations#update", as: :update_user
+  end
+
   as :user do
     get "/signin", to: "users/sessions#new", as: :new_user_session
     get "/signup", to: "users#new", as: :user_registration
@@ -22,6 +26,7 @@ Rails.application.routes.draw do
   get "/requests/:pub_id", to: "requests#show", as: :request
   get "/users", to: "users#index", as: :users
   get "/users/:pub_id", to: "users#show", as: :user
+  get "/user/settings", to: "users#edit", as: :edit_user
   get "/sign_up", to: "users#new", as: :new_user
 
   post "/chat/join", to: "chat_members#create", as: :join_chat

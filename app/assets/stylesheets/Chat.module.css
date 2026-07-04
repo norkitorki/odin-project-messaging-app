@@ -29,6 +29,10 @@
   margin: 0 2rem 1rem 0;
 }
 
+.chatContainer > * {
+  margin-bottom: 0.5rem;
+}
+
 .pagination {
   font-size: 1.2rem;
 }
@@ -51,8 +55,15 @@
   padding-bottom: 0.75rem;
 }
 
-.createChatLink {
+.createChatLink,
+.inviteFormToggle {
   composes: buttonInfo from "./Layout.module.css";
+  display: block;
+}
+
+.closeFormButton {
+  composes: buttonDanger from "./Layout.module.css";
+  display: block;
 }
 
 .enterChatLink {

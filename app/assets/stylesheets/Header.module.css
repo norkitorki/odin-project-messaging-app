@@ -17,6 +17,11 @@
   gap: 0.5rem;
 }
 
+.userDetails a {
+  width: 24px;
+  fill: #ffffff;
+}
+
 .sideBar {
   width: 50px;
   height: 100vh;

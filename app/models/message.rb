@@ -9,7 +9,7 @@ class Message < ApplicationRecord
   scope :top, -> { where(parent_id: nil) }
 
   belongs_to :chat
-  belongs_to :user
+  belongs_to :user, touch: true
 
   has_many_attached :images do |attachable|
     attachable.variant :preview, resize_to_limit: [ 75, 75 ]

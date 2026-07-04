@@ -1,6 +1,5 @@
-.headerUserActions {
-  composes: buttonDanger from "./Layout.module.css";
-  font-size: 0.75rem;
+.formErrors {
+  margin: 0.5rem 0;
 }
 
 .formErrors p {
@@ -15,6 +14,7 @@
 .signOutButton {
   background: transparent;
   border: none;
+  cursor: pointer;
 }
 
 .signOutButton svg {
@@ -22,25 +22,42 @@
   fill: #ac0a0a;
 }
 
+.deleteUserButton {
+  composes: buttonDanger from "./Layout.module.css";
+  font-size: 1.5rem;
+  padding: 1.5rem !important;
+}
+
 .newChatForm,
 .newUserForm,
-.signInForm {
+.signInForm,
+.chatRequestForm,
+.editPasswordForm {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   padding: 1rem 1rem 1rem 0;
 }
 
+.chatRequestForm {
+  padding-top: 0;
+}
+
 .newChatForm label,
 .newUserForm label,
-.signInForm label {
-  font-size: 1.25rem;
+.signInForm label,
+.chatRequestForm label,
+.editPasswordForm label {
+  font-size: 1.1rem;
   font-weight: bold;
+  display: block;
 }
 
 .newChatForm input[type="text"],
 .newUserForm input,
-.signInForm input {
+.signInForm input,
+.chatRequestForm input,
+.editPasswordForm input {
   max-width: min(400px, 80%);
   color: #ffffff;
   background: transparent;

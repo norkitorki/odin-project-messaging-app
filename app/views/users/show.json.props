@@ -1,4 +1,10 @@
-json.user CoolId.locate(params[:pub_id])
+json.user @user
+
+json.chatCount @user.chats.where(private: false).count
+
+json.messageCount @user.messages.count
+
+json.userIsContact current_user.contacts.include?(@user)
 
 json.friendRequestForm do
   form_props(url: add_request_path, method: :post) do |f|

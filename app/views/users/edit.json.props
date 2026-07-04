@@ -1,0 +1,15 @@
+json.editPasswordForm do
+  form_props(model: current_user, url: update_user_path, method: :put) do |f|
+    f.password_field :password, autofocus: true
+    f.password_field :password_confirmation
+    f.password_field :current_password
+    f.submit "Update Password"
+  end
+  json.errors @errors
+end
+
+json.deleteUserForm do
+  form_props(url: destroy_user_path, method: :delete) do |f|
+    f.submit "Delete User"
+  end
+end

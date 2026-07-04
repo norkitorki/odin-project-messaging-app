@@ -58,10 +58,15 @@ export const AddMessageForm = ({ form, messageValue, parentId = null }) => (
 );
 
 export const ChatRequestForm = ({ form }) => (
-  <Form {...form.form} extras={form.extras} data-sg-visit>
+  <Form
+    {...form.form}
+    extras={form.extras}
+    className={styles.chatRequestForm}
+    data-sg-visit
+  >
     <input {...form.inputs.chatId} />
     <input {...form.inputs.requestType} />
-    <TextField {...form.inputs.receiver} label="Username" />
+    <TextField {...form.inputs.receiver} label="Username" required />
     <SubmitButton {...form.inputs.submit} className={styles.buttonSubmit} />
   </Form>
 );
@@ -87,14 +92,21 @@ export const DeleteMessageForm = ({ form, messageId }) => (
   </Form>
 );
 
-export const DeleteUserForm = ({ form }) => (
-  <Form {...form.form} extras={form.extras} data-sg-visit>
-    <SubmitButton
-      {...form.inputs.submit}
-      className={styles.headerUserActions}
-    />
-  </Form>
-);
+export const DeleteUserForm = ({ form }) => {
+  const onSubmit = (event) =>
+    !confirm(
+      "Performing this action will delete your user account. Are you sure?",
+    ) && event.preventDefault();
+
+  return (
+    <Form {...form.form} extras={form.extras} onSubmit={onSubmit}>
+      <SubmitButton
+        {...form.inputs.submit}
+        className={styles.deleteUserButton}
+      />
+    </Form>
+  );
+};
 
 export const EditMessageForm = ({
   form,
@@ -135,6 +147,35 @@ export const EditMessageForm = ({
     </>
   );
 };
+
+export const EditPasswordForm = ({ form }) => (
+  <Form
+    {...form.form}
+    extras={form.extras}
+    className={styles.editPasswordForm}
+    data-sg-visit
+  >
+    <div>
+      <PasswordField {...form.inputs.password} label="New Password" />
+      <ErrorMessages errors={form.errors} property={"password"} />
+    </div>
+    <div>
+      <PasswordField
+        {...form.inputs.passwordConfirmation}
+        label="Password Confirmation"
+      />
+      <ErrorMessages errors={form.errors} property={"password_confirmation"} />
+    </div>
+    <div>
+      <PasswordField
+        {...form.inputs.currentPassword}
+        label="Current Password"
+      />
+      <ErrorMessages errors={form.errors} property={"current_password"} />
+    </div>
+    <SubmitButton {...form.inputs.submit} className={layoutStyles.buttonInfo} />
+  </Form>
+);
 
 export const FriendRequestForm = ({ form, userId }) => (
   <Form {...form.form} extras={form.extras} data-sg-visit>

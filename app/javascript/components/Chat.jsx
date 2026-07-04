@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import styles from "@stylesheets/Chat.module.css";
 import { useContent } from "@thoughtbot/superglue";
 import ImageViewer, { openImageViewer } from "./ImageViewer";
@@ -25,6 +25,9 @@ export function Chat({ chat }) {
     pages,
   } = useContent();
   const imageViewerRef = useRef();
+  const [invitingUser, setInvitingUser] = useState(false);
+
+  const toggleInviteForm = () => setInvitingUser(!invitingUser);
 
   const openImageInViewer = (event) => {
     const index = event.target.dataset.imageIndex;
@@ -44,7 +47,17 @@ export function Chat({ chat }) {
       <div className={styles.chatContainer}>
         {pages.count > 1 && <Pagination pages={pages} />}
         {chat.private && currentUser.pub_id === chat.admin.pub_id && (
-          <ChatRequestForm form={chatRequestForm} />
+          <>
+            <button
+              onClick={toggleInviteForm}
+              className={
+                invitingUser ? styles.closeFormButton : styles.inviteFormToggle
+              }
+            >
+              {invitingUser ? "Close Form" : "Invite User"}
+            </button>
+            {invitingUser && <ChatRequestForm form={chatRequestForm} />}
+          </>
         )}
         {!chat.private && !userIsMember && <JoinChatForm form={joinChatForm} />}
         {userIsMember && <LeaveChatForm form={leaveChatForm} />}

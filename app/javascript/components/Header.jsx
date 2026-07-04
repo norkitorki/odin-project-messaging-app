@@ -2,7 +2,8 @@ import React from "react";
 import styles from "@stylesheets/Header.module.css";
 import { useContent } from "@thoughtbot/superglue";
 import { AccountCircle } from "@components/Icons";
-import { DeleteUserForm, SignOutForm } from "@javascript/components/Forms";
+import { SignOutForm } from "@javascript/components/Forms";
+import { Cog } from "./Icons";
 
 export default function Header() {
   const { currentUser, signOutForm, deleteUserForm } = useContent();
@@ -30,8 +31,10 @@ export default function Header() {
               </a>
               <div className={styles.userDetails}>
                 <p>Welcome back {currentUser.username}</p>
+                <a href="/user/settings" data-sg-visit>
+                  <Cog />
+                </a>
                 <SignOutForm form={signOutForm} />
-                <DeleteUserForm form={deleteUserForm} />
               </div>
             </>
           ) : (
