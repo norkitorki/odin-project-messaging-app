@@ -57,10 +57,12 @@ export function Chat({ chat }) {
           </>
         )}
         {!chat.private && !userIsMember && <JoinChatForm form={joinChatForm} />}
-        {userIsMember && <LeaveChatForm form={leaveChatForm} />}
-        {chat.admin_id === currentUser.pub_id && (
-          <DeleteChatForm form={deleteChatForm} />
-        )}
+        {userIsMember &&
+          (chat.admin.pub_id === currentUser.pub_id ? (
+            <DeleteChatForm form={deleteChatForm} />
+          ) : (
+            <LeaveChatForm form={leaveChatForm} />
+          ))}
         <ol className={styles.messages}>
           {messages.map((message) => (
             <li key={message.pub_id}>

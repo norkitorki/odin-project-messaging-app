@@ -49,7 +49,7 @@ class ChatsController < ApplicationController
     chat = CoolId.locate(params[:chat_id])
     chat.destroy if chat
 
-    redirect_back_or_to chats_path
+    redirect_to chats_path, alert: "Chat deleted"
   end
 
   private
