@@ -15,6 +15,7 @@ import Pagination from "./Pagination";
 export function Chat({ chat }) {
   const {
     currentUser,
+    userIsMember,
     messages,
     messageReplies,
     chatRequestForm,
@@ -37,10 +38,6 @@ export function Chat({ chat }) {
     const images = chat.images[messageId].full;
     openImageViewer(imageViewerRef.current, images, Number(index));
   };
-
-  const userIsMember = chat.users.some(
-    (user) => user.pub_id === currentUser.pub_id,
-  );
 
   return (
     <>

@@ -1,5 +1,7 @@
 json.chat @chat
 
+json.userIsMember @user_is_member
+
 json.messageQuery params[:m]
 json.parentQuery params[:p]
 
