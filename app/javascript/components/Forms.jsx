@@ -74,7 +74,10 @@ export const ChatRequestForm = ({ form }) => (
 export const DeleteChatForm = ({ form }) => (
   <Form {...form.form} extras={form.extras} data-sg-visit>
     <input {...form.inputs.chatId} />
-    <SubmitButton {...form.inputs.submit} />
+    <SubmitButton
+      {...form.inputs.submit}
+      className={layoutStyles.buttonDanger}
+    />
   </Form>
 );
 
