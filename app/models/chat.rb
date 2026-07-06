@@ -5,11 +5,7 @@ class Chat < ApplicationRecord
   validates :name, presence: true, uniqueness: true
 
   has_many :chat_rooms, dependent: :destroy_async
-  has_many :users,
-    through: :chat_rooms,
-    before_add: :skip_existing_user,
-    after_remove: Proc.new { |chat| chat.destroy if chat.users.count < 1 }
-
+  has_many :users, through: :chat_rooms, before_add: :skip_existing_user, before_remove: :prevent_admin_removal
   has_many :messages, dependent: :destroy_async
 
   belongs_to :admin, class_name: "User"
@@ -44,6 +40,10 @@ class Chat < ApplicationRecord
 
   def skip_existing_user(user)
     throw(:abort) if users.include?(user)
+  end
+
+  def prevent_admin_removal(user)
+    throw(:abort) if admin == user
   end
 
   def delete_associated_requests
