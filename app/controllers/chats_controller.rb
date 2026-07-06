@@ -12,10 +12,7 @@ class ChatsController < ApplicationController
   def show
     chat = Chat.find_by(pub_id: params[:pub_id])
     @user_is_member = chat.admin == current_user || chat.users.include?(current_user)
-    if chat.private && !@user_is_member
-      flash[:alert] = "You are unauthorized to view this chat"
-      return redirect_back_or_to chats_path
-    end
+    return redirect_back_or_to chats_path, alert: "You are unauthorized to view this chat" if chat.private && !@user_is_member
 
     if chat
       messages = chat.messages.ordered_by_creation.top
