@@ -15,7 +15,7 @@ module RequestsHelper
 
       redirect_to chat_path(chat.pub_id), notice: "Chat invite #{new_record ? "was sent" : "is still pending"}"
     else
-      redirect_back_or_to chats_path, notice: "Unable to find chat or receiver"
+      redirect_back_or_to chats_path, alert: "Unable to find chat or receiver"
     end
   end
 
