@@ -6,7 +6,7 @@ import { SignOutForm } from "@javascript/components/Forms";
 import { Cog } from "./Icons";
 
 export default function Header() {
-  const { currentUser, signOutForm, deleteUserForm } = useContent();
+  const { currentUser, signOutForm } = useContent();
   const contacts = currentUser?.contacts || [];
 
   return (
