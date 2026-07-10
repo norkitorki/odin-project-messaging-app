@@ -3,10 +3,11 @@ module RequestsHelper
 
   def create_chat_request
     chat = CoolId.locate(params[:chat_id])
+    return redirect_back_or_to chats_path, alert: "Chat could not be found" unless chat
     return redirect_back_or_to chats_path, alert: "You are not authorized to invite users to this chat" if chat.admin != current_user
 
     receiver = User.find_by(username: params[:receiver])
-    if chat && receiver
+    if receiver
       return redirect_back_or_to chats_path, notice: "User is already a chat member" if chat.users.include?(receiver)
 
       request = current_user.initiated_requests.find_or_initialize_by(receiver: receiver, request_type: "chat", reference_pub_id: chat.pub_id)
@@ -15,7 +16,7 @@ module RequestsHelper
 
       redirect_to chat_path(chat.pub_id), notice: "Chat invite #{new_record ? "was sent" : "is still pending"}"
     else
-      redirect_back_or_to chats_path, alert: "Unable to find chat or receiver"
+      redirect_back_or_to chats_path, alert: "User could not be found"
     end
   end
 
