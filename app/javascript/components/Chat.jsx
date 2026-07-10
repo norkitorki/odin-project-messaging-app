@@ -1,8 +1,10 @@
 import React, { useRef, useState } from "react";
 import styles from "@stylesheets/Chat.module.css";
 import { useContent } from "@thoughtbot/superglue";
-import ImageViewer, { openImageViewer } from "./ImageViewer";
-import Message from "./Message";
+import ImageViewer, { openImageViewer } from "@components/ImageViewer";
+import Message from "@components/Message";
+import Pagination from "@components/Pagination";
+import Modal from "@components/Modal";
 import {
   AddMessageForm,
   ChatRequestForm,
@@ -10,7 +12,6 @@ import {
   JoinChatForm,
   LeaveChatForm,
 } from "@javascript/components/Forms";
-import Pagination from "./Pagination";
 
 export function Chat({ chat }) {
   const {
@@ -42,42 +43,53 @@ export function Chat({ chat }) {
   return (
     <>
       <div className={styles.chatContainer}>
+        <div className={styles.chatActions}>
+          {chat.private &&
+            currentUser.pub_id === chat.admin.pub_id &&
+            !invitingUser && (
+              <button
+                onClick={toggleInviteForm}
+                className={styles.inviteFormToggle}
+              >
+                Invite User
+              </button>
+            )}
+          {!chat.private && !userIsMember && (
+            <JoinChatForm form={joinChatForm} />
+          )}
+          {userIsMember &&
+            (chat.admin.pub_id === currentUser.pub_id ? (
+              <DeleteChatForm form={deleteChatForm} />
+            ) : (
+              <LeaveChatForm form={leaveChatForm} />
+            ))}
+        </div>
         {pages.count > 1 && <Pagination pages={pages} />}
-        {chat.private && currentUser.pub_id === chat.admin.pub_id && (
-          <>
-            <button
-              onClick={toggleInviteForm}
-              className={
-                invitingUser ? styles.closeFormButton : styles.inviteFormToggle
-              }
-            >
-              {invitingUser ? "Close Form" : "Invite User"}
-            </button>
-            {invitingUser && <ChatRequestForm form={chatRequestForm} />}
-          </>
+        {messages.length > 0 && (
+          <ol className={styles.messages}>
+            {messages.map((message) => (
+              <li key={message.pub_id}>
+                <Message
+                  message={message}
+                  chat={chat}
+                  replies={messageReplies[message.pub_id]}
+                  openImageInViewer={openImageInViewer}
+                />
+              </li>
+            ))}
+          </ol>
         )}
-        {!chat.private && !userIsMember && <JoinChatForm form={joinChatForm} />}
-        {userIsMember &&
-          (chat.admin.pub_id === currentUser.pub_id ? (
-            <DeleteChatForm form={deleteChatForm} />
-          ) : (
-            <LeaveChatForm form={leaveChatForm} />
-          ))}
-        <ol className={styles.messages}>
-          {messages.map((message) => (
-            <li key={message.pub_id}>
-              <Message
-                message={message}
-                chat={chat}
-                replies={messageReplies[message.pub_id]}
-                openImageInViewer={openImageInViewer}
-              />
-            </li>
-          ))}
-        </ol>
       </div>
       {userIsMember && <AddMessageForm form={addMessageForm} />}
       <ImageViewer ref={imageViewerRef} />
+      {invitingUser && (
+        <Modal setterFunc={setInvitingUser}>
+          <div className={styles.inviteForm}>
+            <h3>Invite a User to your chat</h3>
+            <ChatRequestForm form={chatRequestForm} />
+          </div>
+        </Modal>
+      )}
     </>
   );
 }

@@ -33,6 +33,12 @@
   margin-bottom: 0.5rem;
 }
 
+.chatActions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
 .pagination {
   font-size: 1.2rem;
 }
@@ -76,4 +82,16 @@
 .enterChatLink:hover {
   background: #086488;
   outline-color: transparent;
+}
+
+.inviteForm h3 {
+  padding-bottom: 1rem;
+}
+
+.inviteForm form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.25rem;
 }
