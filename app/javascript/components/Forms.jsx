@@ -66,7 +66,13 @@ export const ChatRequestForm = ({ form }) => (
   >
     <input {...form.inputs.chatId} />
     <input {...form.inputs.requestType} />
-    <TextField {...form.inputs.receiver} label="Username" required />
+    <TextField
+      {...form.inputs.receiver}
+      placeholder="Username"
+      label="Username"
+      autoFocus
+      required
+    />
     <SubmitButton {...form.inputs.submit} className={styles.buttonSubmit} />
   </Form>
 );
