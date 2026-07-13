@@ -24,6 +24,10 @@ const ErrorMessages = ({ errors, property }) => {
   );
 };
 
+const confirmSubmission = (message) => {
+  return (event) => !confirm(message) && event.preventDefault();
+};
+
 export const AddContactForm = ({ form }) => (
   <Form {...form.form} extras={form.extras} data-sg-visit>
     <input type="hidden" name="pub_id" value={user.pub_id} />
@@ -82,15 +86,21 @@ export const ChatRequestForm = ({ form }) => (
   </Form>
 );
 
-export const DeleteChatForm = ({ form }) => (
-  <Form {...form.form} extras={form.extras} data-sg-visit>
-    <input {...form.inputs.chatId} />
-    <SubmitButton
-      {...form.inputs.submit}
-      className={layoutStyles.buttonDanger}
-    />
-  </Form>
-);
+export const DeleteChatForm = ({ form }) => {
+  const onSubmit = confirmSubmission(
+    "You are about to delete this chat. Are you sure?",
+  );
+
+  return (
+    <Form {...form.form} extras={form.extras} onSubmit={onSubmit}>
+      <input {...form.inputs.chatId} />
+      <SubmitButton
+        {...form.inputs.submit}
+        className={layoutStyles.buttonDanger}
+      />
+    </Form>
+  );
+};
 
 export const DeleteMessageForm = ({ form, messageId }) => (
   <Form {...form.form} extras={form.extras} data-sg-visit>
@@ -107,10 +117,9 @@ export const DeleteMessageForm = ({ form, messageId }) => (
 );
 
 export const DeleteUserForm = ({ form }) => {
-  const onSubmit = (event) =>
-    !confirm(
-      "Performing this action will delete your user account. Are you sure?",
-    ) && event.preventDefault();
+  const onSubmit = confirmSubmission(
+    "Performing this action will delete your user account. Are you sure?",
+  );
 
   return (
     <Form {...form.form} extras={form.extras} onSubmit={onSubmit}>
