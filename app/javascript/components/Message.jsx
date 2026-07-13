@@ -96,7 +96,7 @@ export default function Message({ message, chat, replies, openImageInViewer }) {
           {!messageDeleted && userIsAuthor && (
             <button
               title="edit message"
-              className={styles.messageEditButton}
+              className={`${styles.messageEditButton} ${editingMessage ? styles.active : ""}`}
               onClick={editMessage}
             >
               <Edit />
@@ -105,7 +105,7 @@ export default function Message({ message, chat, replies, openImageInViewer }) {
           {!messageDeleted && !isSubMessage && (
             <button
               title={replying ? "close reply form" : "reply to message"}
-              className={`${styles.messageReplyButton} ${replying ? styles.replying : ""}`}
+              className={`${styles.messageReplyButton} ${replying ? styles.active : ""}`}
               onClick={replyToMessage}
             >
               <Reply />

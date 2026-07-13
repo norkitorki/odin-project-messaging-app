@@ -61,7 +61,7 @@
   fill: #ffffff;
 }
 
-.messageReplyButton.replying {
+.active {
   fill: #0bc7b7;
 }
 
