@@ -215,15 +215,21 @@ export const JoinChatForm = ({ form }) => (
   </Form>
 );
 
-export const LeaveChatForm = ({ form }) => (
-  <Form {...form.form} extras={form.extras} data-sg-visit>
-    <input {...form.inputs.chatId} />
-    <SubmitButton
-      {...form.inputs.submit}
-      className={layoutStyles.buttonDanger}
-    />
-  </Form>
-);
+export const LeaveChatForm = ({ form }) => {
+  const onSubmit = confirmSubmission(
+    "You are about to leave the chat. Are you sure?",
+  );
+
+  return (
+    <Form {...form.form} extras={form.extras} onSubmit={onSubmit}>
+      <input {...form.inputs.chatId} />
+      <SubmitButton
+        {...form.inputs.submit}
+        className={layoutStyles.buttonDanger}
+      />
+    </Form>
+  );
+};
 
 export const NewChatForm = ({ form }) => (
   <Form
