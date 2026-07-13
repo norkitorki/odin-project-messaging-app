@@ -122,64 +122,73 @@ export default function Message({ message, chat, replies, openImageInViewer }) {
           )}
         </div>
       </summary>
-      {editingMessage === message.pub_id ? (
-        <EditMessageForm
-          form={editMessageForm}
-          message={message}
-          imagePreviews={chat.images[message.pub_id]?.previews}
-          setEditingMessage={setEditingMessage}
-        />
-      ) : (
-        !messageDeleted && (
-          <div className={styles.message}>
-            {message.value}
-            {chat.images[message.pub_id] && (
-              <div
-                onClick={openImageInViewer}
-                data-message-id={message.pub_id}
-                className={styles.messageImages}
-              >
-                {chat.images[message.pub_id].previews.map((preview, index) => (
-                  <img
-                    key={index}
-                    src={preview.url}
-                    alt={preview.filename}
-                    data-image-index={index}
-                  />
-                ))}
-              </div>
-            )}
-            {!isSubMessage && replying && (
+      {!messageDeleted && (
+        <div className={styles.message}>
+          {editingMessage === message.pub_id ? (
+            <>
+              <h3>Edit Message</h3>
+              <EditMessageForm
+                form={editMessageForm}
+                message={message}
+                imagePreviews={chat.images[message.pub_id]?.previews}
+                setEditingMessage={setEditingMessage}
+              />
+            </>
+          ) : (
+            <>
+              {message.value}
+              {chat.images[message.pub_id] && (
+                <div
+                  onClick={openImageInViewer}
+                  data-message-id={message.pub_id}
+                  className={styles.messageImages}
+                >
+                  {chat.images[message.pub_id].previews.map(
+                    (preview, index) => (
+                      <img
+                        key={index}
+                        src={preview.url}
+                        alt={preview.filename}
+                        data-image-index={index}
+                      />
+                    ),
+                  )}
+                </div>
+              )}
+              {!isSubMessage && replying && (
                 <AddMessageForm
                   form={addMessageForm}
                   parentId={message.pub_id}
                   replying={true}
                 />
-            )}
-            {replies?.length > 0 && (
-              <div className={styles.replies}>
-                <details open={parentQuery === message.pub_id ? true : false}>
-                  <summary>{replies.length} Replies</summary>
-                  <ol>
-                    {replies.map((message) => (
-                      <li
-                        id={message.pub_id}
-                        key={message.pub_id}
-                        className={messageDeleted ? styles.deletedMessage : ""}
-                      >
-                        <Message
-                          message={message}
-                          chat={chat}
-                          openImageInViewer={openImageInViewer}
-                        />
-                      </li>
-                    ))}
-                  </ol>
-                </details>
-              </div>
-            )}
-          </div>
-        )
+              )}
+              {replies?.length > 0 && (
+                <div className={styles.replies}>
+                  <details open={parentQuery === message.pub_id ? true : false}>
+                    <summary>{replies.length} Replies</summary>
+                    <ol>
+                      {replies.map((message) => (
+                        <li
+                          id={message.pub_id}
+                          key={message.pub_id}
+                          className={
+                            messageDeleted ? styles.deletedMessage : ""
+                          }
+                        >
+                          <Message
+                            message={message}
+                            chat={chat}
+                            openImageInViewer={openImageInViewer}
+                          />
+                        </li>
+                      ))}
+                    </ol>
+                  </details>
+                </div>
+              )}
+            </>
+          )}
+        </div>
       )}
     </details>
   );
