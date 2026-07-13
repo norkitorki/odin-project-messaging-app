@@ -31,7 +31,12 @@ export const AddContactForm = ({ form }) => (
   </Form>
 );
 
-export const AddMessageForm = ({ form, messageValue, parentId = null }) => (
+export const AddMessageForm = ({
+  form,
+  messageValue,
+  replying = false,
+  parentId = null,
+}) => (
   <Form
     {...form.form}
     extras={form.extras}
@@ -44,7 +49,7 @@ export const AddMessageForm = ({ form, messageValue, parentId = null }) => (
       {...form.inputs.value}
       className={styles.messageInput}
       value={messageValue}
-      label="Add Message"
+      label={`Add ${replying ? "Reply" : "Message"}`}
       required
     />
     <FileField

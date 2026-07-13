@@ -150,7 +150,11 @@ export default function Message({ message, chat, replies, openImageInViewer }) {
               </div>
             )}
             {!isSubMessage && replying && (
-              <AddMessageForm form={addMessageForm} parentId={message.pub_id} />
+                <AddMessageForm
+                  form={addMessageForm}
+                  parentId={message.pub_id}
+                  replying={true}
+                />
             )}
             {replies?.length > 0 && (
               <div className={styles.replies}>
