@@ -22,10 +22,11 @@ module RequestsHelper
 
   def create_friend_request
     receiver = CoolId.locate(params[:receiver])
-
-    return redirect_back_or_to root_path, notice: "#{receiver.username} is already your friend" if current_user.contacts.include?(receiver)
+    return redirect_back_or_to root_path, alert: "#{receiver.username} is already your friend" if current_user.contacts.include?(receiver)
 
     request = current_user.initiated_requests.find_or_initialize_by(receiver: receiver, request_type: "friend")
+    return redirect_back_or_to root_path, alert: "You cannot befriend yourself" if request.initiator == request.receiver
+
     new_record = request.new_record?
     request.save if new_record
 
