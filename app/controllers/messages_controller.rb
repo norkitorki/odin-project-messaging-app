@@ -41,6 +41,7 @@ class MessagesController < ApplicationController
       message.value = "Message removed by #{auth_user}"
       message.deleted = true
       message.images.purge_later
+      message.replies.destroy_all
       message.save(validate: false)
     end
 
