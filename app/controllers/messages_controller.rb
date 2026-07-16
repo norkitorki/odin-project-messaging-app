@@ -6,10 +6,7 @@ class MessagesController < ApplicationController
 
     if chat
       message = current_user.messages.new(message_params.merge({ chat_id: chat.id }))
-      if message.save
-        message.images.attach(params[:images])
-        return redirect_to chat_path(pub_id: chat.pub_id, message: message.pub_id, parent: message.parent_id)
-      end
+      return redirect_to chat_path(pub_id: chat.pub_id, message: message.pub_id, parent: message.parent_id), notice: "Message saved" if message.save
     end
 
     redirect_back_or_to root_path
