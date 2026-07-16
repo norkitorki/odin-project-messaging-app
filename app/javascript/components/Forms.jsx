@@ -103,19 +103,25 @@ export const DeleteChatForm = ({ form }) => {
   );
 };
 
-export const DeleteMessageForm = ({ form, messageId }) => (
-  <Form {...form.form} extras={form.extras} data-sg-visit>
-    <input {...form.inputs.messageId} value={messageId} />
-    <input {...form.inputs.destroy} />
-    <button
-      type="submit"
-      title="delete message"
-      className={styles.messageDeleteButton}
-    >
-      <Delete />
-    </button>
-  </Form>
-);
+export const DeleteMessageForm = ({ form, messageId }) => {
+  const onSubmit = confirmSubmission(
+    "You are about to delete this message. Are you sure?",
+  );
+
+  return (
+    <Form {...form.form} extras={form.extras} onSubmit={onSubmit}>
+      <input {...form.inputs.messageId} value={messageId} />
+      <input {...form.inputs.destroy} />
+      <button
+        type="submit"
+        title="delete message"
+        className={styles.messageDeleteButton}
+      >
+        <Delete />
+      </button>
+    </Form>
+  );
+};
 
 export const DeleteUserForm = ({ form }) => {
   const onSubmit = confirmSubmission(
