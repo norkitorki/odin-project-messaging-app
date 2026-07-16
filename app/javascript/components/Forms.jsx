@@ -38,13 +38,15 @@ export const AddContactForm = ({ form }) => (
 export const AddMessageForm = ({
   form,
   messageValue,
+  parentId,
+  onSubmit,
   replying = false,
-  parentId = null,
 }) => (
   <Form
     {...form.form}
     extras={form.extras}
     className={styles.messageForm}
+    onSubmit={onSubmit}
     data-sg-visit
   >
     <input {...form.inputs.chatId} />
@@ -61,7 +63,6 @@ export const AddMessageForm = ({
       className={styles.imageSelector}
       label="Images"
     />
-
     <SubmitButton {...form.inputs.submit} className={styles.buttonSubmit} />
   </Form>
 );

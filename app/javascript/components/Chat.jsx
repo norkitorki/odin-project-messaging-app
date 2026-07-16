@@ -30,7 +30,6 @@ export function Chat({ chat }) {
   const [invitingUser, setInvitingUser] = useState(false);
 
   const toggleInviteForm = () => setInvitingUser(!invitingUser);
-
   const openImageInViewer = (event) => {
     const index = event.target.dataset.imageIndex;
     const messageId = event.target.parentElement.dataset.messageId;
@@ -39,6 +38,7 @@ export function Chat({ chat }) {
     const images = chat.images[messageId].full;
     openImageViewer(imageViewerRef.current, images, Number(index));
   };
+  const messageCallback = (event) => setTimeout(() => event.target.reset());
 
   return (
     <>
@@ -80,7 +80,9 @@ export function Chat({ chat }) {
           </ol>
         )}
       </div>
-      {userIsMember && <AddMessageForm form={addMessageForm} />}
+      {userIsMember && (
+        <AddMessageForm form={addMessageForm} onSubmit={messageCallback} />
+      )}
       <ImageViewer ref={imageViewerRef} />
       {invitingUser && (
         <Modal setterFunc={setInvitingUser}>

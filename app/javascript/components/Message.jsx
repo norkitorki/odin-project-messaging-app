@@ -17,7 +17,7 @@ export default function Message({ message, chat, replies, openImageInViewer }) {
     messageQuery,
     parentQuery,
   } = useContent();
-  const [editingMessage, setEditingMessage] = useState();
+  const [editingMessage, setEditingMessage] = useState(null);
   const [replying, setReplying] = useState(false);
 
   useEffect(() => {
@@ -47,6 +47,7 @@ export default function Message({ message, chat, replies, openImageInViewer }) {
     await navigator.clipboard.writeText(url);
     alert("Message link copied to clipboard");
   };
+  const replyCallback = () => setReplying(false);
 
   const messageDeleted = message.deleted;
   const isSubMessage = message.parent_id !== null;
@@ -159,6 +160,7 @@ export default function Message({ message, chat, replies, openImageInViewer }) {
                 <AddMessageForm
                   form={addMessageForm}
                   parentId={message.pub_id}
+                  onSubmit={replyCallback}
                   replying={true}
                 />
               )}
