@@ -14,18 +14,8 @@ import {
 } from "@javascript/components/Forms";
 
 export function Chat({ chat }) {
-  const {
-    currentUser,
-    userIsMember,
-    messages,
-    messageReplies,
-    chatRequestForm,
-    addMessageForm,
-    joinChatForm,
-    deleteChatForm,
-    leaveChatForm,
-    pages,
-  } = useContent();
+  const { currentUser, userIsMember, messages, messageReplies, pages, forms } =
+    useContent();
   const imageViewerRef = useRef();
   const [invitingUser, setInvitingUser] = useState(false);
 
@@ -55,13 +45,13 @@ export function Chat({ chat }) {
               </button>
             )}
           {!chat.private && !userIsMember && (
-            <JoinChatForm form={joinChatForm} />
+            <JoinChatForm form={forms.joinChatForm} />
           )}
           {userIsMember &&
             (chat.admin.pub_id === currentUser.pub_id ? (
-              <DeleteChatForm form={deleteChatForm} />
+              <DeleteChatForm form={forms.deleteChatForm} />
             ) : (
-              <LeaveChatForm form={leaveChatForm} />
+              <LeaveChatForm form={forms.leaveChatForm} />
             ))}
         </div>
         {pages.count > 1 && <Pagination pages={pages} />}
@@ -81,14 +71,17 @@ export function Chat({ chat }) {
         )}
       </div>
       {userIsMember && (
-        <AddMessageForm form={addMessageForm} onSubmit={messageCallback} />
+        <AddMessageForm
+          form={forms.addMessageForm}
+          onSubmit={messageCallback}
+        />
       )}
       <ImageViewer ref={imageViewerRef} />
       {invitingUser && (
         <Modal setterFunc={setInvitingUser}>
           <div className={styles.inviteForm}>
             <h3>Invite a User to your chat</h3>
-            <ChatRequestForm form={chatRequestForm} />
+            <ChatRequestForm form={forms.chatRequestForm} />
           </div>
         </Modal>
       )}

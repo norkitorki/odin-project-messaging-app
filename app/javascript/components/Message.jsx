@@ -9,14 +9,7 @@ import {
 } from "@javascript/components/Forms";
 
 export default function Message({ message, chat, replies, openImageInViewer }) {
-  const {
-    currentUser,
-    deleteMessageForm,
-    editMessageForm,
-    addMessageForm,
-    messageQuery,
-    parentQuery,
-  } = useContent();
+  const { currentUser, messageQuery, parentQuery, forms } = useContent();
   const [editingMessage, setEditingMessage] = useState(null);
   const [replying, setReplying] = useState(false);
 
@@ -29,7 +22,7 @@ export default function Message({ message, chat, replies, openImageInViewer }) {
           const rect = element.getBoundingClientRect();
           window.scroll({ top: rect.top - rect.height, behavior: "smooth" });
         }
-      }, 0);
+      });
       return () => clearTimeout(timeoutId);
     }
   }, [messageQuery, parentQuery]);
@@ -90,7 +83,7 @@ export default function Message({ message, chat, replies, openImageInViewer }) {
           </span>
           {!messageDeleted && (userIsAuthor || userIsAdmin) && (
             <DeleteMessageForm
-              form={deleteMessageForm}
+              form={forms.deleteMessageForm}
               messageId={message.pub_id}
             />
           )}
@@ -129,7 +122,7 @@ export default function Message({ message, chat, replies, openImageInViewer }) {
             <>
               <h3>Edit Message</h3>
               <EditMessageForm
-                form={editMessageForm}
+                form={forms.editMessageForm}
                 message={message}
                 imagePreviews={chat.images[message.pub_id]?.previews}
                 setEditingMessage={setEditingMessage}
@@ -158,7 +151,7 @@ export default function Message({ message, chat, replies, openImageInViewer }) {
               )}
               {!isSubMessage && replying && (
                 <AddMessageForm
-                  form={addMessageForm}
+                  form={forms.addMessageForm}
                   parentId={message.pub_id}
                   onSubmit={replyCallback}
                   replying={true}
