@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import styles from "@stylesheets/Modal.module.css";
 
-export default function Popup({ children, setterFunc }) {
+export default function Modal({ children, setterFunc }) {
   const closeModal = () => setterFunc(false);
 
   useEffect(() => {

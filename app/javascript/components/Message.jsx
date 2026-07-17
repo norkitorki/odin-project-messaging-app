@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "@stylesheets/Message.module.css";
 import { useContent } from "@thoughtbot/superglue";
 import { AccountCircle, Edit, Link, Reply } from "./Icons";
+import Modal from "./Modal";
 import {
   AddMessageForm,
   DeleteMessageForm,
@@ -48,87 +49,79 @@ export default function Message({ message, chat, replies, openImageInViewer }) {
   const userIsAdmin = chat.admin_id === currentUser.pub_id;
 
   return (
-    <details
-      id={message.pub_id}
-      className={`${styles.messageContainer} ${message.pub_id === messageQuery ? styles.queriedMessage : ""}`}
-      open={!messageDeleted}
-    >
-      <summary>
-        <div className={styles.messageDetails}>
-          <div className={styles.authorImage}>
-            {message.user.image || <AccountCircle />}
-          </div>
-          <a
-            className={styles.authorBadge}
-            href={`/users/${message.user.pub_id}`}
-            data-sg-visit
-          >
-            {message.user.username}
-          </a>
-          {chat.admin.pub_id === message.user.pub_id && (
-            <span className={styles.adminBadge}>Admin</span>
-          )}
-          <span
-            className={`${styles.messageCreationDate} ${messageDeleted ? styles.deletedMessage : ""}`}
-          >
-            {messageDeleted ? (
-              `${message.value} ${message.updated}`
-            ) : (
-              <>
-                {message.created}
-                {message.created !== message.updated &&
-                  ` (updated ${message.updated})`}
-              </>
+    <>
+      <details
+        id={message.pub_id}
+        className={`${styles.messageContainer} ${message.pub_id === messageQuery ? styles.queriedMessage : ""}`}
+        open={!messageDeleted}
+      >
+        <summary>
+          <div className={styles.messageDetails}>
+            <div className={styles.authorImage}>
+              {message.user.image || <AccountCircle />}
+            </div>
+            <a
+              className={styles.authorBadge}
+              href={`/users/${message.user.pub_id}`}
+              data-sg-visit
+            >
+              {message.user.username}
+            </a>
+            {chat.admin.pub_id === message.user.pub_id && (
+              <span className={styles.adminBadge}>Admin</span>
             )}
-          </span>
-          {!messageDeleted && (userIsAuthor || userIsAdmin) && (
-            <DeleteMessageForm
-              form={forms.deleteMessageForm}
-              messageId={message.pub_id}
-            />
-          )}
-          {!messageDeleted && userIsAuthor && (
-            <button
-              title="edit message"
-              className={`${styles.messageEditButton} ${editingMessage ? styles.active : ""}`}
-              onClick={editMessage}
+            <span
+              className={`${styles.messageCreationDate} ${messageDeleted ? styles.deletedMessage : ""}`}
             >
-              <Edit />
-            </button>
-          )}
-          {!messageDeleted && !isSubMessage && (
-            <button
-              title={replying ? "close reply form" : "reply to message"}
-              className={`${styles.messageReplyButton} ${replying ? styles.active : ""}`}
-              onClick={replyToMessage}
-            >
-              <Reply />
-            </button>
-          )}
-          {!messageDeleted && (
-            <button
-              title="copy message link"
-              className={styles.messageLinkButton}
-              onClick={() => copyMessageLink(message.pub_id, message.parent_id)}
-            >
-              <Link />
-            </button>
-          )}
-        </div>
-      </summary>
-      {!messageDeleted && (
-        <div className={styles.message}>
-          {editingMessage === message.pub_id ? (
-            <>
-              <h3>Edit Message</h3>
-              <EditMessageForm
-                form={forms.editMessageForm}
-                message={message}
-                imagePreviews={chat.images[message.pub_id]?.previews}
-                setEditingMessage={setEditingMessage}
+              {messageDeleted ? (
+                `${message.value} ${message.updated}`
+              ) : (
+                <>
+                  {message.created}
+                  {message.created !== message.updated &&
+                    ` (updated ${message.updated})`}
+                </>
+              )}
+            </span>
+            {!messageDeleted && (userIsAuthor || userIsAdmin) && (
+              <DeleteMessageForm
+                form={forms.deleteMessageForm}
+                messageId={message.pub_id}
               />
-            </>
-          ) : (
+            )}
+            {!messageDeleted && userIsAuthor && (
+              <button
+                title="edit message"
+                className={`${styles.messageEditButton} ${editingMessage ? styles.active : ""}`}
+                onClick={editMessage}
+              >
+                <Edit />
+              </button>
+            )}
+            {!messageDeleted && !isSubMessage && (
+              <button
+                title="reply to message"
+                className={`${styles.messageReplyButton} ${replying ? styles.active : ""}`}
+                onClick={replyToMessage}
+              >
+                <Reply />
+              </button>
+            )}
+            {!messageDeleted && (
+              <button
+                title="copy message link"
+                className={styles.messageLinkButton}
+                onClick={() =>
+                  copyMessageLink(message.pub_id, message.parent_id)
+                }
+              >
+                <Link />
+              </button>
+            )}
+          </div>
+        </summary>
+        {!messageDeleted && (
+          <div className={styles.message}>
             <>
               {message.value}
               {chat.images[message.pub_id] && (
@@ -148,14 +141,6 @@ export default function Message({ message, chat, replies, openImageInViewer }) {
                     ),
                   )}
                 </div>
-              )}
-              {!isSubMessage && replying && (
-                <AddMessageForm
-                  form={forms.addMessageForm}
-                  parentId={message.pub_id}
-                  onSubmit={replyCallback}
-                  replying={true}
-                />
               )}
               {replies?.length > 0 && (
                 <div className={styles.replies}>
@@ -182,9 +167,29 @@ export default function Message({ message, chat, replies, openImageInViewer }) {
                 </div>
               )}
             </>
-          )}
-        </div>
+          </div>
+        )}
+      </details>
+      {editingMessage === message.pub_id && (
+        <Modal setterFunc={setEditingMessage}>
+          <EditMessageForm
+            form={forms.editMessageForm}
+            message={message}
+            imagePreviews={chat.images[message.pub_id]?.previews}
+            setEditingMessage={setEditingMessage}
+          />
+        </Modal>
       )}
-    </details>
+      {!isSubMessage && replying && (
+        <Modal setterFunc={setReplying}>
+          <AddMessageForm
+            form={forms.addMessageForm}
+            parentId={message.pub_id}
+            onSubmit={replyCallback}
+            replying={true}
+          />
+        </Modal>
+      )}
+    </>
   );
 }

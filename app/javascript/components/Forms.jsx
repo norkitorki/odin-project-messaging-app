@@ -53,9 +53,11 @@ export const AddMessageForm = ({
     {parentId && <input {...form.inputs.parentId} value={parentId} />}
     <TextArea
       {...form.inputs.value}
+      id={replying ? "reply_value" : "new_value"}
       className={styles.messageInput}
       value={messageValue}
       label={`Add ${replying ? "Reply" : "Message"}`}
+      autoFocus
       required
     />
     <FileField
@@ -156,10 +158,12 @@ export const EditMessageForm = ({
         data-sg-visit
       >
         <input {...form.inputs.messageId} value={message.pub_id} />
-        <textarea
+        <TextArea
           {...form.inputs.value}
           className={styles.messageInput}
+          label="Edit Message"
           defaultValue={message.value}
+          autoFocus
         />
         {imagePreviews?.length > 0 && (
           <fieldset>

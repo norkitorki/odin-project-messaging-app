@@ -48,7 +48,7 @@ json.forms do
   json.editMessageForm do
     form_props(url: update_message_path, method: :patch) do |f|
       f.hidden_field :messageId, name: :message_id, id: nil
-      f.text_area :value, name: "message[value]", id: nil
+      f.text_area :value, name: "message[value]", id: :edit_value
       f.check_box :images, name: "message[images][]", id: nil
       f.submit "Update Message"
     end
