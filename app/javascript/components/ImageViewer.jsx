@@ -67,7 +67,7 @@ export default function ImageViewer({ ref }) {
         <ArrowRight />
       </button>
       <button className={styles.closeButton} onClick={closeViewer}>
-        <CloseButton />
+        <CloseButton title={"close image viewer"} />
       </button>
       <div className={styles.photoFrame}>
         <img className={styles.imageDisplay} ref={imageDisplay} />

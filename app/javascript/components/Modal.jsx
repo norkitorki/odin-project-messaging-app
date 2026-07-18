@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import styles from "@stylesheets/Modal.module.css";
+import { CloseButton } from "./Icons";
 
 export default function Modal({ children, setterFunc }) {
   const closeModal = () => setterFunc(false);
@@ -16,7 +17,7 @@ export default function Modal({ children, setterFunc }) {
     <div className={styles.modalBackground}>
       <div className={styles.modal}>
         <button className={styles.closeModalButton} onClick={closeModal}>
-          Close
+          <CloseButton title={"close modal"} />
         </button>
         <div>{children}</div>
       </div>
