@@ -84,6 +84,7 @@
   padding: 0;
   fill: #fc0404;
   transition: transform 0.3s ease;
+  vertical-align: middle;
 }
 
 .messageDeleteButton:hover,
