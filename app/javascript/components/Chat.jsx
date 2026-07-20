@@ -17,9 +17,11 @@ export function Chat({ chat }) {
   const { currentUser, userIsMember, messages, messageReplies, pages, forms } =
     useContent();
   const imageViewerRef = useRef();
-  const [invitingUser, setInvitingUser] = useState(false);
+  const [modalStatus, setModalStatus] = useState(false);
 
-  const toggleInviteForm = () => setInvitingUser(!invitingUser);
+  const openInviteForm = () => setModalStatus("invite");
+  const openMessageForm = () => setModalStatus("add");
+  const messageCallback = () => setModalStatus(false);
   const openImageInViewer = (event) => {
     const index = event.target.dataset.imageIndex;
     const messageId = event.target.parentElement.dataset.messageId;
@@ -28,17 +30,21 @@ export function Chat({ chat }) {
     const images = chat.images[messageId].full;
     openImageViewer(imageViewerRef.current, images, Number(index));
   };
-  const messageCallback = (event) => setTimeout(() => event.target.reset());
 
   return (
     <>
+      {userIsMember && (
+        <button className={styles.addMessageButton} onClick={openMessageForm}>
+          Add Message
+        </button>
+      )}
       <div className={styles.chatContainer}>
         <div className={styles.chatActions}>
           {chat.private &&
             currentUser.pub_id === chat.admin.pub_id &&
-            !invitingUser && (
+            modalStatus !== "invite" && (
               <button
-                onClick={toggleInviteForm}
+                onClick={openInviteForm}
                 className={styles.inviteFormToggle}
               >
                 Invite User
@@ -70,21 +76,23 @@ export function Chat({ chat }) {
           </ol>
         )}
       </div>
-      {userIsMember && (
-        <AddMessageForm
-          form={forms.addMessageForm}
-          onSubmit={messageCallback}
-        />
+      {modalStatus === "add" && (
+        <Modal setterFunc={setModalStatus}>
+          <AddMessageForm
+            form={forms.addMessageForm}
+            onSubmit={messageCallback}
+          />
+        </Modal>
       )}
-      <ImageViewer ref={imageViewerRef} />
-      {invitingUser && (
-        <Modal setterFunc={setInvitingUser}>
+      {modalStatus === "invite" && (
+        <Modal setterFunc={setModalStatus}>
           <div className={styles.inviteForm}>
             <h3>Invite a User to your chat</h3>
             <ChatRequestForm form={forms.chatRequestForm} />
           </div>
         </Modal>
       )}
+      <ImageViewer ref={imageViewerRef} />
     </>
   );
 }

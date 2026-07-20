@@ -26,7 +26,7 @@
 }
 
 .chatContainer {
-  margin: 0 2rem 1rem 0;
+  padding: 0 2rem 3.25rem 0;
 }
 
 .chatContainer > * {
@@ -86,4 +86,18 @@
 
 .inviteForm h3 {
   padding-bottom: 1rem;
+}
+
+.addMessageButton {
+  composes: buttonInfo from "./Layout.module.css";
+  background: #086488 !important;
+  padding: 1rem !important;
+  position: fixed;
+  bottom: 15px;
+  right: 15px;
+}
+
+.addMessageButton:focus,
+.addMessageButton:hover {
+  background: #0a7eac !important;
 }
