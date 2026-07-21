@@ -14,5 +14,6 @@ class UsersController < ApplicationController
   end
 
   def edit
+    @chats = current_user.chats.includes(:admin, :users).where(admin: current_user)
   end
 end

@@ -5,7 +5,7 @@ import { DeleteUserForm, EditPasswordForm } from "@javascript/components/Forms";
 import { useContent } from "@thoughtbot/superglue";
 
 export default function UsersEdit() {
-  const { deleteUserForm, editPasswordForm } = useContent();
+  const { forms, chats } = useContent();
 
   return (
     <Layout>
@@ -13,9 +13,21 @@ export default function UsersEdit() {
       <div className={styles.badgeContainer}>
         <div className={styles.userBadge}>
           <h3>Change Password</h3>
-          <EditPasswordForm form={editPasswordForm} />
+          <EditPasswordForm form={forms.editPasswordForm} />
         </div>
-        <DeleteUserForm form={deleteUserForm} />
+        <div className={`${styles.userBadge} ${styles.chatList}`}>
+          <h3>Chats ({chats.length})</h3>
+          <ul>
+            {chats.map((chat) => (
+              <li key={chat.pub_id}>
+                <a href={`/chats/${chat.pub_id}`} data-sg-visit>
+                  {chat.name}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <DeleteUserForm form={forms.deleteUserForm} />
       </div>
     </Layout>
   );

@@ -69,3 +69,14 @@
 .userBadge label {
   padding: 0.5rem 0;
 }
+
+.chatList ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem 0.5rem;
+}
+
+.chatList a {
+  color: #ffffff;
+}

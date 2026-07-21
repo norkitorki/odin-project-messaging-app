@@ -23,6 +23,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       clean_up_passwords resource
       set_minimum_password_length
       @errors = resource.errors.to_hash(true)
+      @chats = resource.chats.includes(:admin, :users).where(admin: current_user)
       flash.now[:alert] = "User has not been updated"
       render "users/edit"
     end
