@@ -33,7 +33,7 @@ class User < ApplicationRecord
     association_foreign_key: :contact_id,
     after_add: :create_opposite_contact
 
-  before_destroy :destroy_contacts
+  before_destroy :destroy_contacts, :destroy_chats
 
   def remove_contact(user)
     return if !user.is_a?(self.class) || user == self
@@ -58,5 +58,9 @@ class User < ApplicationRecord
 
   def destroy_contacts
     Contact.where(user_id: id).or(Contact.where(contact_id: id)).destroy_all
+  end
+
+  def destroy_chats
+    Chat.where(admin: self).destroy_all
   end
 end
