@@ -35,6 +35,38 @@ export const AddContactForm = ({ form }) => (
   </Form>
 );
 
+export const AvatarForm = ({ form }) => (
+  <Form
+    {...form.form}
+    extras={form.extras}
+    className={styles.avatarForm}
+    data-sg-visit
+  >
+    <input {...form.inputs.formAction} />
+    <div>
+      <FileField
+        {...form.inputs.avatar}
+        className={styles.imageSelector}
+        label="Avatar (Max file size 1MB)"
+      />
+      <ErrorMessages errors={form.errors} property={"avatar"} />
+    </div>
+    <div>
+      <PasswordField {...form.inputs.password} label="Current Password" />
+      <ErrorMessages errors={form.errors} property={"password"} />
+    </div>
+    <div>
+      <PasswordField
+        {...form.inputs.passwordConfirmation}
+        label="Confirm Password"
+      />
+      <ErrorMessages errors={form.errors} property={"password_confirmation"} />
+    </div>
+
+    <SubmitButton {...form.inputs.submit} className={styles.buttonSubmit} />
+  </Form>
+);
+
 export const AddMessageForm = ({
   form,
   messageValue,
@@ -189,6 +221,7 @@ export const EditPasswordForm = ({ form }) => (
     className={styles.editPasswordForm}
     data-sg-visit
   >
+    <input {...form.inputs.formAction} />
     <div>
       <PasswordField {...form.inputs.password} label="New Password" />
       <ErrorMessages errors={form.errors} property={"password"} />
@@ -196,7 +229,7 @@ export const EditPasswordForm = ({ form }) => (
     <div>
       <PasswordField
         {...form.inputs.passwordConfirmation}
-        label="Password Confirmation"
+        label="Confirm New Password"
       />
       <ErrorMessages errors={form.errors} property={"password_confirmation"} />
     </div>
@@ -266,15 +299,29 @@ export const NewUserForm = ({ form }) => (
     className={styles.newUserForm}
     data-sg-visit
   >
-    <TextField {...form.inputs.username} label="Username" />
-    <ErrorMessages errors={form.errors} property={"username"} />
-    <PasswordField {...form.inputs.password} label="Password" />
-    <ErrorMessages errors={form.errors} property={"password"} />
-    <PasswordField
-      {...form.inputs.passwordConfirmation}
-      label="Password Confirmation"
-    />
-    <ErrorMessages errors={form.errors} property={"password_confirmation"} />
+    <div>
+      <TextField {...form.inputs.username} label="Username" />
+      <ErrorMessages errors={form.errors} property={"username"} />
+    </div>
+    <div>
+      <FileField
+        {...form.inputs.avatar}
+        className={styles.imageSelector}
+        label="Avatar (Max file size 1MB)"
+      />
+      <ErrorMessages errors={form.errors} property={"avatar"} />
+    </div>
+    <div>
+      <PasswordField {...form.inputs.password} label="Password" />
+      <ErrorMessages errors={form.errors} property={"password"} />
+    </div>
+    <div>
+      <PasswordField
+        {...form.inputs.passwordConfirmation}
+        label="Password Confirmation"
+      />
+      <ErrorMessages errors={form.errors} property={"password_confirmation"} />
+    </div>
     <SubmitButton {...form.inputs.submit} className={styles.buttonSubmit} />
   </Form>
 );

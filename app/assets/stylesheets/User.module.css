@@ -1,3 +1,5 @@
+/*** users/index ***/
+
 .userList {
   padding: 0 1rem 1rem 0;
   display: flex;
@@ -7,11 +9,11 @@
 
 .userList li {
   padding: 1.5rem 1rem;
+  text-align: center;
 }
 
 .userImage {
-  margin: 0 auto;
-  width: 45px;
+  padding-bottom: 0.5rem;
 }
 
 .userList li a {
@@ -27,15 +29,32 @@
   color: #77cebc;
 }
 
-.userHome {
+/*** users/show ***/
+
+.userContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.userActions {
   display: flex;
   gap: 1rem;
-  padding: 0 1.5rem 1.5rem 0;
+  flex-wrap: wrap;
+}
+
+.avatarFormButton,
+.passwordFormButton {
+  composes: buttonInfo from "./Layout.module.css";
 }
 
 .badgeContainer {
   padding: 1rem 1rem 1rem 0;
   display: flex;
+  justify-content: center;
+  align-items: center;
   flex-wrap: wrap;
   gap: 1rem;
 }
@@ -79,4 +98,17 @@
 
 .chatList a {
   color: #ffffff;
+}
+
+/*** avatar ***/
+
+.avatar img,
+.avatar svg {
+  border-radius: 50%;
+  border: 1px solid #00ffff;
+}
+
+.avatar svg {
+  width: 45px;
+  fill: #ffffff;
 }

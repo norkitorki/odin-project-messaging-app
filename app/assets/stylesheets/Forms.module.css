@@ -24,10 +24,9 @@
 
 .deleteUserButton {
   composes: buttonDanger from "./Layout.module.css";
-  font-size: 1.5rem;
-  padding: 1.5rem !important;
 }
 
+.avatarForm,
 .newChatForm,
 .newUserForm,
 .signInForm,
@@ -45,6 +44,7 @@
   padding: 0;
 }
 
+.avatarForm label,
 .newChatForm label,
 .newUserForm label,
 .signInForm label,
@@ -56,6 +56,7 @@
   display: block;
 }
 
+.avatarForm input,
 .newChatForm input[type="text"],
 .newUserForm input,
 .signInForm input,

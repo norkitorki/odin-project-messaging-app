@@ -4,12 +4,16 @@ class User < ApplicationRecord
   include CoolId::Model
   cool_id prefix: "u", length: 8, id_field: :pub_id
 
+  IMAGE_CONTENT_TYPES = %w[ image/png image/jpeg ].freeze
+
   scope :ordered_by_username, -> { order(:username) }
 
   validates :username, presence: true, uniqueness: true
   validates :password, presence: true
   validates :password_confirmation, presence: true
   validate :passwords_match
+
+  has_one_attached :avatar
 
   has_many :chat_rooms, dependent: :destroy_async
   has_many :chats, through: :chat_rooms
@@ -33,6 +37,8 @@ class User < ApplicationRecord
     association_foreign_key: :contact_id,
     after_add: :create_opposite_contact
 
+  validates :avatar, content_type: IMAGE_CONTENT_TYPES, size: { less_than: 1.megabytes }
+
   before_destroy :destroy_contacts, :destroy_chats
 
   def remove_contact(user)
@@ -43,7 +49,8 @@ class User < ApplicationRecord
   end
 
   def as_json
-    super.except("id", "created_at")
+    avatar_obj = { avatar: { url: Rails.application.routes.url_helpers.rails_blob_path(avatar, disposition: "attachment", only_path: true), filename: avatar.filename.to_s } } if avatar.attached?
+    super.merge(avatar_obj || {}).except("id", "created_at")
   end
 
   private

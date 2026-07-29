@@ -6,6 +6,7 @@ import {
   FriendRequestForm,
   RemoveContactForm,
 } from "@javascript/components/Forms";
+import Avatar from "@javascript/components/Avatar";
 
 export default function UsersShow() {
   const {
@@ -19,7 +20,16 @@ export default function UsersShow() {
 
   return (
     <Layout>
-      <div>{user.username}</div>
+      <div className={styles.userContainer}>
+        <h2>{user.username}</h2>
+        {user.avatar && <Avatar avatar={user.avatar} width={150} />}
+        <div className={styles.userActions}>
+          <FriendRequestForm form={friendRequestForm} userId={user.pub_id} />
+          {userIsContact && (
+            <RemoveContactForm form={removeContactForm} userId={user.pub_id} />
+          )}
+        </div>
+      </div>
       <div className={styles.badgeContainer}>
         <div className={styles.badge}>{chatCount} Active Chats</div>
         <div className={styles.badge}>{messageCount} Messages posted</div>
@@ -27,10 +37,6 @@ export default function UsersShow() {
           Last Active {String(new Date(user.updated_at))}
         </div>
       </div>
-      <FriendRequestForm form={friendRequestForm} userId={user.pub_id} />
-      {userIsContact && (
-        <RemoveContactForm form={removeContactForm} userId={user.pub_id} />
-      )}
     </Layout>
   );
 }

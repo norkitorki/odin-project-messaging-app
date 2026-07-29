@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "@stylesheets/Header.module.css";
+import Avatar from "./Avatar";
 import { useContent } from "@thoughtbot/superglue";
-import { AccountCircle } from "@components/Icons";
 import { SignOutForm } from "@javascript/components/Forms";
 import { Cog } from "./Icons";
 
@@ -45,7 +45,9 @@ export default function Header() {
           <ul>
             {contacts.map((contact) => (
               <li key={contact.pub_id}>
-                <AccountCircle />
+                <a href={`/users/${contact.pub_id}`} data-sg-visit>
+                  <Avatar avatar={contact.avatar} width={30} />
+                </a>
               </li>
             ))}
           </ul>

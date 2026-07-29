@@ -1,22 +1,48 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "@stylesheets/User.module.css";
 import { Layout } from "@javascript/components";
-import { DeleteUserForm, EditPasswordForm } from "@javascript/components/Forms";
+import {
+  AvatarForm,
+  DeleteUserForm,
+  EditPasswordForm,
+} from "@javascript/components/Forms";
 import { useContent } from "@thoughtbot/superglue";
+import Avatar from "@javascript/components/Avatar";
+import Modal from "@javascript/components/Modal";
 
 export default function UsersEdit() {
-  const { forms, chats } = useContent();
+  const { user, chats, updated, forms } = useContent();
+  const [modalStatus, setModalStatus] = useState(false);
+
+  useEffect(() => {
+    updated && setModalStatus(false);
+  }, [updated]);
+
+  const userAvatar = user.avatar;
+  const openAvatarForm = () => setModalStatus("avatar");
+  const openPasswordForm = () => setModalStatus("password");
 
   return (
     <Layout>
-      <h2>User Settings</h2>
-      <div className={styles.badgeContainer}>
-        <div className={styles.userBadge}>
-          <h3>Change Password</h3>
-          <EditPasswordForm form={forms.editPasswordForm} />
+      <div className={styles.userContainer}>
+        <h2>{user.username} Settings</h2>
+        {userAvatar && <Avatar avatar={userAvatar} width={150} />}
+        <div className={styles.userActions}>
+          <button className={styles.avatarFormButton} onClick={openAvatarForm}>
+            {userAvatar ? "Update" : "Upload"} Avatar
+          </button>
+          <button
+            className={styles.passwordFormButton}
+            onClick={openPasswordForm}
+          >
+            Update Password
+          </button>
+          <DeleteUserForm form={forms.deleteUserForm} />
         </div>
+      </div>
+      <div className={styles.badgeContainer}>
         <div className={`${styles.userBadge} ${styles.chatList}`}>
-          <h3>Chats ({chats.length})</h3>
+          <h3>Created Chats ({chats.length})</h3>
           <ul>
             {chats.map((chat) => (
               <li key={chat.pub_id}>
@@ -27,8 +53,20 @@ export default function UsersEdit() {
             ))}
           </ul>
         </div>
-        <DeleteUserForm form={forms.deleteUserForm} />
       </div>
+      {modalStatus && (
+        <Modal setterFunc={setModalStatus}>
+          {modalStatus === "avatar" && (
+            <>
+              {userAvatar && <Avatar avatar={userAvatar} width={150} />}
+              <AvatarForm form={forms.avatarForm} />
+            </>
+          )}
+          {modalStatus === "password" && (
+            <EditPasswordForm form={forms.editPasswordForm} />
+          )}
+        </Modal>
+      )}
     </Layout>
   );
 }

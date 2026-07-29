@@ -32,6 +32,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow-y: auto;
+}
+
+.sideBar ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
 }
 
 .sideBar svg {

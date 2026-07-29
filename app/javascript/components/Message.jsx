@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import styles from "@stylesheets/Message.module.css";
 import { useContent } from "@thoughtbot/superglue";
-import { AccountCircle, Edit, Link, Reply } from "./Icons";
+import { Edit, Link, Reply } from "./Icons";
 import Modal from "./Modal";
 import {
   AddMessageForm,
   DeleteMessageForm,
   EditMessageForm,
 } from "@javascript/components/Forms";
+import Avatar from "./Avatar";
 
 export default function Message({ message, chat, replies, openImageInViewer }) {
   const { currentUser, messageQuery, parentQuery, forms } = useContent();
@@ -57,9 +58,7 @@ export default function Message({ message, chat, replies, openImageInViewer }) {
       >
         <summary>
           <div className={styles.messageDetails}>
-            <div className={styles.authorImage}>
-              {message.user.image || <AccountCircle />}
-            </div>
+            <Avatar avatar={message.user.avatar} width={45} />
             <a
               className={styles.authorBadge}
               href={`/users/${message.user.pub_id}`}
