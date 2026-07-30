@@ -112,3 +112,8 @@
   width: 45px;
   fill: #ffffff;
 }
+
+.avatarForm .avatar {
+  width: max-content;
+  margin: 0 auto;
+}

@@ -121,6 +121,21 @@ export const ChatRequestForm = ({ form }) => (
   </Form>
 );
 
+export const DeleteAvatarForm = ({ form }) => {
+  const onSubmit = confirmSubmission(
+    "You are about to delete your avatar. Are you sure?",
+  );
+
+  return (
+    <Form {...form.form} extras={form.extras} onSubmit={onSubmit}>
+      <SubmitButton
+        {...form.inputs.submit}
+        className={layoutStyles.buttonDanger}
+      />
+    </Form>
+  );
+};
+
 export const DeleteChatForm = ({ form }) => {
   const onSubmit = confirmSubmission(
     "You are about to delete this chat. Are you sure?",

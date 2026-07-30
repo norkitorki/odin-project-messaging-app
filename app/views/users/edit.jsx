@@ -3,6 +3,7 @@ import styles from "@stylesheets/User.module.css";
 import { Layout } from "@javascript/components";
 import {
   AvatarForm,
+  DeleteAvatarForm,
   DeleteUserForm,
   EditPasswordForm,
 } from "@javascript/components/Forms";
@@ -37,6 +38,7 @@ export default function UsersEdit() {
           >
             Update Password
           </button>
+          {userAvatar && <DeleteAvatarForm form={forms.deleteAvatarForm} />}
           <DeleteUserForm form={forms.deleteUserForm} />
         </div>
       </div>
@@ -57,10 +59,10 @@ export default function UsersEdit() {
       {modalStatus && (
         <Modal setterFunc={setModalStatus}>
           {modalStatus === "avatar" && (
-            <>
+            <div className={styles.avatarForm}>
               {userAvatar && <Avatar avatar={userAvatar} width={150} />}
               <AvatarForm form={forms.avatarForm} />
-            </>
+            </div>
           )}
           {modalStatus === "password" && (
             <EditPasswordForm form={forms.editPasswordForm} />

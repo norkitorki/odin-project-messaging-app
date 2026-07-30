@@ -5,7 +5,8 @@ Rails.application.routes.draw do
   }
 
   devise_scope :user do
-    put "update", to: "users/registrations#update", as: :update_user
+    put "/user/update", to: "users/registrations#update", as: :update_user
+    delete "/user/avatar", to: "users/avatars#destroy", as: :delete_avatar
   end
 
   as :user do

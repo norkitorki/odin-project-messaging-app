@@ -14,6 +14,12 @@ json.forms do
     json.errors @errors ? @errors[:avatar_form] : nil
   end
 
+  json.deleteAvatarForm do 
+    form_props(url: delete_avatar_path, method: :delete) do |f|
+      f.submit "Delete Avatar"
+    end
+  end
+
   json.editPasswordForm do
     form_props(model: current_user, url: update_user_path, method: :put) do |f|
       f.hidden_field :form_action, value: :password_form, name: :form_action, id: nil

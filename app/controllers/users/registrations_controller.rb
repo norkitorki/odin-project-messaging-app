@@ -15,7 +15,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def update
     self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
 
-    resource_updated =  params[:user][:avatar] ? update_avatar(resource, account_update_params) : update_resource(resource, account_update_params)
+    resource_updated = send("update_#{params[:user][:avatar] ? 'avatar' : 'resource'}", resource, account_update_params)
     if resource_updated
       bypass_sign_in resource, scope: resource_name if sign_in_after_change_password?
       redirect_to edit_user_path(u: true), notice: "User has been successfully updated"
