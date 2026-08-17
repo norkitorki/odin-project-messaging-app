@@ -39,7 +39,7 @@ json.forms do
     form_props(url: add_message_path, method: :post) do |f|
       f.hidden_field :chatId, value: @chat["pub_id"], name: :chat_id, id: nil
       f.hidden_field :parentId, name: "message[parent_id]", id: nil
-      f.text_area :value, name: "message[value]"
+      f.text_area :value, name: "message[value]", autofocus: true
       f.file_field :images, name: "message[images][]", multiple: true, accept: Message::IMAGE_CONTENT_TYPES.join(',')
       f.submit "Send"
     end

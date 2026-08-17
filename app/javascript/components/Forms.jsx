@@ -89,7 +89,6 @@ export const AddMessageForm = ({
       className={styles.messageInput}
       value={messageValue}
       label={`Add ${replying ? "Reply" : "Message"}`}
-      autoFocus={replying ? true : false}
       required
     />
     <FileField
