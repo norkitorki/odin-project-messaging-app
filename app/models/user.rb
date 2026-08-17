@@ -48,6 +48,10 @@ class User < ApplicationRecord
     !removal.empty?
   end
 
+  def created_chats
+    chats.where(admin: self)
+  end
+
   def as_json
     avatar_obj = { avatar: { url: Rails.application.routes.url_helpers.rails_blob_path(avatar, disposition: "attachment", only_path: true), filename: avatar.filename.to_s } } if avatar.attached?
     super.merge(avatar_obj || {}).except("id", "created_at")
