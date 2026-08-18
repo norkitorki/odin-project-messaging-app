@@ -7,13 +7,13 @@ class MessagesController < ApplicationController
     if chat
       message = current_user.messages.new(message_params.merge({ chat_id: chat.id }))
       if message.save
-        return redirect_to chat_path(pub_id: chat.pub_id, message: message.pub_id, parent: message.parent_id), notice: "Message saved"
+        redirect_to chat_path(pub_id: chat.pub_id, message: message.pub_id, parent: message.parent_id), notice: "Message saved"
       else
-        return redirect_to chat_path(pub_id: chat.pub_id), alert: "Message could not be saved"
+        redirect_to chat_path(pub_id: chat.pub_id), alert: "Message could not be saved"
       end
+    else
+      redirect_back_or_to chats_path, alert: "You are not a member of this chat"
     end
-
-    redirect_back_or_to root_path
   end
 
   def update
