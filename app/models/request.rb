@@ -6,6 +6,8 @@ class Request < ApplicationRecord
   belongs_to :initiator, class_name: "User"
   belongs_to :receiver, class_name: "User"
 
+  validates :initiator, presence: true
+  validates :receiver, presence: true
   validates :request_type, presence: true
   validate :receiver_difference
 
