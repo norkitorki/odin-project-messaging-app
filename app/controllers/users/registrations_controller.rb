@@ -1,4 +1,6 @@
 class Users::RegistrationsController < Devise::RegistrationsController
+  include FormHelper
+
   def create
     warden.reset_session!
     build_resource(sign_up_params)
@@ -22,7 +24,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     else
       clean_up_passwords resource
       set_minimum_password_length
-      @errors = { "#{params[:form_action]}": resource.errors.to_hash(true) }
+      build_errors(resource)
       @chats = resource.created_chats
       flash.now[:alert] = "User could not be updated"
       render "users/edit"
