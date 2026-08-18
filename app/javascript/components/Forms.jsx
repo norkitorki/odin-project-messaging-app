@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import layoutStyles from "@stylesheets/Layout.module.css";
 import styles from "@stylesheets/Forms.module.css";
 import {
@@ -24,6 +24,15 @@ const ErrorMessages = ({ errors, property }) => {
   );
 };
 
+const FocusInvalidInput = ({ form, idPrefix }) => {
+  useEffect(() => {
+    if (form.errors) {
+      const errorKey = Object.keys(form.errors)[0];
+      document.getElementById(`${idPrefix}_${errorKey}`)?.focus();
+    }
+  }, [form.errors]);
+};
+
 const confirmSubmission = (message) => {
   return (event) => !confirm(message) && event.preventDefault();
 };
@@ -36,35 +45,41 @@ export const AddContactForm = ({ form }) => (
 );
 
 export const AvatarForm = ({ form }) => (
-  <Form
-    {...form.form}
-    extras={form.extras}
-    className={styles.avatarForm}
-    data-sg-visit
-  >
-    <input {...form.inputs.formAction} />
-    <div>
-      <FileField
-        {...form.inputs.avatar}
-        className={styles.imageSelector}
-        label="Avatar (Max file size 1MB)"
-      />
-      <ErrorMessages errors={form.errors} property={"avatar"} />
-    </div>
-    <div>
-      <PasswordField {...form.inputs.password} label="Current Password" />
-      <ErrorMessages errors={form.errors} property={"password"} />
-    </div>
-    <div>
-      <PasswordField
-        {...form.inputs.passwordConfirmation}
-        label="Confirm Password"
-      />
-      <ErrorMessages errors={form.errors} property={"password_confirmation"} />
-    </div>
+  <>
+    <FocusInvalidInput form={form} idPrefix={"avatar"} />
+    <Form
+      {...form.form}
+      extras={form.extras}
+      className={styles.avatarForm}
+      data-sg-visit
+    >
+      <input {...form.inputs.formAction} />
+      <div>
+        <FileField
+          {...form.inputs.avatar}
+          className={styles.imageSelector}
+          label="Avatar (Max file size 1MB)"
+        />
+        <ErrorMessages errors={form.errors} property={"avatar"} />
+      </div>
+      <div>
+        <PasswordField {...form.inputs.password} label="Current Password" />
+        <ErrorMessages errors={form.errors} property={"password"} />
+      </div>
+      <div>
+        <PasswordField
+          {...form.inputs.passwordConfirmation}
+          label="Confirm Password"
+        />
+        <ErrorMessages
+          errors={form.errors}
+          property={"password_confirmation"}
+        />
+      </div>
 
-    <SubmitButton {...form.inputs.submit} className={styles.buttonSubmit} />
-  </Form>
+      <SubmitButton {...form.inputs.submit} className={styles.buttonSubmit} />
+    </Form>
+  </>
 );
 
 export const AddMessageForm = ({
@@ -229,33 +244,42 @@ export const EditMessageForm = ({
 };
 
 export const EditPasswordForm = ({ form }) => (
-  <Form
-    {...form.form}
-    extras={form.extras}
-    className={styles.editPasswordForm}
-    data-sg-visit
-  >
-    <input {...form.inputs.formAction} />
-    <div>
-      <PasswordField {...form.inputs.password} label="New Password" />
-      <ErrorMessages errors={form.errors} property={"password"} />
-    </div>
-    <div>
-      <PasswordField
-        {...form.inputs.passwordConfirmation}
-        label="Confirm New Password"
+  <>
+    <FocusInvalidInput form={form} idPrefix={"user"} />
+    <Form
+      {...form.form}
+      extras={form.extras}
+      className={styles.editPasswordForm}
+      data-sg-visit
+    >
+      <input {...form.inputs.formAction} />
+      <div>
+        <PasswordField {...form.inputs.password} label="New Password" />
+        <ErrorMessages errors={form.errors} property={"password"} />
+      </div>
+      <div>
+        <PasswordField
+          {...form.inputs.passwordConfirmation}
+          label="Confirm New Password"
+        />
+        <ErrorMessages
+          errors={form.errors}
+          property={"password_confirmation"}
+        />
+      </div>
+      <div>
+        <PasswordField
+          {...form.inputs.currentPassword}
+          label="Current Password"
+        />
+        <ErrorMessages errors={form.errors} property={"current_password"} />
+      </div>
+      <SubmitButton
+        {...form.inputs.submit}
+        className={layoutStyles.buttonInfo}
       />
-      <ErrorMessages errors={form.errors} property={"password_confirmation"} />
-    </div>
-    <div>
-      <PasswordField
-        {...form.inputs.currentPassword}
-        label="Current Password"
-      />
-      <ErrorMessages errors={form.errors} property={"current_password"} />
-    </div>
-    <SubmitButton {...form.inputs.submit} className={layoutStyles.buttonInfo} />
-  </Form>
+    </Form>
+  </>
 );
 
 export const FriendRequestForm = ({ form, userId }) => (
@@ -290,54 +314,65 @@ export const LeaveChatForm = ({ form }) => {
 };
 
 export const NewChatForm = ({ form }) => (
-  <Form
-    {...form.form}
-    extras={form.extras}
-    className={styles.newChatForm}
-    data-sg-visit
-  >
-    <TextField {...form.inputs.name} label="Name" />
-    <ErrorMessages errors={form.errors} property={"name"} />
-    <label>
-      Private Chat?
-      <Checkbox {...form.inputs.private} />
-    </label>
-    <SubmitButton {...form.inputs.submit} className={styles.buttonSubmit} />
-  </Form>
+  <>
+    <FocusInvalidInput form={form} idPrefix={"chat"} />
+    <Form
+      {...form.form}
+      extras={form.extras}
+      className={styles.newChatForm}
+      data-sg-visit
+    >
+      <div>
+        <TextField {...form.inputs.name} label="Name" />
+        <ErrorMessages errors={form.errors} property={"name"} />
+      </div>
+      <label>
+        Private Chat?
+        <Checkbox {...form.inputs.private} />
+      </label>
+      <SubmitButton {...form.inputs.submit} className={styles.buttonSubmit} />
+    </Form>
+  </>
 );
 
 export const NewUserForm = ({ form }) => (
-  <Form
-    {...form.form}
-    extras={form.extras}
-    className={styles.newUserForm}
-    data-sg-visit
-  >
-    <div>
-      <TextField {...form.inputs.username} label="Username" />
-      <ErrorMessages errors={form.errors} property={"username"} />
-    </div>
-    <div>
-      <FileField
-        {...form.inputs.avatar}
-        className={styles.imageSelector}
-        label="Avatar (Max file size 1MB)"
-      />
-      <ErrorMessages errors={form.errors} property={"avatar"} />
-    </div>
-    <div>
-      <PasswordField {...form.inputs.password} label="Password" />
-      <ErrorMessages errors={form.errors} property={"password"} />
-    </div>
-    <div>
-      <PasswordField
-        {...form.inputs.passwordConfirmation}
-        label="Password Confirmation"
-      />
-      <ErrorMessages errors={form.errors} property={"password_confirmation"} />
-    </div>
-    <SubmitButton {...form.inputs.submit} className={styles.buttonSubmit} />
-  </Form>
+  <>
+    <InvalidInput form={form} idPrefix={"user"} />
+    <Form
+      {...form.form}
+      extras={form.extras}
+      className={styles.newUserForm}
+      data-sg-visit
+    >
+      <div>
+        <TextField {...form.inputs.username} label="Username" />
+        <ErrorMessages errors={form.errors} property={"username"} />
+      </div>
+      <div>
+        <FileField
+          {...form.inputs.avatar}
+          className={styles.imageSelector}
+          label="Avatar (Max file size 1MB)"
+        />
+        <ErrorMessages errors={form.errors} property={"avatar"} />
+      </div>
+      <div>
+        <PasswordField {...form.inputs.password} label="Password" />
+        <ErrorMessages errors={form.errors} property={"password"} />
+      </div>
+      <div>
+        <PasswordField
+          {...form.inputs.passwordConfirmation}
+          label="Password Confirmation"
+        />
+        <ErrorMessages
+          errors={form.errors}
+          property={"password_confirmation"}
+        />
+      </div>
+      <SubmitButton {...form.inputs.submit} className={styles.buttonSubmit} />
+    </Form>
+  </>
 );
 
 export const RemoveContactForm = ({ form, userId }) => (
