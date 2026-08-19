@@ -8,7 +8,7 @@ class Message < ApplicationRecord
   scope :ordered_by_creation, -> { order(:created_at) }
   scope :top, -> { where(parent_id: nil) }
 
-  belongs_to :chat
+  belongs_to :chat, touch: true
   belongs_to :user, touch: true
 
   has_many_attached :images do |attachable|

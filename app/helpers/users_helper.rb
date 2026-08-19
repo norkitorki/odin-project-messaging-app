@@ -1,6 +1,6 @@
 module UsersHelper
   def build_chats(user = current_user)
-    chats = user.created_chats
+    chats = user.created_chats.ordered_by_activity
     @public_chats = []
     @private_chats = []
     chats.each { |chat| chat.private ? @private_chats << chat : @public_chats << chat }

@@ -2,6 +2,8 @@ class Chat < ApplicationRecord
   include CoolId::Model
   cool_id prefix: "c", length: 8, id_field: :pub_id
 
+  scope :ordered_by_activity, -> { order(updated_at: :desc) }
+
   validates :name, presence: true, uniqueness: true
 
   has_many :chat_rooms, dependent: :destroy_async
