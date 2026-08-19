@@ -65,7 +65,7 @@ export default function UsersEdit() {
         <div className={`${styles.userBadge} ${styles.chatList}`}>
           <h3>
             Private Chats{" "}
-            <span className={styles.chatCount}>({chats.length})</span>
+            <span className={styles.chatCount}>({privateChats.length})</span>
           </h3>
           <ChatList chats={privateChats} />
         </div>
