@@ -29,7 +29,7 @@
   color: #77cebc;
 }
 
-/*** users/show ***/
+/*** users/show, users/edit ***/
 
 .userContainer {
   display: flex;
@@ -54,7 +54,6 @@
   padding: 1rem 1rem 1rem 0;
   display: flex;
   justify-content: center;
-  align-items: center;
   flex-wrap: wrap;
   gap: 1rem;
 }
@@ -72,9 +71,7 @@
 .userBadge {
   composes: badge;
   max-width: max-content;
-  align-items: center;
   display: block;
-  text-align: center;
 }
 
 .userBadge h3 {
@@ -85,8 +82,8 @@
   margin: 0 auto;
 }
 
-.userBadge label {
-  padding: 0.5rem 0;
+.chatCount {
+  color: #b913b9;
 }
 
 .chatList ul {
@@ -97,7 +94,16 @@
 }
 
 .chatList a {
+  display: block;
   color: #ffffff;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+.chatList a:focus,
+.chatList a:hover {
+  color: #8edbdb;
 }
 
 /*** avatar ***/

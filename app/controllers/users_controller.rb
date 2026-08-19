@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  include UsersHelper
+
   before_action :use_jsx_rendering_defaults
   before_action :authenticate_user!, except: :new
 
@@ -14,6 +16,6 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @chats = current_user.created_chats
+    build_chats
   end
 end

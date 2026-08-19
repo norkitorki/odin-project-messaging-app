@@ -11,8 +11,20 @@ import { useContent } from "@thoughtbot/superglue";
 import Avatar from "@javascript/components/Avatar";
 import Modal from "@javascript/components/Modal";
 
+const ChatList = ({ chats }) => (
+  <ul>
+    {chats.map((chat) => (
+      <li key={chat.pub_id}>
+        <a href={`/chats/${chat.pub_id}`} data-sg-visit>
+          {chat.name}
+        </a>
+      </li>
+    ))}
+  </ul>
+);
+
 export default function UsersEdit() {
-  const { user, chats, updated, forms } = useContent();
+  const { user, chats, privateChats, updated, forms } = useContent();
   const [modalStatus, setModalStatus] = useState(false);
 
   useEffect(() => {
@@ -44,16 +56,18 @@ export default function UsersEdit() {
       </div>
       <div className={styles.badgeContainer}>
         <div className={`${styles.userBadge} ${styles.chatList}`}>
-          <h3>Created Chats ({chats.length})</h3>
-          <ul>
-            {chats.map((chat) => (
-              <li key={chat.pub_id}>
-                <a href={`/chats/${chat.pub_id}`} data-sg-visit>
-                  {chat.name}
-                </a>
-              </li>
-            ))}
-          </ul>
+          <h3>
+            Public Chats{" "}
+            <span className={styles.chatCount}>({chats.length})</span>
+          </h3>
+          <ChatList chats={chats} />
+        </div>
+        <div className={`${styles.userBadge} ${styles.chatList}`}>
+          <h3>
+            Private Chats{" "}
+            <span className={styles.chatCount}>({chats.length})</span>
+          </h3>
+          <ChatList chats={privateChats} />
         </div>
       </div>
       {modalStatus && (

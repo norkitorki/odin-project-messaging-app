@@ -1,5 +1,6 @@
 json.user current_user
-json.chats @chats
+json.chats @public_chats
+json.privateChats @private_chats
 json.updated params[:u]
 
 json.forms do
