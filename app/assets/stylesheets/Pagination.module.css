@@ -1,0 +1,24 @@
+.pagination {
+  max-width: max-content;
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+.pagination a {
+  color: #ffffff;
+  text-decoration: none;
+  display: inline-block;
+  padding-left: 0.3rem;
+  transition: color 0.25s ease;
+}
+
+.pagination .current,
+.pagination a:focus,
+.pagination a:hover {
+  color: #0ebfd6;
+}
+
+.itemCounter {
+  font-size: 0.8rem;
+  padding-top: 0.5rem;
+}

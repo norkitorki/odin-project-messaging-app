@@ -1,9 +1,17 @@
 import React from "react";
-import styles from "@stylesheets/Chat.module.css";
+import styles from "@stylesheets/Pagination.module.css";
 
-export default function Pagination ({ pages }) {
+export default function Pagination({ pages }) {
+  if (pages.count < 2) return null;
+
   const startIndex = pages.current - 4 < 0 ? 0 : pages.current - 4;
   const shownPages = pages.paths.slice(startIndex, pages.current + 3);
+  const fromItem = pages.current * pages.per_page - pages.per_page + 1;
+  const toItem =
+    pages.current * pages.per_page > pages.total_count
+      ? pages.current * pages.per_page -
+        (pages.current * pages.per_page - pages.total_count)
+      : pages.current * pages.per_page;
 
   const DirectionButton = ({ index, title, text }) => (
     <a href={pages.paths[index].url} title={title} data-sg-visit>
@@ -47,12 +55,15 @@ export default function Pagination ({ pages }) {
           {pages.current < pages.count - 3 && (
             <DirectionButton
               index={pages.count - 1}
-              title={"last page"}
+              title={`last page (${pages.count})`}
               text={">>"}
             />
           )}
         </>
       )}
+      <p className={styles.itemCounter}>
+        Showing {fromItem} - {toItem} of {pages.total_count}
+      </p>
     </div>
   );
-};
+}

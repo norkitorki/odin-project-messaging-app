@@ -1,4 +1,6 @@
 class ChatsController < ApplicationController
+  include PaginationHelper
+
   before_action :authenticate_user!
   before_action :use_jsx_rendering_defaults, except: [ :create, :destroy ]
 
@@ -23,10 +25,8 @@ class ChatsController < ApplicationController
         return redirect_to_message(chat, index, message_id, parent_id) if index
       end
 
-      @page_count = chat.pages
-      @page = params[:page] ? params[:page].to_i : @page_count
       @chat = chat.json_with_images
-      @messages = messages.includes(:user).offset((@page - 1) * 30).limit(30)
+      @pages, @messages = initialize_pagination(messages.includes(:user), chat_path(pub_id: chat.pub_id))
       @new_message = chat.messages.new
       @replies = chat_replies(chat.id)
     end

@@ -33,11 +33,6 @@ class Chat < ApplicationRecord
     as_json.merge({ images: message_images })
   end
 
-  def pages
-    message_count = messages.count
-    message_count > 0 && message_count % 30 == 0 ? message_count / 30 : (message_count / 30) + 1
-  end
-
   private
 
   def skip_existing_user(user)

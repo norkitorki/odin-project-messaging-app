@@ -60,7 +60,7 @@ export function Chat({ chat }) {
               <LeaveChatForm form={forms.leaveChatForm} />
             ))}
         </div>
-        {pages.count > 1 && <Pagination pages={pages} />}
+        <Pagination pages={pages} />
         {messages.length > 0 && (
           <ol className={styles.messages}>
             {messages.map((message) => (

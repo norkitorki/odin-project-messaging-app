@@ -76,6 +76,7 @@
 
 .userBadge h3 {
   display: block;
+  padding-bottom: 0.25rem;
 }
 
 .userBadge * {

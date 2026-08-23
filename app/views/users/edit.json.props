@@ -1,7 +1,15 @@
 json.user current_user
-json.chats @public_chats
-json.privateChats @private_chats
 json.updated params[:u]
+
+json.chatPages do
+  json.public @public_pages
+  json.private @private_pages
+end
+
+json.chats do
+  json.public @public_chats
+  json.private @private_chats
+end
 
 json.forms do
   json.avatarForm do

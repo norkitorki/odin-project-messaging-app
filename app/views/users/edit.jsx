@@ -8,6 +8,7 @@ import {
   EditPasswordForm,
 } from "@javascript/components/Forms";
 import { useContent } from "@thoughtbot/superglue";
+import Pagination from "@javascript/components/Pagination";
 import Avatar from "@javascript/components/Avatar";
 import Modal from "@javascript/components/Modal";
 
@@ -24,7 +25,7 @@ const ChatList = ({ chats }) => (
 );
 
 export default function UsersEdit() {
-  const { user, chats, privateChats, updated, forms } = useContent();
+  const { user, updated, chatPages, chats, forms } = useContent();
   const [modalStatus, setModalStatus] = useState(false);
 
   useEffect(() => {
@@ -58,16 +59,22 @@ export default function UsersEdit() {
         <div className={`${styles.userBadge} ${styles.chatList}`}>
           <h3>
             Public Chats{" "}
-            <span className={styles.chatCount}>({chats.length})</span>
+            <span className={styles.chatCount}>
+              ({chatPages.public.total_count})
+            </span>
           </h3>
-          <ChatList chats={chats} />
+          <Pagination pages={chatPages.public} />
+          <ChatList chats={chats.public} />
         </div>
         <div className={`${styles.userBadge} ${styles.chatList}`}>
           <h3>
             Private Chats{" "}
-            <span className={styles.chatCount}>({privateChats.length})</span>
+            <span className={styles.chatCount}>
+              ({chatPages.private.total_count})
+            </span>
           </h3>
-          <ChatList chats={privateChats} />
+          <Pagination pages={chatPages.private} />
+          <ChatList chats={chats.private} />
         </div>
       </div>
       {modalStatus && (

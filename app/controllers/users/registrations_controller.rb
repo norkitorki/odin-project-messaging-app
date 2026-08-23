@@ -25,7 +25,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     else
       clean_up_passwords resource
       set_minimum_password_length
-      build_chats(resource)
+      build_chats
       build_errors(resource)
       flash.now[:alert] = "User could not be updated"
       render "users/edit"

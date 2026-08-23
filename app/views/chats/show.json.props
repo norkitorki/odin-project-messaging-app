@@ -1,5 +1,7 @@
 json.chat @chat
 
+json.pages @pages
+
 json.userIsMember @user_is_member
 
 json.messageQuery params[:m]
@@ -7,12 +9,6 @@ json.parentQuery params[:p]
 
 json.messages @messages
 json.messageReplies @replies
-
-json.pages do
-  json.current @page
-  json.count @page_count
-  json.paths (1..@page_count).map { |i| { page: i, url: chat_path(pub_id: @chat["pub_id"], page: i) } }
-end
 
 json.forms do
   if @chat["private"] && current_user.pub_id == @chat[:admin][:pub_id]
