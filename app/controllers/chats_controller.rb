@@ -5,6 +5,7 @@ class ChatsController < ApplicationController
   before_action :use_jsx_rendering_defaults, except: [ :create, :destroy ]
 
   def index
+    @pages, @chats = initialize_pagination(Chat.includes(:admin, :users).ordered_by_activity, chats_path, { default_page: 1 })
   end
 
   def new

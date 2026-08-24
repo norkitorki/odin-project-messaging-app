@@ -1,1 +1,2 @@
-json.chats Chat.includes(:admin, :users).ordered_by_activity
+json.chats @chats
+json.pages @pages
