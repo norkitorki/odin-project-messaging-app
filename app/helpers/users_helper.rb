@@ -2,8 +2,8 @@ module UsersHelper
   include PaginationHelper
 
   def build_chats
-    @public_pages, @public_chats = initialize_pagination(collect_chats, edit_user_path(private_chat_page: params[:private_chat_page]), 10, "public_chat_page")
-    @private_pages, @private_chats = initialize_pagination(collect_chats(true), edit_user_path(public_chat_page: params[:public_chat_page]), 10, "private_chat_page")
+    @public_pages, @public_chats = initialize_pagination(collect_chats, edit_user_path(private_chat_page: params[:private_chat_page]), { per_page: 10, param: "public_chat_page", default_page: 1 })
+    @private_pages, @private_chats = initialize_pagination(collect_chats(true), edit_user_path(public_chat_page: params[:public_chat_page]), { per_page: 10, param: "private_chat_page", default_page: 1 })
   end
 
   private
