@@ -39,28 +39,41 @@ export function Chat({ chat }) {
         </button>
       )}
       <div className={styles.chatContainer}>
-        <div className={styles.chatActions}>
-          {chat.private &&
-            currentUser.pub_id === chat.admin.pub_id &&
-            modalStatus !== "invite" && (
-              <button
-                onClick={openInviteForm}
-                className={styles.inviteFormToggle}
-              >
-                Invite User
-              </button>
+        <div className={styles.chatInfo}>
+          <h2>
+            {chat.name}{" "}
+            <p className={styles.badge}>
+              <span>{chat.users.length}</span> users
+            </p>
+            <p className={styles.badge}>
+              <span>{pages.total_count}</span> messages
+            </p>
+          </h2>
+          <div className={styles.chatActions}>
+            {chat.private &&
+              currentUser.pub_id === chat.admin.pub_id &&
+              modalStatus !== "invite" && (
+                <button
+                  onClick={openInviteForm}
+                  className={styles.inviteFormToggle}
+                >
+                  Invite User
+                </button>
+              )}
+            {!chat.private && !userIsMember && (
+              <JoinChatForm form={forms.joinChatForm} />
             )}
-          {!chat.private && !userIsMember && (
-            <JoinChatForm form={forms.joinChatForm} />
-          )}
-          {userIsMember &&
-            (chat.admin.pub_id === currentUser.pub_id ? (
-              <DeleteChatForm form={forms.deleteChatForm} />
-            ) : (
-              <LeaveChatForm form={forms.leaveChatForm} />
-            ))}
+            {userIsMember &&
+              (chat.admin.pub_id === currentUser.pub_id ? (
+                <DeleteChatForm form={forms.deleteChatForm} />
+              ) : (
+                <LeaveChatForm form={forms.leaveChatForm} />
+              ))}
+          </div>
         </div>
-        <Pagination pages={pages} />
+        <div className={styles.pagination}>
+          <Pagination pages={pages} />
+        </div>
         {messages.length > 0 && (
           <ol className={styles.messages}>
             {messages.map((message) => (

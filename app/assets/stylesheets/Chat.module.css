@@ -39,7 +39,22 @@
   margin-bottom: 0.5rem;
 }
 
+.chatInfo {
+  max-width: max-content;
+}
+
+.badge {
+  font-size: 1rem;
+  display: inline-block;
+  padding: 0.5rem 0 0.5rem 0.5rem;
+}
+
+.badge span {
+  color: #0dddd3;
+}
+
 .chatActions {
+  padding-top: 0.25rem;
   display: flex;
   gap: 0.5rem;
   flex-wrap: wrap;
@@ -56,11 +71,6 @@
 .createChatLink,
 .inviteFormToggle {
   composes: buttonInfo from "./Layout.module.css";
-  display: block;
-}
-
-.closeFormButton {
-  composes: buttonDanger from "./Layout.module.css";
   display: block;
 }
 
