@@ -1,1 +1,2 @@
-json.users User.where.not(id: current_user.id).ordered_by_username
+json.users @users
+json.chat @chat_data

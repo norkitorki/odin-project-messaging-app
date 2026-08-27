@@ -5,6 +5,9 @@ class UsersController < ApplicationController
   before_action :authenticate_user!, except: :new
 
   def index
+    chat = Chat.find_by(pub_id: params[:chat_id])
+    @users = chat.users.includes(:avatar_blob).ordered_by_username
+    @chat_data = { name: chat.name, path: chat_path(pub_id: chat.pub_id) }
   end
 
   def new

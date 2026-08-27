@@ -20,9 +20,6 @@ export default function Header() {
         <nav>
           {currentUser ? (
             <>
-              <a href="/users" data-sg-visit>
-                Users
-              </a>
               <a href="/chats" data-sg-visit>
                 Chats
               </a>

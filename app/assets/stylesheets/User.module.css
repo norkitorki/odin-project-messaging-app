@@ -1,5 +1,9 @@
 /*** users/index ***/
 
+.chatLink {
+  color: inherit;
+}
+
 .userList {
   padding: 0 1rem 1rem 0;
   display: flex;

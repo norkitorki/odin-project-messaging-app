@@ -5,10 +5,16 @@ import { Layout } from "@javascript/components";
 import Avatar from "@javascript/components/Avatar";
 
 export default function UsersIndex() {
-  const { users } = useContent();
+  const { users, chat } = useContent();
 
   return (
     <Layout>
+      <h2>
+        Users of{" "}
+        <a href={chat.path} className={styles.chatLink} data-sg-visit>
+          {chat.name}
+        </a>
+      </h2>
       <ul className={styles.userList}>
         {users.map((user) => (
           <li key={user.pub_id}>

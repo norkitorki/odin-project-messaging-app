@@ -43,7 +43,10 @@ export function Chat({ chat }) {
           <h2>
             {chat.name}{" "}
             <p className={styles.badge}>
-              <span>{chat.users.length}</span> users
+              <span>{chat.users.length}</span>{" "}
+              <a href={`/chats/${chat.pub_id}/users`} data-sg-visit>
+                users
+              </a>
             </p>
             <p className={styles.badge}>
               <span>{pages.total_count}</span> messages

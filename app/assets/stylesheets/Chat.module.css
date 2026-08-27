@@ -53,6 +53,10 @@
   color: #0dddd3;
 }
 
+.badge a {
+  color: #ffffff;
+}
+
 .chatActions {
   padding-top: 0.25rem;
   display: flex;
