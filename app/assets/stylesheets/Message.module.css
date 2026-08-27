@@ -97,7 +97,11 @@
 }
 
 .replies {
-  padding: 0.75rem 0 0 0.75rem;
+  padding: 0.75rem 0 0 0;
+}
+
+.replies ol {
+  padding-left: 1rem;
 }
 
 .replies .messageDetails {
@@ -107,4 +111,8 @@
 .replies .message {
   padding: 0.5rem;
   border: none;
+}
+
+.replyDetails {
+  padding-top: 1rem;
 }
