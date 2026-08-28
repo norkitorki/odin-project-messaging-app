@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "@stylesheets/User.module.css";
+import styles from "@stylesheets/Chat.module.css";
 import { useContent } from "@thoughtbot/superglue";
 import { Layout } from "@javascript/components";
 import Avatar from "@javascript/components/Avatar";
