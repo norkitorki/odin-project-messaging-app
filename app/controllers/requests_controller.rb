@@ -2,12 +2,9 @@ class RequestsController < ApplicationController
   include RequestsHelper
 
   before_action :authenticate_user!
-  before_action :use_jsx_rendering_defaults, only: [ :index, :show ]
+  before_action :use_jsx_rendering_defaults, only: :show
   before_action :set_request, only: [ :show, :update ]
   before_action :authorize_receiver, only: [ :show, :update ]
-
-  def index
-  end
 
   def show
   end

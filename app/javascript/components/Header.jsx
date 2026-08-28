@@ -23,9 +23,6 @@ export default function Header() {
               <a href="/chats" data-sg-visit>
                 Chats
               </a>
-              <a href="/requests" data-sg-visit>
-                Requests
-              </a>
               <div className={styles.userDetails}>
                 <p>Welcome back {currentUser.username}</p>
                 <a href="/user/settings" data-sg-visit>

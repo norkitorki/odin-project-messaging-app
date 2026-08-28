@@ -24,7 +24,6 @@ Rails.application.routes.draw do
   get "/chats/new", to: "chats#new", as: :new_chat
   get "/chats/:pub_id", to: "chats#show", as: :chat
   get "/chats/:chat_id/users", to: "chats#users", as: :users
-  get "/requests", to: "requests#index", as: :requests
   get "/requests/:pub_id", to: "requests#show", as: :request
   get "/users/:pub_id", to: "users#show", as: :user
   get "/user/settings", to: "users#edit", as: :edit_user

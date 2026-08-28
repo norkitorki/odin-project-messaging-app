@@ -25,7 +25,7 @@ const ChatList = ({ chats }) => (
 );
 
 export default function UsersEdit() {
-  const { user, updated, chatPages, chats, forms } = useContent();
+  const { user, updated, requests, chatPages, chats, forms } = useContent();
   const [modalStatus, setModalStatus] = useState(false);
 
   useEffect(() => {
@@ -76,6 +76,22 @@ export default function UsersEdit() {
           <Pagination pages={chatPages.private} />
           <ChatList chats={chats.private} />
         </div>
+      </div>
+      <h2>Requests</h2>
+      <br />
+      <div className={styles.requestContainer}>
+        {requests.map((request) => (
+          <a
+            key={request.pub_id}
+            href={`/requests/${request.pub_id}`}
+            className={styles.request}
+            data-sg-visit
+          >
+            <span className={styles.created}>{request.created}</span>{" "}
+            <span className={styles.requestType}>{request.request_type}</span>{" "}
+            request from {request.initiator.username}
+          </a>
+        ))}
       </div>
       {modalStatus && (
         <Modal setterFunc={setModalStatus}>

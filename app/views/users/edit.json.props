@@ -1,5 +1,6 @@
 json.user current_user
 json.updated params[:u]
+json.requests @requests
 
 json.chatPages do
   json.public @public_pages

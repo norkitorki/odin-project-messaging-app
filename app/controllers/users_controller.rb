@@ -14,5 +14,6 @@ class UsersController < ApplicationController
 
   def edit
     build_chats
+    @requests = current_user.requests.order(created_at: :desc)
   end
 end
