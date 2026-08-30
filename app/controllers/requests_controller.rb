@@ -25,19 +25,19 @@ class RequestsController < ApplicationController
       return case @request_type
              when "chat" then accept_chat_request
              when "friend" then accept_friend_request
-             else redirect_back_or_to requests_path, notice: "Invalid request type"
+             else redirect_back_or_to edit_user_path, notice: "Invalid request type"
              end
     end
 
     @request.destroy
 
-    redirect_to requests_path, notice: "#{@request_type.capitalize} request has been rejected"
+    redirect_to edit_user_path, notice: "#{@request_type.capitalize} request has been rejected"
   end
 
   private
 
   def authorize_receiver
-    redirect_back_or_to requests_path, notice: "You are not authorized to see this request" unless current_user == @request&.receiver
+    redirect_back_or_to root_path, notice: "You are not authorized to see this request" unless current_user == @request&.receiver
   end
 
   def set_request

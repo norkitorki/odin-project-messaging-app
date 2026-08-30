@@ -48,6 +48,6 @@ module RequestsHelper
     current_user.contacts << initiator
     @request.destroy
 
-    redirect_to requests_path, notice: "Friend request accepted"
+    redirect_to edit_user_path, notice: "Friend request accepted"
   end
 end
