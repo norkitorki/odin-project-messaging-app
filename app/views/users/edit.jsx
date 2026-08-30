@@ -25,7 +25,7 @@ const ChatList = ({ chats }) => (
 );
 
 export default function UsersEdit() {
-  const { user, updated, requests, chatPages, chats, forms } = useContent();
+  const { user, updated, requests, pages, chats, forms } = useContent();
   const [modalStatus, setModalStatus] = useState(false);
 
   useEffect(() => {
@@ -59,39 +59,46 @@ export default function UsersEdit() {
         <div className={`${styles.userBadge} ${styles.chatList}`}>
           <h3>
             Public Chats{" "}
-            <span className={styles.chatCount}>
-              ({chatPages.public.total_count})
+            <span className={styles.collectionCount}>
+              ({pages.publicChats.total_count})
             </span>
           </h3>
-          <Pagination pages={chatPages.public} />
+          <Pagination pages={pages.publicChats} />
           <ChatList chats={chats.public} />
         </div>
         <div className={`${styles.userBadge} ${styles.chatList}`}>
           <h3>
             Private Chats{" "}
-            <span className={styles.chatCount}>
-              ({chatPages.private.total_count})
+            <span className={styles.collectionCount}>
+              ({pages.privateChats.total_count})
             </span>
           </h3>
-          <Pagination pages={chatPages.private} />
+          <Pagination pages={pages.privateChats} />
           <ChatList chats={chats.private} />
         </div>
       </div>
-      <h2>Requests</h2>
-      <br />
-      <div className={styles.requestContainer}>
-        {requests.map((request) => (
-          <a
-            key={request.pub_id}
-            href={`/requests/${request.pub_id}`}
-            className={styles.request}
-            data-sg-visit
-          >
-            <span className={styles.created}>{request.created}</span>{" "}
-            <span className={styles.requestType}>{request.request_type}</span>{" "}
-            request from {request.initiator.username}
-          </a>
-        ))}
+      <div className={styles.requests}>
+        <h2>
+          Requests{" "}
+          <span className={styles.collectionCount}>
+            ({pages.requests.total_count})
+          </span>
+        </h2>
+        <Pagination pages={pages.requests} />
+        <div className={styles.requestContainer}>
+          {requests.map((request) => (
+            <a
+              key={request.pub_id}
+              href={`/requests/${request.pub_id}`}
+              className={styles.request}
+              data-sg-visit
+            >
+              <span className={styles.created}>{request.created}</span>{" "}
+              <span className={styles.requestType}>{request.request_type}</span>{" "}
+              request from {request.initiator.username}
+            </a>
+          ))}
+        </div>
       </div>
       {modalStatus && (
         <Modal setterFunc={setModalStatus}>
