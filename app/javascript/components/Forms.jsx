@@ -337,7 +337,7 @@ export const NewChatForm = ({ form }) => (
 
 export const NewUserForm = ({ form }) => (
   <>
-    <InvalidInput form={form} idPrefix={"user"} />
+    <FocusInvalidInput form={form} idPrefix={"user"} />
     <Form
       {...form.form}
       extras={form.extras}
