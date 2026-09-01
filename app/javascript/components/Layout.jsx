@@ -1,12 +1,12 @@
 import React from "react";
-import Header from "@components/Header";
+import Sidebar from "@components/Sidebar";
 import Flash from "@components/Flash";
 import styles from "@stylesheets/Layout.module.css";
 
 export const Layout = ({ children }) => {
   return (
     <div>
-      <Header />
+      <Sidebar />
       <Flash />
       <main className={styles.mainContent}>{children}</main>
     </div>

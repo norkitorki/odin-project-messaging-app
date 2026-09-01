@@ -25,6 +25,20 @@ export const AccountCircle = ({ width = 45 }) => (
   </svg>
 );
 
+// https://pictogrammers.com/library/mdi/icon/home/
+export const Home = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M10,20V14H14V20H19V12H22L12,3L2,12H5V20H10Z" />
+  </svg>
+);
+
+// https://pictogrammers.com/library/mdi/icon/message-text/
+export const Chat = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M20,2H4A2,2 0 0,0 2,4V22L6,18H20A2,2 0 0,0 22,16V4A2,2 0 0,0 20,2M6,9H18V11H6M14,14H6V12H14M18,8H6V6H18" />
+  </svg>
+);
+
 // https://pictogrammers.com/library/mdi/icon/delete/
 export const Delete = () => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">

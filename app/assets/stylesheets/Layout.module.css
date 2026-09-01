@@ -83,5 +83,5 @@ h3 {
 }
 
 .mainContent {
-  padding: 1.5rem 0 0 calc(50px + 1.5rem);
+  padding: 1rem 1rem 1rem calc(1rem + 60px);
 }

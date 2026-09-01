@@ -1,0 +1,41 @@
+.sideBar {
+  width: 60px;
+  height: 100vh;
+  background: #071e25;
+  padding: 1rem 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  transition: left 0.25s ease;
+}
+
+.sideBar a {
+  color: #ffffff;
+  transition: fill 0.25s ease;
+}
+
+.sideBar svg {
+  max-width: 28px;
+  transition: fill 0.25s ease;
+}
+
+.sideBar svg:hover {
+  fill: #089ac7;
+}
+
+.sideBar ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.sideBar svg {
+  width: 32px;
+  fill: #ffffff;
+}
