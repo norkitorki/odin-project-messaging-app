@@ -1,3 +1,10 @@
+/*** users/new ***/
+
+.formLink {
+  color: #ffffff;
+  font-weight: bold;
+}
+
 /*** users/show, users/edit ***/
 
 .userContainer {

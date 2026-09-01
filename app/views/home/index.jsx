@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "@stylesheets/Home.module.css";
+import styles from "@stylesheets/User.module.css";
 import { useContent } from "@thoughtbot/superglue";
 import { Layout } from "@javascript/components";
 import { SignInForm } from "@javascript/components/Forms";
@@ -15,7 +15,7 @@ export default function HomeIndex() {
           <SignInForm form={signInForm} />
           <p>
             Don't have an account?{" "}
-            <a href="/signup" data-sg-visit>
+            <a href="/signup" className={styles.formLink} data-sg-visit>
               Create One
             </a>
           </p>
