@@ -10,6 +10,7 @@ import Avatar from "@javascript/components/Avatar";
 
 export default function UsersShow() {
   const {
+    currentUser,
     user,
     chatCount,
     messageCount,
@@ -23,12 +24,21 @@ export default function UsersShow() {
       <div className={styles.userContainer}>
         <h2>{user.username}</h2>
         {user.avatar && <Avatar avatar={user.avatar} width={150} />}
-        <div className={styles.userActions}>
-          <FriendRequestForm form={friendRequestForm} userId={user.pub_id} />
-          {userIsContact && (
-            <RemoveContactForm form={removeContactForm} userId={user.pub_id} />
-          )}
-        </div>
+        {currentUser && (
+          <div className={styles.userActions}>
+            {userIsContact ? (
+              <RemoveContactForm
+                form={removeContactForm}
+                userId={user.pub_id}
+              />
+            ) : (
+              <FriendRequestForm
+                form={friendRequestForm}
+                userId={user.pub_id}
+              />
+            )}
+          </div>
+        )}
       </div>
       <div className={styles.badgeContainer}>
         <div className={styles.badge}>{chatCount} Active Chats</div>

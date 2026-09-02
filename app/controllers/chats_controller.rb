@@ -1,8 +1,7 @@
 class ChatsController < ApplicationController
   include PaginationHelper
 
-  before_action :block_non_user, only: :show
-  before_action :authenticate_user!, except: [ :index, :show ]
+  before_action :authenticate_user!, except: [ :index, :show, :users ]
   before_action :use_jsx_rendering_defaults, except: [ :create, :destroy ]
 
   def index
@@ -15,7 +14,7 @@ class ChatsController < ApplicationController
 
   def show
     chat = Chat.find_by(pub_id: params[:pub_id])
-    @user_is_member = chat.admin == current_user || chat.users.include?(current_user)
+    @user_is_member = user_signed_in? && (chat.admin == current_user || chat.users.include?(current_user))
     return redirect_back_or_to chats_path, alert: "You are unauthorized to view this chat" if chat.private && !@user_is_member
 
     if chat
@@ -74,9 +73,5 @@ class ChatsController < ApplicationController
       replies[message.parent_id] << message
     end
     replies
-  end
-
-  def block_non_user
-    redirect_to root_path, alert: "Please sign in or sign up to access this page", status: :see_other unless user_signed_in?
   end
 end

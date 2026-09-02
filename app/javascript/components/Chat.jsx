@@ -52,27 +52,29 @@ export function Chat({ chat }) {
               <span>{pages.total_count}</span> messages
             </p>
           </h2>
-          <div className={styles.chatActions}>
-            {chat.private &&
-              currentUser.pub_id === chat.admin.pub_id &&
-              modalStatus !== "invite" && (
-                <button
-                  onClick={openInviteForm}
-                  className={styles.inviteFormToggle}
-                >
-                  Invite User
-                </button>
+          {currentUser && (
+            <div className={styles.chatActions}>
+              {chat.private &&
+                currentUser.pub_id === chat.admin.pub_id &&
+                modalStatus !== "invite" && (
+                  <button
+                    onClick={openInviteForm}
+                    className={styles.inviteFormToggle}
+                  >
+                    Invite User
+                  </button>
+                )}
+              {!chat.private && !userIsMember && (
+                <JoinChatForm form={forms.joinChatForm} />
               )}
-            {!chat.private && !userIsMember && (
-              <JoinChatForm form={forms.joinChatForm} />
-            )}
-            {userIsMember &&
-              (chat.admin.pub_id === currentUser.pub_id ? (
-                <DeleteChatForm form={forms.deleteChatForm} />
-              ) : (
-                <LeaveChatForm form={forms.leaveChatForm} />
-              ))}
-          </div>
+              {userIsMember &&
+                (chat.admin.pub_id === currentUser.pub_id ? (
+                  <DeleteChatForm form={forms.deleteChatForm} />
+                ) : (
+                  <LeaveChatForm form={forms.leaveChatForm} />
+                ))}
+            </div>
+          )}
         </div>
         <div className={styles.pagination}>
           <Pagination pages={pages} />

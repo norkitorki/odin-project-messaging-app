@@ -11,7 +11,8 @@ import {
 import Avatar from "./Avatar";
 
 export default function Message({ message, chat, replies, openImageInViewer }) {
-  const { currentUser, messageQuery, parentQuery, forms } = useContent();
+  const { currentUser, userIsMember, messageQuery, parentQuery, forms } =
+    useContent();
   const [editingMessage, setEditingMessage] = useState(null);
   const [replying, setReplying] = useState(false);
 
@@ -46,8 +47,8 @@ export default function Message({ message, chat, replies, openImageInViewer }) {
 
   const messageDeleted = message.deleted;
   const isSubMessage = message.parent_id !== null;
-  const userIsAuthor = message.user.pub_id === currentUser.pub_id;
-  const userIsAdmin = chat.admin_id === currentUser.pub_id;
+  const userIsAuthor = message.user.pub_id === currentUser?.pub_id;
+  const userIsAdmin = chat.admin_id === currentUser?.pub_id;
 
   const MessageDetails = () => (
     <div
@@ -77,29 +78,33 @@ export default function Message({ message, chat, replies, openImageInViewer }) {
           </>
         )}
       </span>
-      {!messageDeleted && (userIsAuthor || userIsAdmin) && (
-        <DeleteMessageForm
-          form={forms.deleteMessageForm}
-          messageId={message.pub_id}
-        />
-      )}
-      {!messageDeleted && userIsAuthor && (
-        <button
-          title="edit message"
-          className={`${styles.messageEditButton} ${editingMessage ? styles.active : ""}`}
-          onClick={editMessage}
-        >
-          <Edit />
-        </button>
-      )}
-      {!messageDeleted && !isSubMessage && (
-        <button
-          title="reply to message"
-          className={`${styles.messageReplyButton} ${replying ? styles.active : ""}`}
-          onClick={replyToMessage}
-        >
-          <Reply />
-        </button>
+      {currentUser?.pub_id && (
+        <>
+          {!messageDeleted && (userIsAuthor || userIsAdmin) && (
+            <DeleteMessageForm
+              form={forms.deleteMessageForm}
+              messageId={message.pub_id}
+            />
+          )}
+          {!messageDeleted && userIsAuthor && (
+            <button
+              title="edit message"
+              className={`${styles.messageEditButton} ${editingMessage ? styles.active : ""}`}
+              onClick={editMessage}
+            >
+              <Edit />
+            </button>
+          )}
+          {userIsMember && !messageDeleted && !isSubMessage && (
+            <button
+              title="reply to message"
+              className={`${styles.messageReplyButton} ${replying ? styles.active : ""}`}
+              onClick={replyToMessage}
+            >
+              <Reply />
+            </button>
+          )}
+        </>
       )}
       {!messageDeleted && (
         <button
