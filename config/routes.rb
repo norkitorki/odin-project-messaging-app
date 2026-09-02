@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   end
 
   as :user do
-    get "/signin", to: "users/sessions#new", as: :new_user_session
+    get "/signin", to: "home#index", as: :new_user_session
     get "/signup", to: "users#new", as: :user_registration
     post "/signin", to: "users/sessions#create", as: :user_session
     post "/signup", to: "users/registrations#create", as: :new_user_registration

@@ -48,6 +48,19 @@ h3 {
   background: #c01364;
 }
 
+.accountWarning {
+  max-width: max-content;
+  font-weight: bold;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid #a527275d;
+  border-radius: 8px;
+}
+
+.accountWarning a {
+  color: inherit;
+}
+
 .button {
   color: #ffffff;
   font-weight: bold;
