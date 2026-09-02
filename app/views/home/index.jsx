@@ -9,7 +9,9 @@ export default function HomeIndex() {
 
   return (
     <Layout>
-      {!currentUser && (
+      {currentUser ? (
+        <h2>Welcome back {currentUser.username}!</h2>
+      ) : (
         <>
           <h2>Sign In</h2>
           <SignInForm form={signInForm} />
