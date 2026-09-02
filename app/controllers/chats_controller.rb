@@ -1,7 +1,8 @@
 class ChatsController < ApplicationController
   include PaginationHelper
 
-  before_action :authenticate_user!
+  before_action :block_non_user, only: :show
+  before_action :authenticate_user!, except: [ :index, :show ]
   before_action :use_jsx_rendering_defaults, except: [ :create, :destroy ]
 
   def index
@@ -73,5 +74,9 @@ class ChatsController < ApplicationController
       replies[message.parent_id] << message
     end
     replies
+  end
+
+  def block_non_user
+    redirect_to root_path, alert: "Please sign in or sign up to access this page", status: :see_other unless user_signed_in?
   end
 end
