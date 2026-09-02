@@ -6,13 +6,15 @@ import { Lock } from "@javascript/components/Icons";
 import Pagination from "@javascript/components/Pagination";
 
 export default function ChatsIndex() {
-  const { chats, pages } = useContent();
+  const { currentUser, chats, pages } = useContent();
 
   return (
     <Layout>
-      <a href="/chats/new" className={styles.createChatLink} data-sg-visit>
-        Create Chat
-      </a>
+      {currentUser && (
+        <a href="/chats/new" className={styles.createChatLink} data-sg-visit>
+          Create Chat
+        </a>
+      )}
       <div className={styles.pagination}>
         <Pagination pages={pages} />
       </div>
