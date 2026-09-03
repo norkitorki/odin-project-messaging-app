@@ -3,7 +3,8 @@ json.chatCount @user.chats.where(private: false).count
 json.messageCount @user.messages.count
 
 if user_signed_in?
-  json.userIsContact current_user.contacts.include?(@user)
+  json.userIsContact @userIsContact
+
   json.friendRequestForm do
     form_props(url: add_request_path, method: :post) do |f|
       f.hidden_field :requestType, name: :request_type, value: "friend", id: nil

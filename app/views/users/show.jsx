@@ -32,10 +32,12 @@ export default function UsersShow() {
                 userId={user.pub_id}
               />
             ) : (
-              <FriendRequestForm
-                form={friendRequestForm}
-                userId={user.pub_id}
-              />
+              user.pub_id !== currentUser.pub_id && (
+                <FriendRequestForm
+                  form={friendRequestForm}
+                  userId={user.pub_id}
+                />
+              )
             )}
           </div>
         )}

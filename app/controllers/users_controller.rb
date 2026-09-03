@@ -10,6 +10,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find_by(pub_id: params[:pub_id])
+    @userIsContact = current_user.contacts.include?(@user) if user_signed_in?
   end
 
   def edit

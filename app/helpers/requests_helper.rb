@@ -2,7 +2,7 @@ module RequestsHelper
   private
 
   def create_chat_request
-    chat = CoolId.locate(params[:chat_id])
+    chat = Chat.find_by(pub_id: params[:chat_id])
     return redirect_back_or_to chats_path, alert: "Chat could not be found" unless chat
     return redirect_back_or_to chats_path, alert: "You are not authorized to invite users to this chat" if chat.admin != current_user
 
@@ -21,8 +21,11 @@ module RequestsHelper
   end
 
   def create_friend_request
-    receiver = CoolId.locate(params[:receiver])
+    receiver = User.find_by(pub_id: params[:receiver])
     return redirect_back_or_to root_path, alert: "#{receiver.username} is already your friend" if current_user.contacts.include?(receiver)
+
+    received_request = current_user.requests.find_by(initiator: receiver, receiver: current_user, request_type: "friend")
+    return redirect_to request_path(pub_id: received_request.pub_id), alert: "Friend request is already open" if received_request
 
     request = current_user.initiated_requests.find_or_initialize_by(receiver: receiver, request_type: "friend")
     return redirect_back_or_to root_path, alert: "You cannot befriend yourself" if request.initiator == request.receiver
@@ -34,7 +37,7 @@ module RequestsHelper
   end
 
   def accept_chat_request
-    chat = CoolId.locate(@request.reference_pub_id)
+    chat = Chat.find_by(pub_id: @request.reference_pub_id)
     if chat
       chat.users << current_user
       @request.destroy
