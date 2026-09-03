@@ -375,15 +375,21 @@ export const NewUserForm = ({ form }) => (
   </>
 );
 
-export const RemoveContactForm = ({ form, userId }) => (
-  <Form {...form.form} extras={form.extras} data-sg-visit>
-    <input {...form.inputs.userId} value={userId} />
-    <SubmitButton
-      {...form.inputs.submit}
-      className={layoutStyles.buttonDanger}
-    />
-  </Form>
-);
+export const RemoveContactForm = ({ form, userId }) => {
+  const onSubmit = confirmSubmission(
+    "Are you sure that you would like to remove this contact?",
+  );
+
+  return (
+    <Form {...form.form} extras={form.extras} onSubmit={onSubmit}>
+      <input {...form.inputs.userId} value={userId} />
+      <SubmitButton
+        {...form.inputs.submit}
+        className={layoutStyles.buttonDanger}
+      />
+    </Form>
+  );
+};
 
 export const RequestResponseForm = ({ form, accept = false }) => (
   <Form {...form.form} extras={form.extras} data-sg-visit>
