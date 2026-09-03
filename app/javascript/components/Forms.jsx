@@ -405,13 +405,19 @@ export const RequestResponseForm = ({ form, accept = false }) => (
   </Form>
 );
 
-export const SignOutForm = ({ form }) => (
-  <Form {...form.form} extras={form.extras} data-sg-visit>
-    <button type="submit" className={styles.signOutButton}>
-      <Logout />
-    </button>
-  </Form>
-);
+export const SignOutForm = ({ form }) => {
+  const onSubmit = confirmSubmission(
+    "Are you sure that you would like to sign out?",
+  );
+
+  return (
+    <Form {...form.form} extras={form.extras} onSubmit={onSubmit}>
+      <button type="submit" className={styles.signOutButton}>
+        <Logout />
+      </button>
+    </Form>
+  );
+};
 
 export const SignInForm = ({ form }) => (
   <Form
