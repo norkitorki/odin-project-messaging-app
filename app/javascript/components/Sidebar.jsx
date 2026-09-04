@@ -6,8 +6,9 @@ import { SignOutForm } from "@javascript/components/Forms";
 import { Chat, Cog, Home } from "./Icons";
 
 export default function Header() {
-  const { currentUser, signOutForm } = useContent();
+  const { currentUser, requestCount, signOutForm } = useContent();
   const contacts = currentUser?.contacts || [];
+  const settingsTitle = `user settings${requestCount > 0 ? ` (${requestCount} pending requests)` : ""}`;
 
   return (
     <aside className={styles.sideBar}>
@@ -19,11 +20,20 @@ export default function Header() {
       </a>
       {currentUser && (
         <>
-          <a href="/user/settings" data-sg-visit>
-            <Cog />
+          <a
+            href="/user/settings#requests"
+            className={styles.userSettings}
+            title={settingsTitle}
+            data-sg-visit
+          >
+            {requestCount > 0 && (
+              <div>{requestCount > 20 ? "20+" : requestCount}</div>
+            )}
+            <Cog title={settingsTitle} />
           </a>
           <SignOutForm form={signOutForm} />
-          <ul>
+          <hr width="100%" color="#089ac7" />
+          <ul className={styles.contacts}>
             {contacts.map((contact) => (
               <li key={contact.pub_id}>
                 <a
