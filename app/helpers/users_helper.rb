@@ -1,6 +1,11 @@
 module UsersHelper
   include PaginationHelper
 
+  def build_user_content
+    @chat_pages, @chats = initialize_pagination(@user.chats.includes(:admin, :users).where(private: false), user_path(pub_id: @user.pub_id, message_page: params[:message_page]), { per_page: 10, param: "chat_page", default_page: 1 })
+    @message_pages, @messages = initialize_pagination(@user.messages.public_messages, user_path(pub_id: @user.pub_id, chat_page: params[:chat_page]), { per_page: 20, param: "message_page", default_page: 1 })
+  end
+
   def build_chats
     public_parameters = pagination_parameters(:private_chat_page, :request_page)
     private_parameters = pagination_parameters(:public_chat_page, :request_page)

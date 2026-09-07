@@ -7,6 +7,7 @@ class Message < ApplicationRecord
 
   scope :ordered_by_creation, -> { order(:created_at) }
   scope :top, -> { where(parent_id: nil) }
+  scope :public_messages, -> { includes(:chat, :user).where(chat: { private: false }).order(updated_at: :desc) }
 
   belongs_to :chat, touch: true
   belongs_to :user, touch: true
@@ -31,6 +32,7 @@ class Message < ApplicationRecord
   def as_json
     super.except("id", "chat_id", "user_id", "created_at", "updated_at").merge({
       user: user,
+      chat: { pub_id: chat.pub_id, name: chat.name },
       created: created_at_time_in_words_to_now,
       updated: updated_at_time_in_words_to_now
     })

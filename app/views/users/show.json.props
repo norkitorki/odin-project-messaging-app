@@ -1,6 +1,13 @@
 json.user @user
 json.chatCount @user.chats.where(private: false).count
 json.messageCount @user.messages.count
+json.chats @chats
+json.messages @messages
+
+json.pages do
+  json.chats @chat_pages
+  json.messages @message_pages
+end
 
 if user_signed_in?
   json.userIsContact @userIsContact

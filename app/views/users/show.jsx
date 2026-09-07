@@ -7,6 +7,7 @@ import {
   RemoveContactForm,
 } from "@javascript/components/Forms";
 import Avatar from "@javascript/components/Avatar";
+import Pagination from "@javascript/components/Pagination";
 
 export default function UsersShow() {
   const {
@@ -14,6 +15,9 @@ export default function UsersShow() {
     user,
     chatCount,
     messageCount,
+    pages,
+    chats,
+    messages,
     userIsContact,
     friendRequestForm,
     removeContactForm,
@@ -47,6 +51,54 @@ export default function UsersShow() {
         <div className={styles.badge}>{messageCount} Messages posted</div>
         <div className={styles.badge}>
           Last Active {String(new Date(user.updated_at))}
+        </div>
+      </div>
+      <div className={styles.userContent}>
+        <div className={styles.chatList}>
+          <h3>
+            Chats{" "}
+            <span className={styles.collectionCount}>
+              ({pages.chats.total_count})
+            </span>
+          </h3>
+          <div className={styles.contentPagination}>
+            <Pagination pages={pages.chats} />
+          </div>
+          <ul>
+            {chats.map((chat) => (
+              <li key={chat.pub_id}>
+                <a href={`/chats/${chat.pub_id}`} data-sg-visit>
+                  {chat.name}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className={styles.messagesContainer}>
+          <h3>
+            Messages{" "}
+            <span className={styles.collectionCount}>
+              ({pages.messages.total_count})
+            </span>
+          </h3>
+          <div className={styles.contentPagination}>
+            <Pagination pages={pages.messages} />
+          </div>
+          {messages.map((message) => (
+            <a
+              key={message.pub_id}
+              href={`/chats/${message.chat.pub_id}?message=${message.pub_id}`}
+              className={styles.message}
+              data-sg-visit
+            >
+              <div>
+                <span className={styles.created}>
+                  {message.created} in {message.chat.name}
+                </span>
+                <span>{message.value}</span>
+              </div>
+            </a>
+          ))}
         </div>
       </div>
     </Layout>
