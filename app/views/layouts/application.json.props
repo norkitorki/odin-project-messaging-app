@@ -3,14 +3,9 @@ path = request.format.json? ? param_to_dig_path(params[:props_at]) : nil
 json.data(dig: path) do
   yield json
   if user_signed_in?
-    json.currentUser do
-      json.username current_user.username
-      json.pub_id current_user.pub_id
-      json.contacts current_user.contacts.order(updated_at: :desc)
-    end
-
+    json.currentUser current_user
+    json.contacts current_user.contacts.order(updated_at: :desc)
     json.requestCount current_user.requests.count
-
     json.signOutForm do
       form_props(url: destroy_user_session_path, method: :delete) do |f|
       end

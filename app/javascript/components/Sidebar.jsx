@@ -6,8 +6,7 @@ import { SignOutForm } from "@javascript/components/Forms";
 import { Chat, Cog, Home } from "./Icons";
 
 export default function Header() {
-  const { currentUser, requestCount, signOutForm } = useContent();
-  const contacts = currentUser?.contacts || [];
+  const { currentUser, contacts, requestCount, signOutForm } = useContent();
   const settingsTitle = `user settings${requestCount > 0 ? ` (${requestCount} pending requests)` : ""}`;
 
   return (
@@ -20,6 +19,14 @@ export default function Header() {
       </a>
       {currentUser && (
         <>
+          <hr width="100%" color="#089ac7" />
+          <a
+            href={`/users/${currentUser.pub_id}`}
+            title={`${currentUser.username} user home`}
+            data-sg-visit
+          >
+            <Avatar avatar={currentUser.avatar} width={30} />
+          </a>
           <a
             href="/user/settings#requests"
             className={styles.userSettings}
