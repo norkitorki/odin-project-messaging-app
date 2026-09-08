@@ -8,6 +8,7 @@
 /*** users/show, users/edit ***/
 
 .userContainer {
+  padding-bottom: 1rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -27,7 +28,7 @@
 }
 
 .badgeContainer {
-  padding: 1rem 1rem 1rem 0;
+  padding-bottom: 2rem;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
@@ -79,6 +80,10 @@
   margin: 0 auto;
 }
 
+.chatList .contentPagination {
+  padding-bottom: 1rem;
+}
+
 .userContent .contentPagination a {
   font-size: 1.15rem;
 }
@@ -91,6 +96,7 @@
   font-size: 1.15rem;
 }
 
+.userContent > .chatList,
 .userContent > .messagesContainer {
   max-width: 800px;
   padding: 0;
@@ -105,7 +111,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  padding: 1rem 0.5rem;
+  padding-bottom: 1rem;
 }
 
 .chatList a {

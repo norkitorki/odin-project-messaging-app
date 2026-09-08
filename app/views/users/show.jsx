@@ -13,11 +13,9 @@ export default function UsersShow() {
   const {
     currentUser,
     user,
-    chatCount,
-    messageCount,
-    pages,
     chats,
     messages,
+    pages,
     userIsContact,
     friendRequestForm,
     removeContactForm,
@@ -47,8 +45,6 @@ export default function UsersShow() {
         )}
       </div>
       <div className={styles.badgeContainer}>
-        <div className={styles.badge}>{chatCount} Active Chats</div>
-        <div className={styles.badge}>{messageCount} Messages posted</div>
         <div className={styles.badge}>
           Last Active {String(new Date(user.updated_at))}
         </div>
@@ -61,9 +57,11 @@ export default function UsersShow() {
               ({pages.chats.total_count})
             </span>
           </h3>
-          <div className={styles.contentPagination}>
-            <Pagination pages={pages.chats} />
-          </div>
+          {pages.chats.total_count > pages.chats.per_page && (
+            <div className={styles.contentPagination}>
+              <Pagination pages={pages.chats} />
+            </div>
+          )}
           <ul>
             {chats.map((chat) => (
               <li key={chat.pub_id}>
@@ -81,9 +79,11 @@ export default function UsersShow() {
               ({pages.messages.total_count})
             </span>
           </h3>
-          <div className={styles.contentPagination}>
-            <Pagination pages={pages.messages} />
-          </div>
+          {pages.messages.total_count > pages.messages.per_page && (
+            <div className={styles.contentPagination}>
+              <Pagination pages={pages.messages} />
+            </div>
+          )}
           {messages.map((message) => (
             <a
               key={message.pub_id}

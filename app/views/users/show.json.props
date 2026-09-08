@@ -1,6 +1,4 @@
 json.user @user
-json.chatCount @user.chats.where(private: false).count
-json.messageCount @user.messages.count
 json.chats @chats
 json.messages @messages
 
