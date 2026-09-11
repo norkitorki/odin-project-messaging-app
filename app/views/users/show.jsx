@@ -15,7 +15,6 @@ export default function UsersShow() {
     user,
     chats,
     messages,
-    pages,
     userIsContact,
     friendRequestForm,
     removeContactForm,
@@ -54,16 +53,16 @@ export default function UsersShow() {
           <h3>
             Chats{" "}
             <span className={styles.collectionCount}>
-              ({pages.chats.total_count})
+              ({chats.pages.totalCount})
             </span>
           </h3>
-          {pages.chats.total_count > pages.chats.per_page && (
+          {chats.pages.totalCount > chats.pages.perPage && (
             <div className={styles.contentPagination}>
-              <Pagination pages={pages.chats} />
+              <Pagination pages={chats.pages} />
             </div>
           )}
           <ul>
-            {chats.map((chat) => (
+            {chats.data.map((chat) => (
               <li key={chat.pub_id}>
                 <a href={`/chats/${chat.pub_id}`} data-sg-visit>
                   {chat.name}
@@ -76,15 +75,15 @@ export default function UsersShow() {
           <h3>
             Messages{" "}
             <span className={styles.collectionCount}>
-              ({pages.messages.total_count})
+              ({messages.pages.totalCount})
             </span>
           </h3>
-          {pages.messages.total_count > pages.messages.per_page && (
+          {messages.pages.totalCount > messages.pages.perPage && (
             <div className={styles.contentPagination}>
-              <Pagination pages={pages.messages} />
+              <Pagination pages={messages.pages} />
             </div>
           )}
-          {messages.map((message) => (
+          {messages.data.map((message) => (
             <a
               key={message.pub_id}
               href={`/chats/${message.chat.pub_id}?message=${message.pub_id}`}

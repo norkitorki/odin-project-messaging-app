@@ -1,10 +1,13 @@
 json.user @user
-json.chats @chats
-json.messages @messages
 
-json.pages do
-  json.chats @chat_pages
-  json.messages @message_pages
+json.chats do
+  json.data @chats
+  json.pages @chat_pages
+end
+
+json.messages do
+  json.data @messages
+  json.pages @message_pages
 end
 
 if user_signed_in?

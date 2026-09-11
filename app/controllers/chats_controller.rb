@@ -5,7 +5,8 @@ class ChatsController < ApplicationController
   before_action :use_jsx_rendering_defaults, except: [ :create, :destroy ]
 
   def index
-    @pages, @chats = initialize_pagination(Chat.includes(:admin, :users).ordered_by_activity, chats_path, { default_page: 1 })
+    chats = Chat.includes(:admin, :users).ordered_by_activity.page(params[:page]).per(30)
+    @chats, @pages = pagination_data(chats = Chat.includes(:admin, :users).ordered_by_activity.page(params[:page]).per(30), chats_path, 30, :page, [ :props_at, "data.chats" ])
   end
 
   def new
@@ -27,7 +28,8 @@ class ChatsController < ApplicationController
       end
 
       @chat = chat.json_with_images
-      @pages, @messages = initialize_pagination(messages.includes(:user), chat_path(pub_id: chat.pub_id))
+      default_page = params[:page] || (messages.count / 30.0).ceil
+      @messages, @pages = pagination_data(messages.includes(:user, :images_blobs).page(default_page).per(30), chat_path(pub_id: chat.pub_id), 30, :page, [ :props_at, "data.messages" ])
       @new_message = chat.messages.new
       @replies = chat_replies(chat.id)
     end
@@ -69,7 +71,7 @@ class ChatsController < ApplicationController
 
   def chat_replies(chat_id)
     replies = Hash.new { |h, k| h[k] = [] }
-    Message.includes(:user).where(chat_id: chat_id, parent_id: @messages.map(&:pub_id)).ordered_by_creation.each do |message|
+    Message.includes(:user, :images_blobs).where(chat_id: chat_id, parent_id: @messages.map(&:pub_id)).ordered_by_creation.each do |message|
       replies[message.parent_id] << message
     end
     replies

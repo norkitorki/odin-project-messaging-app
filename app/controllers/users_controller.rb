@@ -11,7 +11,7 @@ class UsersController < ApplicationController
   def show
     @user = User.find_by(pub_id: params[:pub_id])
     @userIsContact = current_user.contacts.include?(@user) if user_signed_in?
-    build_user_content
+    public_user_content
   end
 
   def edit

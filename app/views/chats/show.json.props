@@ -1,10 +1,13 @@
 json.chat @chat
-json.pages @pages
 json.userIsMember @user_is_member
 json.messageQuery params[:m]
 json.parentQuery params[:p]
-json.messages @messages
 json.messageReplies @replies
+
+json.messages do
+  json.data @messages
+  json.pages @pages
+end
 
 if user_signed_in?
   json.forms do

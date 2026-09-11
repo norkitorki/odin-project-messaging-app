@@ -1,16 +1,20 @@
 json.user current_user
 json.updated params[:u]
-json.requests @requests
-
-json.pages do
-  json.publicChats @public_pages
-  json.privateChats @private_pages
-  json.requests @request_pages
-end
 
 json.chats do
-  json.public @public_chats
-  json.private @private_chats
+  json.public do
+    json.data @public_chats
+    json.pages @public_pages
+  end
+  json.private do
+    json.data @private_chats
+    json.pages @private_pages
+  end
+end
+
+json.requests do
+  json.data @requests
+  json.pages @request_pages
 end
 
 json.forms do

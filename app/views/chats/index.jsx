@@ -6,7 +6,7 @@ import { Lock } from "@javascript/components/Icons";
 import Pagination from "@javascript/components/Pagination";
 
 export default function ChatsIndex() {
-  const { currentUser, chats, pages } = useContent();
+  const { currentUser, chats } = useContent();
 
   return (
     <Layout>
@@ -16,10 +16,10 @@ export default function ChatsIndex() {
         </a>
       )}
       <div className={styles.pagination}>
-        <Pagination pages={pages} />
+        <Pagination pages={chats.pages} />
       </div>
       <ul className={styles.chatList}>
-        {chats.map((chat) => (
+        {chats.data.map((chat) => (
           <li key={chat.pub_id}>
             <h2>
               {chat.name}{" "}

@@ -14,7 +14,7 @@ import {
 } from "@javascript/components/Forms";
 
 export function Chat({ chat }) {
-  const { currentUser, userIsMember, messages, messageReplies, pages, forms } =
+  const { currentUser, userIsMember, messageReplies, messages, forms } =
     useContent();
   const imageViewerRef = useRef();
   const [modalStatus, setModalStatus] = useState(false);
@@ -49,7 +49,7 @@ export function Chat({ chat }) {
               </a>
             </p>
             <p className={styles.badge}>
-              <span>{pages.total_count}</span> messages
+              <span>{messages.pages.totalCount}</span> messages
             </p>
           </h2>
           {currentUser && (
@@ -77,11 +77,11 @@ export function Chat({ chat }) {
           )}
         </div>
         <div className={styles.pagination}>
-          <Pagination pages={pages} />
+          <Pagination pages={messages.pages} />
         </div>
-        {messages.length > 0 && (
+        {messages.data.length > 0 && (
           <ol className={styles.messages}>
-            {messages.map((message) => (
+            {messages.data.map((message) => (
               <li key={message.pub_id}>
                 <Message
                   message={message}

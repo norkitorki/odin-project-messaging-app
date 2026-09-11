@@ -25,7 +25,7 @@ const ChatList = ({ chats }) => (
 );
 
 export default function UsersEdit() {
-  const { user, updated, requests, pages, chats, forms } = useContent();
+  const { user, updated, chats, requests, forms } = useContent();
   const [modalStatus, setModalStatus] = useState(false);
 
   useEffect(() => {
@@ -60,33 +60,33 @@ export default function UsersEdit() {
           <h3>
             Public Chats{" "}
             <span className={styles.collectionCount}>
-              ({pages.publicChats.total_count})
+              ({chats.public.pages.totalCount})
             </span>
           </h3>
-          <Pagination pages={pages.publicChats} />
-          <ChatList chats={chats.public} />
+          <Pagination pages={chats.public.pages} />
+          <ChatList chats={chats.public.data} />
         </div>
         <div className={`${styles.userBadge} ${styles.chatList}`}>
           <h3>
             Private Chats{" "}
             <span className={styles.collectionCount}>
-              ({pages.privateChats.total_count})
+              ({chats.private.pages.totalCount})
             </span>
           </h3>
-          <Pagination pages={pages.privateChats} />
-          <ChatList chats={chats.private} />
+          <Pagination pages={chats.private.pages} />
+          <ChatList chats={chats.private.data} />
         </div>
       </div>
       <div className={styles.requests}>
         <h2>
           Requests{" "}
           <span className={styles.collectionCount}>
-            ({pages.requests.total_count})
+            ({requests.pages.totalCount})
           </span>
         </h2>
-        <Pagination pages={pages.requests} />
+        <Pagination pages={requests.pages} />
         <div className={styles.requestContainer}>
-          {requests.map((request) => (
+          {requests.data.map((request) => (
             <a
               key={request.pub_id}
               href={`/requests/${request.pub_id}`}

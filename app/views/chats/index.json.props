@@ -1,2 +1,4 @@
-json.chats @chats
-json.pages @pages
+json.chats do
+  json.data @chats
+  json.pages @pages
+end
