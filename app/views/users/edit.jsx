@@ -63,7 +63,9 @@ export default function UsersEdit() {
               ({chats.public.pages.totalCount})
             </span>
           </h3>
-          <Pagination pages={chats.public.pages} />
+          <div className={styles.contentPagination}>
+            <Pagination pages={chats.public.pages} />
+          </div>
           <ChatList chats={chats.public.data} />
         </div>
         <div className={`${styles.userBadge} ${styles.chatList}`}>
@@ -73,7 +75,9 @@ export default function UsersEdit() {
               ({chats.private.pages.totalCount})
             </span>
           </h3>
-          <Pagination pages={chats.private.pages} />
+          <div className={styles.contentPagination}>
+            <Pagination pages={chats.private.pages} />
+          </div>
           <ChatList chats={chats.private.data} />
         </div>
       </div>
