@@ -5,7 +5,7 @@ export default function Pagination({ pages }) {
   if (pages.count < 2) return null;
 
   useEffect(() => {
-    history.pushState({}, "", pages.paths[pages.current - 1].url);
+    history.replaceState(null, "", pages.paths[pages.current - 1].url);
   }, [pages]);
 
   const startIndex = pages.current - 4 < 0 ? 0 : pages.current - 4;
