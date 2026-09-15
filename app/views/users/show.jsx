@@ -64,14 +64,18 @@ export default function UsersShow() {
           <ul>
             {chats.data.map((chat) => (
               <li key={chat.pub_id}>
-                <a href={`/chats/${chat.pub_id}`} data-sg-visit>
+                <a
+                  href={`/chats/${chat.pub_id}`}
+                  className={styles.chat}
+                  data-sg-visit
+                >
                   {chat.name}
                 </a>
               </li>
             ))}
           </ul>
         </div>
-        <div className={styles.messagesContainer}>
+        <div>
           <h3>
             Messages{" "}
             <span className={styles.collectionCount}>

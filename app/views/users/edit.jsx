@@ -56,7 +56,7 @@ export default function UsersEdit() {
         </div>
       </div>
       <div className={styles.badgeContainer}>
-        <div className={`${styles.userBadge} ${styles.chatList}`}>
+        <div className={`${styles.badge} ${styles.chatList}`}>
           <h3>
             Public Chats{" "}
             <span className={styles.collectionCount}>
@@ -68,7 +68,7 @@ export default function UsersEdit() {
           </div>
           <ChatList chats={chats.public.data} />
         </div>
-        <div className={`${styles.userBadge} ${styles.chatList}`}>
+        <div className={`${styles.badge} ${styles.chatList}`}>
           <h3>
             Private Chats{" "}
             <span className={styles.collectionCount}>
@@ -89,7 +89,7 @@ export default function UsersEdit() {
           </span>
         </h2>
         <Pagination pages={requests.pages} />
-        <div className={styles.requestContainer}>
+        <div className={styles.requests}>
           {requests.data.map((request) => (
             <a
               key={request.pub_id}
