@@ -65,6 +65,9 @@ group :test do
   gem "selenium-webdriver"
 end
 
+# json version v3.0.2 makes JSON.decode incompatible with this app
+gem "json", "~> 2.21"
+
 gem "superglue"
 gem "vite_rails"
 gem "devise"
