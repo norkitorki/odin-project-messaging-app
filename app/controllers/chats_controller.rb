@@ -5,7 +5,7 @@ class ChatsController < ApplicationController
   before_action :use_jsx_rendering_defaults, except: [ :create, :destroy ]
 
   def index
-    chats = Chat.includes(:admin, :users).ordered_by_activity.page(params[:page]).per(30)
+    chats = (user_signed_in? ? current_user.user_chats : Chat.where(private: false)).includes(:admin, :users).ordered_by_activity.page(params[:page]).per(30)
     @chats, @pages = pagination_data(chats, chats_path, 30, :page, [ :props_at, "data.chats" ])
   end
 

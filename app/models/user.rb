@@ -41,6 +41,10 @@ class User < ApplicationRecord
 
   before_destroy :destroy_contacts, :destroy_chats
 
+  def user_chats
+    Chat.joins(:users).where(private: false).or(Chat.where(private: true, users: self.id))
+  end
+
   def remove_contact(user)
     return if !user.is_a?(self.class) || user == self
 
