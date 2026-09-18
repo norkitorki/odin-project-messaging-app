@@ -1,5 +1,7 @@
 {
   "all": {
+    "packageManager": "yarn",
+    "devServerConnectionCheck": true,
     "sourceCodeDir": "app/javascript",
     "watchAdditionalPaths": []
   },
