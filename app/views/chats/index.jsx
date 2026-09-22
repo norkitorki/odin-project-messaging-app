@@ -24,7 +24,7 @@ export default function ChatsIndex() {
             <h2>
               {chat.name}{" "}
               <span className={styles.userCountBadge}>
-                {chat.users.length} Users
+                {chat.userCount} Users
               </span>{" "}
               {chat.private && <Lock />}
             </h2>

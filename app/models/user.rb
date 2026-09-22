@@ -41,8 +41,8 @@ class User < ApplicationRecord
 
   before_destroy :destroy_contacts, :destroy_chats
 
-  def user_chats
-    Chat.joins(:users).where(private: false).or(Chat.where(private: true, users: self.id))
+  def available_chats
+    Chat.joins(:users).where(private: false).or(Chat.where(users: self)).distinct
   end
 
   def remove_contact(user)

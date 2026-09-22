@@ -4,7 +4,7 @@ json.data(dig: path) do
   yield json
   if user_signed_in?
     json.currentUser current_user
-    json.contacts current_user.contacts.order(updated_at: :desc)
+    json.contacts current_user.contacts.includes(:avatar_blob).order(updated_at: :desc)
     json.requestCount current_user.requests.count
     json.signOutForm do
       form_props(url: destroy_user_session_path, method: :delete) do |f|

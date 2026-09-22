@@ -10,7 +10,7 @@ export default function UsersIndex() {
   return (
     <Layout>
       <h2>
-        Users of{" "}
+        Users({users.length}) of{" "}
         <a href={chat.path} className={styles.chatLink} data-sg-visit>
           {chat.name}
         </a>

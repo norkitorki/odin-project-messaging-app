@@ -14,8 +14,7 @@ import {
 } from "@javascript/components/Forms";
 
 export function Chat({ chat }) {
-  const { currentUser, userIsMember, messageReplies, messages, forms } =
-    useContent();
+  const { currentUser, userIsMember, messages, forms } = useContent();
   const imageViewerRef = useRef();
   const [modalStatus, setModalStatus] = useState(false);
 
@@ -43,7 +42,7 @@ export function Chat({ chat }) {
           <h2>
             {chat.name}{" "}
             <p className={styles.badge}>
-              <span>{chat.users.length}</span>{" "}
+              <span>{chat.userCount}</span>{" "}
               <a href={`/chats/${chat.pub_id}/users`} data-sg-visit>
                 users
               </a>
@@ -86,7 +85,7 @@ export function Chat({ chat }) {
                 <Message
                   message={message}
                   chat={chat}
-                  replies={messageReplies[message.pub_id]}
+                  replies={messages.replies[message.pub_id]}
                   openImageInViewer={openImageInViewer}
                 />
               </li>

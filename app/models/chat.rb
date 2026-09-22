@@ -25,12 +25,20 @@ class Chat < ApplicationRecord
     existing_chat || Chat.create!(users: users, admin: users.first)
   end
 
+  def self.available_to_user(user)
+    self.joins(:users).where(private: false).or(Chat.where(users: user))
+  end
+
   def as_json
-    super.except("id", "admin_id", "updated_at").merge({ admin: admin, users: users })
+    super.except("id", "admin_id", "updated_at").merge({ admin: admin })
+  end
+
+  def json_with_user_count
+    as_json.merge({ userCount: users.count })
   end
 
   def json_with_images
-    as_json.merge({ images: message_images })
+    as_json.merge({ images: message_images, userCount: users.count })
   end
 
   private
