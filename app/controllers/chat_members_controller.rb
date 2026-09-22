@@ -2,25 +2,20 @@ class ChatMembersController < ApplicationController
   before_action :authenticate_user!
 
   def create
-    chat_id = params[:chat_id]
+    chat = Chat.find_by(pub_id: params[:chat_id])
 
-    if chat_id
-      chat = CoolId.locate(chat_id)
-      if chat && !chat.private
-        existing_user = chat.users.include?(current_user)
-        if !existing_user
-          chat.users << current_user
-          flash[:success] = "You joined the chat"
-        end
-        notice = "You are already a member"
-      end
+    if chat.private
+      alert = "Chat is private.Unable to join"
     else
-      users = params[:user_ids]&.map { |id| CoolId.locate(id) }
-      chat = Chat.open(current_user, *users)
-      notice = "You created a chat"
+      if chat.users.include?(current_user)
+        alert = "You are already a member"
+      else
+        chat.users << current_user
+        notice = "You joined the chat"
+      end
     end
 
-    redirect_to chat_path(pub_id: chat_id), notice: flash[:success] ? nil : notice
+    redirect_to chat_path(pub_id: chat.pub_id), notice: notice, alert: alert
   end
 
   def destroy

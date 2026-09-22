@@ -63,7 +63,7 @@ export function Chat({ chat }) {
                     Invite User
                   </button>
                 )}
-              {!chat.private && !userIsMember && (
+              {!chat.private && !userIsMember && forms.joinChatForm && (
                 <JoinChatForm form={forms.joinChatForm} />
               )}
               {userIsMember &&

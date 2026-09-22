@@ -14,17 +14,6 @@ class Chat < ApplicationRecord
 
   before_destroy :delete_associated_requests
 
-  def self.open(*users)
-    return nil if users.empty?
-
-    user_ids = users.map(&:id).uniq
-    user_ids_sorted = user_ids.sort.join(",")
-
-    shared_chats = Chat.joins(:users).where(users: user_ids).group(:id).having("count(users.id) = ?", user_ids.length)
-    existing_chat = shared_chats.find { |chat| chat.users.ids.sort.join(",") == user_ids_sorted }
-    existing_chat || Chat.create!(users: users, admin: users.first)
-  end
-
   def self.available_to_user(user)
     self.joins(:users).where(private: false).or(Chat.where(users: user))
   end

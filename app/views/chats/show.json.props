@@ -14,7 +14,7 @@ if user_signed_in?
     if @chat.private && current_user.id == @chat.admin_id
       json.chatRequestForm do
         form_props(url: add_request_path, method: :post) do |f|
-          f.hidden_field :chatId, value: @chat["pub_id"], name: :chat_id, id: nil
+          f.hidden_field :chatId, value: @chat.pub_id, name: :chat_id, id: nil
           f.hidden_field :requestType, name: :request_type, value: "chat", id: nil
           f.text_field :receiver
           f.submit "Invite To Chat"
@@ -25,15 +25,24 @@ if user_signed_in?
     if current_user.id == @chat.admin_id
       json.deleteChatForm do
         form_props(url: delete_chat_path, method: :delete) do |f|
-          f.hidden_field :chatId, value: @chat["pub_id"], name: :chat_id, id: nil
+          f.hidden_field :chatId, value: @chat.pub_id, name: :chat_id, id: nil
           f.submit "Delete Chat"
+        end
+      end
+    end
+
+    if !@user_is_member
+      json.joinChatForm do
+        form_props(url: join_chat_path, method: :post) do |f|
+          f.hidden_field :chatId, value: @chat.pub_id, name: :chat_id, id: nil
+          f.submit "Join"
         end
       end
     end
 
     json.addMessageForm do
       form_props(url: add_message_path, method: :post) do |f|
-        f.hidden_field :chatId, value: @chat["pub_id"], name: :chat_id, id: nil
+        f.hidden_field :chatId, value: @chat.pub_id, name: :chat_id, id: nil
         f.hidden_field :parentId, name: "message[parent_id]", id: nil
         f.text_area :value, name: "message[value]", autofocus: true
         f.file_field :images, name: "message[images][]", multiple: true, accept: Message::IMAGE_CONTENT_TYPES.join(',')
@@ -57,16 +66,9 @@ if user_signed_in?
       end
     end
 
-    json.joinChatForm do
-      form_props(url: join_chat_path, method: :post) do |f|
-        f.hidden_field :chatId, value: @chat["pub_id"], name: :chat_id, id: nil
-        f.submit "Join"
-      end
-    end
-
     json.leaveChatForm do
       form_props(url: leave_chat_path, method: :delete) do |f|
-        f.hidden_field :chatId, value: @chat["pub_id"], name: :chat_id, id: nil
+        f.hidden_field :chatId, value: @chat.pub_id, name: :chat_id, id: nil
         f.submit "Leave Chat"
       end
     end
