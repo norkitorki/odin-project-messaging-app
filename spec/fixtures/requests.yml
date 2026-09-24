@@ -1,0 +1,7 @@
+one:
+  id: 1
+  initiator_id: 2
+  receiver_id: 1
+  reference_pub_id: "c_p34nbf3j"
+  request_type: "chat"
+  pub_id: "r_h2md7loa"

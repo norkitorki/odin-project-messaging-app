@@ -1,0 +1,8 @@
+one:
+  id: 1
+  chat_id: 1
+  user_id: 1
+  value: "First message"
+  parent_id: nil
+  pub_id: "m_1o4fo9az"
+  deleted: false
