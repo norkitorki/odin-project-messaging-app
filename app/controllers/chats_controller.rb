@@ -24,7 +24,7 @@ class ChatsController < ApplicationController
         message_id = params[:message]
         parent_id = params[:parent] || nil
         index = messages.index { |m| !m.deleted && (m.pub_id == parent_id || m.pub_id == message_id) }
-        return redirect_to_message(chat, index, message_id, parent_id) if index
+        return redirect_to_message(@chat, index, message_id, parent_id) if index
       end
 
       default_page = params[:page] || (messages.count / 30.0).ceil
