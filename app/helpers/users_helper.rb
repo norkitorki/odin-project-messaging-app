@@ -9,7 +9,7 @@ module UsersHelper
     chats = @user.chats.includes(:admin, :users).where(private: false).page(params[:c_page]).per(20)
     @chats, @chat_pages = pagination_data(chats, user_path(pub_id: @user.pub_id, m_page: params[:m_page]), 20, :c_page)
 
-    messages = @user.messages.public_messages.page(params[:m_page]).per(20)
+    messages = @user.messages.public_messages.order(updated_at: :desc).page(params[:m_page]).per(20)
     @messages, @message_pages = pagination_data(messages, user_path(pub_id: @user.pub_id, c_page: params[:c_page]), 20, :m_page)
   end
 

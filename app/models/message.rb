@@ -8,7 +8,7 @@ class Message < ApplicationRecord
   scope :ordered_by_creation, -> { order(:created_at) }
   scope :top, -> { where(parent_id: nil) }
   scope :sub, -> { where.not(parent_id: nil) }
-  scope :public_messages, -> { includes(:chat, :user).where(chat: { private: false }).order(updated_at: :desc) }
+  scope :public_messages, -> { includes(:chat, :user).where(chat: { private: false }) }
 
   belongs_to :chat, touch: true
   belongs_to :user, touch: true
