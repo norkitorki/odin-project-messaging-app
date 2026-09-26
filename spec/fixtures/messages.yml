@@ -3,6 +3,38 @@ one:
   chat_id: 1
   user_id: 1
   value: "First message"
-  parent_id: nil
   pub_id: "m_1o4fo9az"
   deleted: false
+
+two:
+  id: 2
+  chat_id: 2
+  user_id: 2
+  value: "First Message in private chat"
+  pub_id: "m_2o5fbyax"
+  deleted: false
+
+three:
+  id: 3
+  chat_id: 2
+  user_id: 2
+  value: "Second private message"
+  pub_id: "m_3z2oebl1"
+  deleted: false
+
+reply:
+  id: 4
+  chat_id: 1
+  user_id: 1
+  value: "First Reply"
+  parent_id: "m_1o4fo9az"
+  pub_id: "m_4ur7cqs9"
+  deleted: false
+
+deleted:
+  id: 5
+  chat_id: 2
+  user_id: 2
+  value: "I was deleted"
+  pub_id: "m_5de2xsum"
+  deleted: true
