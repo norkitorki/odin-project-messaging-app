@@ -12,3 +12,8 @@ three:
   id: 3
   chat_id: 3
   user_id: 1
+
+four:
+  id: 4
+  chat_id: 3
+  user_id: 3

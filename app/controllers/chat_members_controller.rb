@@ -5,7 +5,7 @@ class ChatMembersController < ApplicationController
     chat = Chat.find_by(pub_id: params[:chat_id])
 
     if chat.private
-      alert = "Chat is private.Unable to join"
+      alert = "Unable to join a private chat"
     else
       if chat.users.include?(current_user)
         alert = "You are already a member"
@@ -19,7 +19,7 @@ class ChatMembersController < ApplicationController
   end
 
   def destroy
-    chat = CoolId.locate(params[:chat_id])
+    chat = Chat.find_by(pub_id: params[:chat_id])
 
     if chat
       chat.users.delete(current_user)
