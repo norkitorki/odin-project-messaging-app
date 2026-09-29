@@ -53,10 +53,7 @@ RSpec.describe User, type: :model do
 
   it "should delete orphaned user created chats before deletion" do
     user = users(:one)
-    user_id = user.id
-    expect(Chat.where(admin_id: user_id).count).to eql(user.chats.count)
-    user.destroy
-    expect(Chat.where(admin_id: user_id).count).to eql(0)
+    expect { user.destroy }.to change { user.created_chats.count }.from(2).to(0)
   end
 
   describe("scope") do

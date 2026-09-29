@@ -17,6 +17,10 @@ class User < ApplicationRecord
 
   has_many :chat_rooms, dependent: :destroy_async
   has_many :chats, through: :chat_rooms
+  has_many :created_chats,
+    class_name: "Chat",
+    foreign_key: :admin_id,
+    dependent: :destroy
 
   has_many :messages, dependent: :destroy_async
 
@@ -39,7 +43,7 @@ class User < ApplicationRecord
 
   validates :avatar, content_type: IMAGE_CONTENT_TYPES, size: { less_than: 1.megabytes }
 
-  before_destroy :destroy_contacts, :destroy_chats
+  before_destroy :destroy_contacts
 
   def available_chats
     Chat.joins(:users).where(private: false).or(Chat.where(users: self)).distinct
@@ -50,10 +54,6 @@ class User < ApplicationRecord
 
     removal = Contact.where(user_id: id, contact_id: user.id).or(Contact.where(user_id: user.id, contact_id: id)).destroy_all
     !removal.empty?
-  end
-
-  def created_chats
-    chats.where(admin: self)
   end
 
   def as_json
@@ -73,9 +73,5 @@ class User < ApplicationRecord
 
   def destroy_contacts
     Contact.where(user_id: id).or(Contact.where(contact_id: id)).destroy_all
-  end
-
-  def destroy_chats
-    Chat.where(admin: self).destroy_all
   end
 end
