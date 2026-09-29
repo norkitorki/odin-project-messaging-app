@@ -20,12 +20,7 @@ class ChatsController < ApplicationController
 
     if @chat
       messages = @chat.messages.includes(user: [ :avatar_blob ]).ordered_by_creation
-      if params[:message]
-        message_id = params[:message]
-        parent_id = params[:parent] || nil
-        index = messages.index { |m| !m.deleted && (m.pub_id == parent_id || m.pub_id == message_id) }
-        return redirect_to_message(@chat, index, message_id, parent_id) if index
-      end
+      return redirect_to_message(@chat, messages) if params[:message]
 
       default_page = params[:page] || (messages.count / 30.0).ceil
       @messages, @pages = pagination_data(messages.includes(:images_blobs).page(default_page).per(30), chat_path(pub_id: @chat.pub_id), 30, :page, [ :props_at, "data.messages" ])
@@ -63,9 +58,14 @@ class ChatsController < ApplicationController
     params.require(:chat).permit(:name, :private)
   end
 
-  def redirect_to_message(chat, index, message_id, parent_id = nil)
-    page = index / 30 + 1
-    redirect_to chat_path(pub_id: chat.pub_id, page: page < 1 ? 1 : page, m: message_id, p: parent_id)
+  def redirect_to_message(chat, messages)
+    message_id = params[:message]
+    parent_id = params[:parent] || nil
+    index = messages.index { |m| !m.deleted && (m.pub_id == parent_id || m.pub_id == message_id) }
+    if index
+      page = index / 30 + 1
+      redirect_to chat_path(pub_id: chat.pub_id, page: page < 1 ? 1 : page, m: message_id, p: parent_id), status: :found
+    end
   end
 
   def chat_replies(messages)
