@@ -35,15 +35,15 @@ class ChatsController < ApplicationController
     if @chat.save
       redirect_to chat_path(pub_id: @chat.pub_id), notice: "Chat created"
     else
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_content
     end
   end
 
   def destroy
-    chat = CoolId.locate(params[:chat_id])
-    chat.destroy if chat
+    chat = current_user.chats.find_by(pub_id: params[:chat_id])
+    alert = chat&.destroy ? "Chat deleted" : "Chat could not be found"
 
-    redirect_to chats_path, alert: "Chat deleted"
+    redirect_to chats_path, alert: alert
   end
 
   def users
