@@ -15,7 +15,7 @@ class Chat < ApplicationRecord
   before_destroy :delete_associated_requests
 
   def self.available_to_user(user)
-    self.joins(:users).where(private: false).or(Chat.where(users: user))
+    self.joins(:users).where(private: false).or(Chat.where(users: user)).distinct
   end
 
   def message_images
