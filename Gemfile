@@ -65,6 +65,7 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
   gem "rspec-rails", "~> 8.0.0"
+  gem "rails-controller-testing"
 end
 
 # json version v3.0.2 makes JSON.decode incompatible with this app
