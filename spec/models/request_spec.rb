@@ -6,7 +6,7 @@ RSpec.describe Request, type: :model do
   fixtures :requests, :users
 
   it "should omit id, initiator_id, receiver_id, updated_at from json output" do
-    request = requests(:one)
+    request = requests(:chat)
     json = request.as_json
     expect(json).to include({
       initiator: request.initiator,

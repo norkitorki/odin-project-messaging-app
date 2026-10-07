@@ -26,8 +26,8 @@ RSpec.describe Chat, type: :model do
 
   it "should delete associated requests upon deletion" do
     chat = chats(:private)
-    expect(requests(:one).reference_pub_id).to eql(chat.pub_id)
-    expect { chat.destroy }.to change { Request.count }.from(1).to(0)
+    expect(requests(:chat).reference_pub_id).to eql(chat.pub_id)
+    expect { chat.destroy }.to change { Request.count }.from(2).to(1)
   end
 
   describe "scope" do

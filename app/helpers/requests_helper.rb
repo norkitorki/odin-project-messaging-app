@@ -8,7 +8,7 @@ module RequestsHelper
 
     receiver = User.find_by(username: params[:receiver])
     if receiver
-      return redirect_back_or_to chats_path, notice: "User is already a chat member" if chat.users.include?(receiver)
+      return redirect_back_or_to chats_path, alert: "User is already a chat member" if chat.users.include?(receiver)
 
       request = current_user.initiated_requests.find_or_initialize_by(receiver: receiver, request_type: "chat", reference_pub_id: chat.pub_id)
       new_record = request.new_record?
@@ -22,18 +22,23 @@ module RequestsHelper
 
   def create_friend_request
     receiver = User.find_by(pub_id: params[:receiver])
-    return redirect_back_or_to root_path, alert: "#{receiver.username} is already your friend" if current_user.contacts.include?(receiver)
 
-    received_request = current_user.requests.find_by(initiator: receiver, receiver: current_user, request_type: "friend")
-    return redirect_to request_path(pub_id: received_request.pub_id), alert: "Friend request is already open" if received_request
+    if receiver
+      return redirect_back_or_to root_path, alert: "#{receiver.username} is already your friend" if current_user.contacts.include?(receiver)
 
-    request = current_user.initiated_requests.find_or_initialize_by(receiver: receiver, request_type: "friend")
-    return redirect_back_or_to root_path, alert: "You cannot befriend yourself" if request.initiator == request.receiver
+      received_request = current_user.requests.find_by(initiator: receiver, receiver: current_user, request_type: "friend")
+      return redirect_to request_path(pub_id: received_request.pub_id), alert: "Friend request is already open" if received_request
 
-    new_record = request.new_record?
-    request.save if new_record
+      request = current_user.initiated_requests.find_or_initialize_by(receiver: receiver, request_type: "friend")
+      return redirect_back_or_to root_path, alert: "You cannot befriend yourself" if request.initiator == request.receiver
 
-    redirect_back_or_to root_path, notice: "Friend request #{new_record ? "was sent" : "is still pending"}"
+      new_record = request.new_record?
+      request.save if new_record
+
+      redirect_back_or_to root_path, notice: "Friend request #{new_record ? "was sent" : "is still pending"}"
+    else
+      redirect_back_or_to root_path, alert: "User could not be found"
+    end
   end
 
   def accept_chat_request
@@ -47,8 +52,7 @@ module RequestsHelper
   end
 
   def accept_friend_request
-    initiator = @request.initiator
-    current_user.contacts << initiator
+    current_user.contacts << @request.initiator
     @request.destroy
 
     redirect_to edit_user_path, notice: "Friend request accepted"

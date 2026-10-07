@@ -38,10 +38,10 @@ RSpec.describe User, type: :model do
   it "should create contact for receiving user" do
     Contact.destroy_all
     john = users(:one)
-    jane = users(:two)
-    expect { john.contacts << jane }.to change { Contact.count }.by(2)
-    expect(john.contacts).to include(jane)
-    expect(jane.contacts).to include(john)
+    anna = users(:two)
+    expect { john.contacts << anna }.to change { Contact.count }.by(2)
+    expect(john.contacts).to include(anna)
+    expect(anna.contacts).to include(john)
   end
 
   it "should delete orphaned contacts before deletion" do
@@ -58,8 +58,7 @@ RSpec.describe User, type: :model do
 
   describe("scope") do
     it "#ordered_by_username should order users by username" do
-      expect(User.ids).to eq([ 1, 2, 3 ])
-      expect(User.ordered_by_username.ids).to eq([ 3, 2, 1 ])
+      expect(User.ordered_by_username.ids).to eq([ 2, 3, 1 ])
     end
   end
 
