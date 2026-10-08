@@ -3,17 +3,27 @@ one:
   chat_id: 1
   user_id: 1
 
-two: 
+two:
   id: 2
   chat_id: 2
   user_id: 2
 
-three:
+three: 
   id: 3
   chat_id: 3
-  user_id: 1
+  user_id: 2
 
 four:
   id: 4
-  chat_id: 3
+  chat_id: 4
+  user_id: 1
+
+five:
+  id: 5
+  chat_id: 4
   user_id: 3
+
+six:
+  id: 6
+  chat_id: 4
+  user_id: 2

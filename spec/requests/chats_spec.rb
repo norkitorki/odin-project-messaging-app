@@ -11,7 +11,7 @@ RSpec.describe "Chats", type: :request do
     it "should define user accessible chats" do
       get chats_path
 
-      expect(assigns(:chats)).to match_array([ chats(:public), chats(:private), chats(:three) ])
+      expect(assigns(:chats)).to match_array([ chats(:public), chats(:public_two), chats(:private), chats(:three) ])
     end
 
     context "when user is signed out" do
@@ -22,7 +22,7 @@ RSpec.describe "Chats", type: :request do
       it "should define public chats" do
         get chats_path
 
-        expect(assigns(:chats)).to match_array([ chats(:public), chats(:three) ])
+        expect(assigns(:chats)).to match_array([ chats(:public), chats(:public_two), chats(:three) ])
       end
     end
   end
@@ -174,7 +174,7 @@ RSpec.describe "Chats", type: :request do
       chat = chats(:three)
       get users_path(chat_id: chat.pub_id)
 
-      expect(assigns(:users)).to match_array([ users(:three), users(:one) ])
+      expect(assigns(:users)).to match_array([ users(:three), users(:one), users(:two) ])
       expect(assigns(:chat_data)).to eql({ name: chat.name, path: chat_path(pub_id: chat.pub_id) })
     end
   end

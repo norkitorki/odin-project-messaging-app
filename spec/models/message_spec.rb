@@ -39,12 +39,12 @@ RSpec.describe Message, type: :model do
     it "#ordered_by_creation should order messages by time of creation" do
       messages(:one).update(created_at: Time.now + 1.hour)
       messages(:two).update(created_at: Time.now + 30.minutes)
-      expect(described_class.all).to match_array([ messages(:one), messages(:two), messages(:three), messages(:reply), messages(:deleted) ])
-      expect(described_class.ordered_by_creation).to match_array([ messages(:deleted), messages(:reply), messages(:three), messages(:two), messages(:one) ])
+      expect(described_class.all).to match_array([ messages(:one), messages(:two), messages(:three), messages(:four), messages(:reply), messages(:deleted) ])
+      expect(described_class.ordered_by_creation).to match_array([ messages(:deleted), messages(:reply), messages(:three), messages(:four), messages(:two), messages(:one) ])
     end
 
     it "#top should return messages without reply" do
-      expect(described_class.top).to match_array([ messages(:one), messages(:two), messages(:three), messages(:deleted) ])
+      expect(described_class.top).to match_array([ messages(:one), messages(:two), messages(:three), messages(:four), messages(:deleted) ])
     end
 
     it "#sub should return replies" do
@@ -52,7 +52,7 @@ RSpec.describe Message, type: :model do
     end
 
     it "#public_messages should return messages belonging to public chats" do
-      expect(described_class.public_messages).to match_array([ messages(:one), messages(:reply) ])
+      expect(described_class.public_messages).to match_array([ messages(:one), messages(:four), messages(:reply) ])
     end
   end
 

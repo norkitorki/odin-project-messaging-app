@@ -88,7 +88,7 @@ RSpec.describe "ChatMembers", type: :request do
         user = users(:three)
         [ "First Message", "Second Message" ].each { |val| chat.messages.create!(value: val, user: user) }
 
-        expect(chat.messages.count).to eql(2)
+        expect(chat.messages.count).to eql(3)
         expect { delete leave_chat_path(chat_id: chat.pub_id) }.to change { chat.messages.count }.by(-2)
         expect(flash[:alert]).to eql("You left a chat")
         expect(response).to redirect_to(chats_path)

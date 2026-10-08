@@ -5,15 +5,22 @@ public:
   pub_id: "c_s36salo6"
   admin_id: 1
 
-private:
+public_two:
   id: 2
+  name: "Another Public Chat"
+  private: false
+  pub_id: "c_a7jnl2oz"
+  admin_id: 2
+
+private:
+  id: 3
   name: "My Private Chat"
   private: true
   pub_id: "c_p34nbf3j"
   admin_id: 2
 
 three:
-  id: 3
+  id: 4
   name: "Third Chat"
   private: false
   pub_id: "c_3odgy50a"

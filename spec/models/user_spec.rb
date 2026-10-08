@@ -64,8 +64,8 @@ RSpec.describe User, type: :model do
 
   describe("#available_chats") do
     it "should return chats accessible by the user" do
-      expect(users(:one).available_chats).to match_array([ chats(:public), chats(:three) ])
-      expect(users(:two).available_chats).to match_array([ chats(:public), chats(:private), chats(:three) ])
+      expect(users(:one).available_chats).to match_array([ chats(:public), chats(:public_two), chats(:three) ])
+      expect(users(:two).available_chats).to match_array([ chats(:public), chats(:public_two), chats(:private), chats(:three) ])
     end
   end
 
@@ -81,7 +81,7 @@ RSpec.describe User, type: :model do
   describe("#created_chats") do
     it "should return user created chats" do
       expect(users(:one).created_chats).to match_array([ chats(:public), chats(:three) ])
-      expect(users(:two).created_chats).to match_array([ chats(:private) ])
+      expect(users(:two).created_chats).to match_array([ chats(:private), chats(:public_two) ])
     end
   end
 

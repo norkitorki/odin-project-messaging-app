@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Chat, type: :model do
-  fixtures :chats, :requests, :users
+  fixtures :chats, :chat_rooms, :requests, :users
 
   it "should omit id, admin_id, created_at, updated_at from json output" do
     chat = chats(:public)
@@ -38,11 +38,9 @@ RSpec.describe Chat, type: :model do
   end
 
   describe "self#available_to_user" do
-    fixtures :chat_rooms
-
     it "should return all user accessible chats" do
-      expect(Chat.available_to_user(users(:two))).to match_array(chats)
-      expect(Chat.available_to_user(users(:one))).to match_array([ chats(:public), chats(:three) ])
+      expect(Chat.available_to_user(users(:two))).to match_array([ chats(:public), chats(:public_two), chats(:private), chats(:three) ])
+      expect(Chat.available_to_user(users(:one))).to match_array([ chats(:public), chats(:public_two), chats(:three) ])
     end
   end
 
