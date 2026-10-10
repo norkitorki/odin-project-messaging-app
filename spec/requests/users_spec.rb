@@ -61,7 +61,7 @@ RSpec.describe "Users", type: :request do
       get edit_user_path
 
       user = users(:one)
-      chats = user.chats.where(private: false)
+      chats = user.created_chats.where(private: false)
       expect(assigns(:public_chats)).to match_array(chats)
       expect(assigns(:public_pages)).to eql({ current: 1, previous: nil, count: 1, totalCount: chats.count, perPage: 10, paths: [ { page: 1, url: edit_user_path(public_chat_page: 1) } ] })
     end
@@ -71,7 +71,7 @@ RSpec.describe "Users", type: :request do
       sign_in(user)
       get edit_user_path
 
-      chats = user.chats.where(private: true)
+      chats = user.created_chats.where(private: true)
       expect(assigns(:private_chats)).to match_array(chats)
       expect(assigns(:private_pages)).to eql({ current: 1, previous: nil, count: 1, totalCount: chats.count, perPage: 10, paths: [ { page: 1, url: edit_user_path(private_chat_page: 1) } ] })
     end

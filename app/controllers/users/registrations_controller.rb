@@ -8,9 +8,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
     if resource.save
       sign_in(:user, resource)
-      redirect_to root_path, notice: "Signed up successfully.", status: :see_other
+      redirect_to root_path, notice: "Signed up successfully", status: :see_other
     else
       @user = resource
+      flash.now[:alert] = "User could not be created"
       render "users/new"
     end
   end
@@ -38,7 +39,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     resource.destroy
     Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name)
 
-    redirect_to root_path, notice: "User successfully deleted", status: :see_other
+    redirect_to root_path, alert: "User successfully deleted", status: :see_other
   end
 
   private
