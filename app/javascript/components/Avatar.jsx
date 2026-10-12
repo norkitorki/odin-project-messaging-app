@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "@stylesheets/User.module.css";
-import { AccountCircle } from "@javascript/components/Icons";
+import { AccountCircle } from "@components/Icons";
 
 export default function Avatar({ avatar, width = 45 }) {
   return (

@@ -1,7 +1,7 @@
 import react from "react";
 import { describe, expect, test, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
-import Avatar from "@javascript/components/Avatar";
+import Avatar from "@components/Avatar";
 
 vi.mock("@javascript/components/Icons", () => ({
   AccountCircle: vi.fn(() => (
