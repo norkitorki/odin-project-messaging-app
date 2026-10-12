@@ -12,8 +12,8 @@ class Users::SessionsController < Devise::SessionsController
   end
 
   def destroy
-    signed_out = (Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name))
+    Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name)
 
-    redirect_to root_path, notice: signed_out ? "Signed out successfully" : "Already signed out"
+    redirect_to root_path, notice: "Signed out successfully"
   end
 end
