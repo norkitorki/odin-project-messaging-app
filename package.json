@@ -1,6 +1,9 @@
 {
   "name": "odin-project-messaging-app",
   "packageManager": "yarn@4.18.0",
+  "scripts": {
+    "test": "vitest"
+  },
   "dependencies": {
     "@reduxjs/toolkit": "^2.11.2",
     "@thoughtbot/superglue": "^1.0.3",
@@ -9,7 +12,13 @@
     "react-redux": "^9.2.0"
   },
   "devDependencies": {
+    "@testing-library/dom": "^10.4.2",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.3",
+    "@testing-library/user-event": "^14.6.7",
+    "jsdom": "^30.1.2",
     "vite": "^8.0.0",
-    "vite-plugin-ruby": "^5.2.0"
+    "vite-plugin-ruby": "^5.2.0",
+    "vitest": "^5.0.3"
   }
 }

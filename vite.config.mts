@@ -12,4 +12,9 @@ export default defineConfig({
     },
   },
   plugins: [RubyPlugin()],
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: './vitest.setup.js',
+  },
 });

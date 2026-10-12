@@ -43,3 +43,6 @@ node_modules
 
 # Yarn
 .yarn/install-state.gz
+
+# Vitest reports and artifacts
+.vitest/
