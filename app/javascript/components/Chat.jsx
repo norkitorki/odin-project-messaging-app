@@ -11,7 +11,7 @@ import {
   DeleteChatForm,
   JoinChatForm,
   LeaveChatForm,
-} from "@javascript/components/Forms";
+} from "@components/Forms";
 
 export function Chat({ chat }) {
   const { currentUser, userIsMember, messages, forms } = useContent();

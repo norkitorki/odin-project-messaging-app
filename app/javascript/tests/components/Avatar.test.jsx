@@ -3,7 +3,7 @@ import { describe, expect, test, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import Avatar from "@components/Avatar";
 
-vi.mock("@javascript/components/Icons", () => ({
+vi.mock("@components/Icons", () => ({
   AccountCircle: vi.fn(() => (
     <svg>
       <title>Account Circle</title>
