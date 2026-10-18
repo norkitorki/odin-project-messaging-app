@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import styles from "@stylesheets/ImageViewer.module.css";
-import { CloseButton, ArrowLeft, ArrowRight } from "./Icons";
+import { CloseButton, ArrowLeft, ArrowRight } from "@components/Icons";
 
 let images = [];
 let index = 0;
@@ -12,7 +12,9 @@ export const openImageViewer = (photoViewer, messageImages, imageIndex) => {
 
     images = messageImages;
     index = imageIndex;
-    imageDisplay.src = images[index];
+    const image = images[index];
+    imageDisplay.src = image;
+    imageDisplay.alt = image;
     photoCounter.textContent = `${index + 1} / ${images.length}`;
     photoViewer.classList.add(styles.viewerOpen);
   }
@@ -34,7 +36,9 @@ export default function ImageViewer({ ref }) {
     if (index < 0) index = images.length - 1;
     else if (index >= images.length) index = 0;
 
-    imageDisplay.current.src = images[index];
+    const image = images[index];
+    imageDisplay.current.src = image;
+    imageDisplay.current.alt = image;
     photoCounter.current.textContent = `${index + 1} / ${images.length}`;
   };
 
@@ -58,7 +62,12 @@ export default function ImageViewer({ ref }) {
   };
 
   return (
-    <div className={styles.photoViewer} ref={ref} onClick={onClick}>
+    <div
+      className={styles.photoViewer}
+      ref={ref}
+      onClick={onClick}
+      data-testid="image-viewer"
+    >
       <div className={styles.photoCounter} ref={photoCounter}></div>
       <button className={styles.leftArrow} onClick={previousPhoto}>
         <ArrowLeft />
