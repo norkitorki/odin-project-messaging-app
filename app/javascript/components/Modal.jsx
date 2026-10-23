@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import styles from "@stylesheets/Modal.module.css";
-import { CloseButton } from "./Icons";
+import { CloseButton } from "@components/Icons";
 
 export default function Modal({ children, setterFunc }) {
   const closeModal = () => setterFunc(false);

@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import styles from "@stylesheets/Message.module.css";
 import { useContent } from "@thoughtbot/superglue";
-import { Edit, Link, Reply } from "./Icons";
-import Modal from "./Modal";
+import { Edit, Link, Reply } from "@components/Icons";
+import Modal from "@components/Modal";
 import {
   AddMessageForm,
   DeleteMessageForm,
   EditMessageForm,
 } from "@javascript/components/Forms";
-import Avatar from "./Avatar";
+import Avatar from "@components/Avatar";
 
 export default function Message({ message, chat, replies, openImageInViewer }) {
   const { currentUser, userIsMember, messageQuery, parentQuery, forms } =
@@ -46,13 +46,13 @@ export default function Message({ message, chat, replies, openImageInViewer }) {
   const replyCallback = () => setReplying(false);
 
   const messageDeleted = message.deleted;
-  const isSubMessage = message.parent_id !== null;
+  const isReply = message.parent_id !== null;
   const userIsAuthor = message.user.pub_id === currentUser?.pub_id;
   const userIsAdmin = chat.admin_id === currentUser?.pub_id;
 
   const MessageDetails = () => (
     <div
-      className={`${styles.messageDetails} ${isSubMessage ? styles.replyDetails : ""}`}
+      className={`${styles.messageDetails} ${isReply ? styles.replyDetails : ""}`}
     >
       <Avatar avatar={message.user.avatar} width={45} />
       <a
@@ -95,7 +95,7 @@ export default function Message({ message, chat, replies, openImageInViewer }) {
               <Edit />
             </button>
           )}
-          {userIsMember && !messageDeleted && !isSubMessage && (
+          {userIsMember && !messageDeleted && !isReply && (
             <button
               title="reply to message"
               className={`${styles.messageReplyButton} ${replying ? styles.active : ""}`}
@@ -170,7 +170,7 @@ export default function Message({ message, chat, replies, openImageInViewer }) {
 
   return (
     <>
-      {isSubMessage ? (
+      {isReply ? (
         <>
           <MessageDetails />
           <MessageBody />
@@ -197,7 +197,7 @@ export default function Message({ message, chat, replies, openImageInViewer }) {
           />
         </Modal>
       )}
-      {!isSubMessage && replying && (
+      {!isReply && replying && (
         <Modal setterFunc={setReplying}>
           <AddMessageForm
             form={forms.addMessageForm}
