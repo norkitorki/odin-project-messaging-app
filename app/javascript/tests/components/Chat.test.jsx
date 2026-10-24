@@ -1,7 +1,15 @@
 import react from "react";
-import { beforeEach, describe, expect, test, vi } from "vitest";
+import { afterAll, beforeEach, describe, expect, test, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { Chat } from "@javascript/components/Chat";
+import {
+  addMessageForm,
+  chatRequestForm,
+  deleteChatForm,
+  joinChatForm,
+  leaveChatForm,
+} from "../forms";
+import userEvent from "@testing-library/user-event";
 
 const messages = {
   data: [
@@ -49,15 +57,18 @@ const content = {
   userIsMember: true,
   messages: messages,
   forms: {
-    deleteChatForm: vi.fn(),
-    joinChatForm: vi.fn(),
+    addMessageForm,
+    deleteChatForm,
+    joinChatForm,
+    chatRequestForm,
+    leaveChatForm,
   },
 };
 
 vi.mock(import("@thoughtbot/superglue"), () => ({ useContent: () => content }));
 
 vi.mock("@components/ImageViewer", () => ({
-  default: vi.fn(() => <div>Image Viewer</div>),
+  default: vi.fn(),
   openImageInViewer: vi.fn(),
 }));
 
@@ -66,20 +77,11 @@ vi.mock("@components/Message", () => ({
 }));
 
 vi.mock("@components/Pagination", () => ({
-  default: vi.fn(() => <div>Pagination</div>),
+  default: vi.fn(),
 }));
 
-vi.mock("@components/Modal", () => ({
-  default: vi.fn(() => <div>Modal</div>),
-}));
-
-vi.mock("@components/Forms", () => ({
-  AddMessageForm: vi.fn(),
-  ChatRequestForm: vi.fn(),
-  DeleteChatForm: vi.fn(() => <button type="submit">Delete Chat</button>),
-  JoinChatForm: vi.fn(() => <button type="submit">Join Chat</button>),
-  LeaveChatForm: vi.fn(() => <button type="submit">Leave Chat</button>),
-}));
+const originalConfirm = window.confirm;
+window.confirm = vi.fn(() => false);
 
 const props = {
   chat: {
@@ -89,8 +91,15 @@ const props = {
   },
 };
 
+const privateProps = {
+  ...props,
+  chat: { ...props.chat, private: true },
+};
+
 describe("Chat", () => {
   afterEach(() => vi.clearAllMocks());
+
+  afterAll(() => (window.confirm = originalConfirm));
 
   test("should render chat name", () => {
     render(<Chat {...props} />);
@@ -140,11 +149,36 @@ describe("Chat", () => {
       const button = screen.getByRole("button", { name: /delete chat/i });
       expect(button).toBeInTheDocument();
     });
+
+    test("should allow admin to delete chat", async () => {
+      const user = userEvent.setup();
+      render(<Chat {...props} />);
+
+      await user.click(screen.getByRole("button", { name: /delete chat/i }));
+
+      expect(window.confirm).toHaveBeenCalledExactlyOnceWith(
+        "You are about to delete this chat. Are you sure?",
+      );
+    });
+
+    describe("when chat is private", () => {
+      test("should allow admin to invite user", async () => {
+        const user = userEvent.setup();
+        render(<Chat {...privateProps} />);
+
+        await user.click(screen.getByRole("button", { name: /invite user/i }));
+
+        expect(screen.getByLabelText(/username/i)).toBeInTheDocument;
+        expect(screen.getByRole("textbox", { name: /username/i }));
+        expect(screen.getByRole("button", { name: /invite to chat/i }));
+      });
+    });
   });
 
   describe("when user is a chat member", () => {
+    const nonAdminProps = { ...props, chat: { admin: {} } };
+
     beforeEach(() => {
-      const nonAdminProps = { ...props, chat: { admin: {} } };
       render(<Chat {...nonAdminProps} />);
     });
 
@@ -162,6 +196,28 @@ describe("Chat", () => {
       const button = screen.queryByRole("button", { name: /delete chat/i });
       expect(button).not.toBeInTheDocument();
     });
+
+    test("should allow user to post new message", async () => {
+      const user = userEvent.setup();
+
+      await user.click(screen.getByRole("button", { name: /add message/i }));
+
+      expect(screen.getByLabelText(/add message/i)).toBeInTheDocument();
+      expect(
+        screen.getByRole("textbox", { name: /add message/i }),
+      ).toBeInTheDocument();
+      expect(screen.getByRole("button", { name: /send/i })).toBeInTheDocument();
+    });
+
+    test("should allow user to leave chat", async () => {
+      const user = userEvent.setup();
+
+      await user.click(screen.getByRole("button", { name: /leave chat/i }));
+
+      expect(window.confirm).toHaveBeenCalledExactlyOnceWith(
+        "You are about to leave the chat. Are you sure?",
+      );
+    });
   });
 
   describe("when user is not a chat member", () => {
@@ -171,12 +227,22 @@ describe("Chat", () => {
         ...content,
         userIsMember: false,
       });
-      render(<Chat {...props} />);
     });
 
-    test("should render join chat button", () => {
-      const button = screen.getByRole("button", { name: /join chat/i });
-      expect(button).toBeInTheDocument();
+    test("should render join button", () => {
+      render(<Chat {...props} />);
+
+      expect(screen.getByRole("button", { name: /join/i })).toBeInTheDocument();
+    });
+
+    describe("when chat is private", () => {
+      test("should not render join button", () => {
+        render(<Chat {...privateProps} />);
+
+        expect(
+          screen.queryByRole("button", { name: /join/i }),
+        ).not.toBeInTheDocument();
+      });
     });
   });
 
