@@ -68,8 +68,7 @@ group :test do
   gem "rails-controller-testing"
 end
 
-# json version v3.0.2 makes JSON.decode incompatible with this app
-gem "json", "~> 2.21"
+gem "json", "~> 3.1"
 
 gem "superglue"
 gem "vite_rails"
