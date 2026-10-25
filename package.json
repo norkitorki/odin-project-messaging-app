@@ -1,6 +1,6 @@
 {
   "name": "odin-project-messaging-app",
-  "packageManager": "yarn@4.18.0",
+  "packageManager": "yarn@4.18.1",
   "scripts": {
     "test": "vitest"
   },
@@ -18,7 +18,7 @@
     "@testing-library/user-event": "^14.6.7",
     "jsdom": "^30.1.2",
     "vite": "^8.0.0",
-    "vite-plugin-ruby": "^5.2.0",
+    "vite-plugin-ruby": "^5.2.5",
     "vitest": "^5.0.3"
   }
 }
