@@ -218,6 +218,23 @@ const leaveChatForm = {
   },
 };
 
+const signOutForm = {
+  inputs: {},
+  extras: {
+    method: {
+      name: "_method",
+      type: "hidden",
+      defaultValue: "delete",
+      autoComplete: "off",
+    },
+  },
+  form: {
+    action: "/signout",
+    acceptCharset: "UTF-8",
+    method: "post",
+  },
+};
+
 export {
   addMessageForm,
   chatRequestForm,
@@ -226,4 +243,5 @@ export {
   editMessageForm,
   joinChatForm,
   leaveChatForm,
+  signOutForm,
 };

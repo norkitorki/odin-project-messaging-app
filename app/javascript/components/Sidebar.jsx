@@ -1,11 +1,11 @@
 import React from "react";
 import styles from "@stylesheets/Sidebar.module.css";
-import Avatar from "./Avatar";
+import Avatar from "@components/Avatar";
 import { useContent } from "@thoughtbot/superglue";
-import { SignOutForm } from "@javascript/components/Forms";
-import { Chat, Cog, Home } from "./Icons";
+import { SignOutForm } from "@components/Forms";
+import { Chat, Cog, Home } from "@components/Icons";
 
-export default function Header() {
+export default function Sidebar() {
   const { currentUser, contacts, requestCount, signOutForm } = useContent();
   const settingsTitle = `user settings${requestCount > 0 ? ` (${requestCount} pending requests)` : ""}`;
 

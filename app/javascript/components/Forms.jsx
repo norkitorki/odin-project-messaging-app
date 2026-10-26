@@ -10,7 +10,7 @@ import {
   TextArea,
   TextField,
 } from "@javascript/components";
-import { Delete, Logout } from "./Icons";
+import { Delete, Logout } from "@components/Icons";
 
 const ErrorMessages = ({ errors, property }) => {
   if (!errors || !errors[property]) return null;
