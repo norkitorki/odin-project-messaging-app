@@ -8,7 +8,7 @@ import {
   test,
   vi,
 } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import styles from "@stylesheets/Message.module.css";
 import { addMessageForm, deleteMessageForm, editMessageForm } from "../forms";
@@ -42,8 +42,10 @@ vi.mock("@components/Avatar", () => ({
 
 const originalConfirm = window.confirm;
 const originalAlert = window.alert;
+const originalScroll = window.scroll;
 window.confirm = vi.fn(() => false);
 window.alert = vi.fn();
+window.scroll = vi.fn();
 
 const props = {
   message: {
@@ -73,6 +75,7 @@ describe("Message", () => {
   afterAll(() => {
     window.confirm = originalConfirm;
     window.alert = originalAlert;
+    window.scroll = originalScroll;
   });
 
   test("should render link to user", () => {
@@ -265,6 +268,69 @@ describe("Message", () => {
 
     test("should not render reply message button", () => {
       expect(screen.queryByTitle(/reply to message/i)).not.toBeInTheDocument();
+    });
+  });
+
+  describe("when message query param is provided", () => {
+    beforeEach(async () => {
+      const superglue = await import("@thoughtbot/superglue");
+      vi.spyOn(superglue, "useContent").mockReturnValueOnce({
+        ...content,
+        messageQuery: "m_1k8sbyxp",
+      });
+      render(<Message {...props} />);
+    });
+
+    test("should add queriedMessage class to message wrapper", () => {
+      const message = document.getElementById("m_1k8sbyxp");
+      expect(message.classList).toContain(styles.queriedMessage);
+    });
+
+    test("should scroll to message", async () => {
+      const message = document.getElementById("m_1k8sbyxp");
+      const originalGetBoundingClientRect = message.getBoundingClientRect;
+      message.getBoundingClientRect = vi.fn(() => ({ top: 100, height: 40 }));
+
+      await waitFor(() =>
+        expect(window.scroll).toHaveBeenCalledExactlyOnceWith({
+          top: 100 - 40,
+          behavior: "smooth",
+        }),
+      );
+
+      message.getBoundingClientRect = originalGetBoundingClientRect;
+    });
+  });
+
+  describe("when parent query param is provided", () => {
+    beforeEach(async () => {
+      const superglue = await import("@thoughtbot/superglue");
+      const parentProps = {
+        ...props,
+        message: { ...props.message, pub_id: "m_p5c9szywm" },
+        replies: [
+          {
+            pub_id: "m_r5bysazi7",
+            value: "First reply",
+            parent_id: "m_1k8sbyxp",
+            deleted: false,
+            created: "about 2 days ago",
+            updated: "about 2 days ago",
+            user: content.currentUser,
+          },
+        ],
+      };
+      vi.spyOn(superglue, "useContent").mockReturnValueOnce({
+        ...content,
+        parentQuery: "m_p5c9szywm",
+        messageQuery: "m_r5bysazi7",
+      });
+      render(<Message {...parentProps} />);
+    });
+
+    test("should open replies details", () => {
+      const details = screen.getByTitle(/replies/i);
+      expect(details.open).toBeTruthy();
     });
   });
 });

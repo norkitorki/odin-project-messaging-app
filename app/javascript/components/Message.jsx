@@ -142,7 +142,7 @@ export default function Message({ message, chat, replies, openImageInViewer }) {
             )}
             {replies?.length > 0 && (
               <div className={styles.replies}>
-                <details open={parentQuery === message.pub_id ? true : false}>
+                <details title="replies" open={parentQuery === message.pub_id ? true : false}>
                   <summary>{replies.length} Replies</summary>
                   <ol>
                     {replies.map((message) => (
