@@ -1,6 +1,5 @@
 {
   "name": "odin-project-messaging-app",
-  "packageManager": "yarn@4.18.1",
   "scripts": {
     "test": "vitest"
   },
