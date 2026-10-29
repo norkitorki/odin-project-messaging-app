@@ -1,4 +1,0 @@
-json.chats do
-  json.data @chats.map(&:json_with_user_count)
-  json.pages @pages
-end

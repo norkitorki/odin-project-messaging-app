@@ -1,8 +1,0 @@
-json.newChatForm do 
-  form_props(model: @chat, url: create_chat_path) do |f|
-    f.text_field :name
-    f.check_box :private
-    f.submit "Create Chat"
-  end
-  json.errors @chat.errors.to_hash(true)
-end
