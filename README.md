@@ -20,3 +20,7 @@ bin/dev
 ```
 
 Open your preferred web browser and visit http://127.0.0.1:3000/ to use the application
+
+## Screenshots
+
+![Chat Screenshot](../screenshots/chat.png?raw=true)
