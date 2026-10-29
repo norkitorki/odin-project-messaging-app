@@ -35,7 +35,7 @@ RSpec.describe "Chats", type: :request do
     it "should define chat messages" do
       get chat_path(pub_id: chats(:public).pub_id)
 
-      expect(assigns(:messages)).to match_array([ messages(:one), messages(:reply) ])
+      expect(assigns(:messages)).to match_array([ messages(:one) ])
     end
 
     it "should define chat message replies" do
