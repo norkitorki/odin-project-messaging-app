@@ -13,6 +13,7 @@ export default function UsersShow() {
   const {
     currentUser,
     user,
+    timestamps,
     chats,
     messages,
     userIsContact,
@@ -45,14 +46,19 @@ export default function UsersShow() {
       </div>
       <div className={styles.badgeContainer}>
         <div className={styles.badge}>
-          Last Active {String(new Date(user.updated_at))}
+          Joined{" "}
+          <span className={styles.highlighted}>{timestamps.created}</span>
+        </div>
+        <div className={styles.badge}>
+          Last Activity{" "}
+          <span className={styles.highlighted}>{timestamps.updated}</span>
         </div>
       </div>
       <div className={styles.userContent}>
         <div className={styles.chatList}>
           <h3>
             Chats{" "}
-            <span className={styles.collectionCount}>
+            <span className={styles.highlighted}>
               ({chats.pages.totalCount})
             </span>
           </h3>
@@ -78,7 +84,7 @@ export default function UsersShow() {
         <div>
           <h3>
             Messages{" "}
-            <span className={styles.collectionCount}>
+            <span className={styles.highlighted}>
               ({messages.pages.totalCount})
             </span>
           </h3>

@@ -1,5 +1,5 @@
 class Message < ApplicationRecord
-  include ActionView::Helpers::DateHelper
+  include TimeHelper
   include CoolId::Model
   cool_id prefix: "m", length: 8, id_field: :pub_id
 
@@ -37,14 +37,6 @@ class Message < ApplicationRecord
       created: created_at_time_in_words_to_now,
       updated: updated_at_time_in_words_to_now
     })
-  end
-
-  def created_at_time_in_words_to_now
-    "#{distance_of_time_in_words_to_now(created_at)} ago"
-  end
-
-  def updated_at_time_in_words_to_now
-    "#{distance_of_time_in_words_to_now(updated_at)} ago"
   end
 
   private

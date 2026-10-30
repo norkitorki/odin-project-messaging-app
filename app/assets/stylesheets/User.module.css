@@ -37,14 +37,12 @@
 
 .badge {
   font-weight: bold;
-  display: flex;
-  align-items: center;
   border: 1px solid #098686;
   padding: 1.5rem 1rem;
   border-radius: 8px;
 }
 
-.collectionCount {
+.highlighted {
   color: #089ac7;
 }
 

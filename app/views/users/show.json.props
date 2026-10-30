@@ -1,5 +1,10 @@
 json.user @user
 
+json.timestamps do
+  json.created @user.created_at_time_in_words_to_now
+  json.updated @user.updated_at_time_in_words_to_now
+end
+
 json.chats do
   json.data @chats
   json.pages @chat_pages

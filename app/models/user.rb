@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  include TimeHelper
+
   devise :database_authenticatable, :registerable, :rememberable
 
   include CoolId::Model
