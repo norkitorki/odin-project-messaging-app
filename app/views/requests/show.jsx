@@ -1,8 +1,8 @@
 import React from "react";
 import styles from "@stylesheets/Request.module.css";
-import { Layout } from "@javascript/components";
+import { Layout } from "@components";
 import { useContent } from "@thoughtbot/superglue";
-import { RequestResponseForm } from "@javascript/components/Forms";
+import { RequestResponseForm } from "@components/Forms";
 
 const RequestForm = ({ children }) => {
   const { requestForm } = useContent();
@@ -49,7 +49,7 @@ export default function RequestsShow() {
               <InitiatorLink /> would like you to join a private chat.
             </div>
             <div>Chat: {chat.name}</div>
-            <div>Member Count: {chat.users.length}</div>
+            <div>Member Count: {chat.userCount}</div>
           </div>
         </RequestForm>
       )}

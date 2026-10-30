@@ -1,10 +1,9 @@
 class User < ApplicationRecord
   include TimeHelper
-
-  devise :database_authenticatable, :registerable, :rememberable
-
   include CoolId::Model
   cool_id prefix: "u", length: 8, id_field: :pub_id
+
+  devise :database_authenticatable, :registerable, :rememberable
 
   IMAGE_CONTENT_TYPES = %w[ image/png image/jpeg ].freeze
 
