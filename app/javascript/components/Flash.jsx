@@ -1,9 +1,9 @@
 import React, { useEffect, useRef } from "react";
 import styles from "@stylesheets/Layout.module.css";
-import { useSelector } from "react-redux";
+import { useContent } from "@thoughtbot/superglue";
 
 export default function Flash() {
-  const flash = useSelector((state) => state.flash);
+  const { flash } = useContent();
   const flashRef = useRef(null);
   const timeoutRef = useRef(null);
 
