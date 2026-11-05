@@ -4,10 +4,12 @@ import { render, screen } from "@testing-library/react";
 import styles from "@stylesheets/Layout.module.css";
 import Flash from "@components/Flash";
 
-vi.mock(import("react-redux"), () => ({
-  useSelector: vi.fn(() => ({
-    success: "Successfull operation completed",
-  })),
+vi.mock(import("@thoughtbot/superglue"), () => ({
+  useContent: () => ({
+    flash: {
+      success: "Successfull operation completed",
+    },
+  }),
 }));
 
 afterAll(() => vi.clearAllMocks());
@@ -22,9 +24,9 @@ describe("Flash", () => {
   });
 
   test("should render flash notice message", async () => {
-    const redux = await import("react-redux");
-    vi.spyOn(redux, "useSelector").mockReturnValueOnce({
-      notice: "Notice delivered",
+    const superglue = await import("@thoughtbot/superglue");
+    vi.spyOn(superglue, "useContent").mockReturnValueOnce({
+      flash: { notice: "Notice delivered" },
     });
 
     render(<Flash />);
@@ -35,9 +37,9 @@ describe("Flash", () => {
   });
 
   test("should render flash alert message", async () => {
-    const redux = await import("react-redux");
-    vi.spyOn(redux, "useSelector").mockReturnValueOnce({
-      alert: "Alert is in progress",
+    const superglue = await import("@thoughtbot/superglue");
+    vi.spyOn(superglue, "useContent").mockReturnValueOnce({
+      flash: { alert: "Alert is in progress" },
     });
 
     render(<Flash />);
