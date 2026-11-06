@@ -33,6 +33,7 @@ Rails.application.routes.draw do
   post "/chats/create", to: "chats#create", as: :create_chat
   post "/contacts/add", to: "contacts#create", as: :add_contact
   post "/messages/add", to: "messages#create", as: :add_message
+  post "/private_messages/add", to: "private_messages#create", as: :new_user_message
   post "/requests/add", to: "requests#create", as: :add_request
 
   patch "/messages/update", to: "messages#update", as: :update_message
@@ -41,4 +42,5 @@ Rails.application.routes.draw do
   delete "/chat/leave", to: "chat_members#destroy", as: :leave_chat
   delete "/chats/delete", to: "chats#destroy", as: :delete_chat
   delete "/contacts/remove", to: "contacts#destroy", as: :remove_contact
+  delete "/private_messages/delete", to: "private_messages#destroy", as: :delete_private_message
 end

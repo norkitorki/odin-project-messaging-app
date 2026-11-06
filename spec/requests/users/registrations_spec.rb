@@ -77,6 +77,17 @@ RSpec.describe "Users::Registrations", type: :request do
         expect(assigns(:request_pages)).to eql({ current: 1, previous: nil, count: 1, totalCount: requests.count, perPage: 10, paths: [ { page: 1, url: edit_user_path(request_page: 1) } ] })
       end
 
+      it "should define private user messages" do
+        user = users(:one)
+        sign_in(user)
+        private_messages = user.private_messages
+        put update_user_path(user: { username: nil })
+
+        private_messages = user.private_messages
+        expect(assigns(:private_messages)).to match_array(private_messages)
+        expect(assigns(:private_messages_pages)).to eql({ current: 1, previous: nil, count: 1, totalCount: private_messages.count, perPage: 10, paths: [ { page: 1, url: edit_user_path(message_page: 1) } ] })
+      end
+
       it "should define errors" do
         put update_user_path(form_action: "user_form", user: { username: "testuser443" })
 

@@ -22,9 +22,14 @@
     <%# stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= vite_client_tag %>
     <%= vite_javascript_tag "application.jsx" %>
+
+    <script type="text/javascript" async>
+    window.SUPERGLUE_INITIAL_PAGE_STATE=<%= render_props %>;<%# erblint:disable ErbSafety %>
+    </script>
   </head>
 
   <body>
-    <%= yield %>
+    <noscript>JavaScript is required to use this website.</noscript>
+    <div id="app"></div>
   </body>
 </html>

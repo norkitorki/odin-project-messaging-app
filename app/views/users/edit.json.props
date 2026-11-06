@@ -17,6 +17,11 @@ json.requests do
   json.pages @request_pages
 end
 
+json.messages do
+  json.data @private_messages
+  json.pages @private_messages_pages
+end
+
 json.forms do
   json.avatarForm do
     form_props(model: current_user, url: update_user_path, method: :put) do |f|
@@ -49,6 +54,13 @@ json.forms do
   json.deleteUserForm do
     form_props(url: destroy_user_path, method: :delete) do |f|
       f.submit "Delete User"
+    end
+  end
+
+  json.deletePrivateMessageForm do
+    form_props(url: delete_private_message_path, method: :delete) do |f|
+      f.hidden_field :messageId, name: :message_id, id: nil
+      f.submit "Delete"
     end
   end
 end

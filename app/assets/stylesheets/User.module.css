@@ -22,8 +22,7 @@
   flex-wrap: wrap;
 }
 
-.avatarFormButton,
-.passwordFormButton {
+.modalToggleInfo {
   composes: buttonInfo from "./Layout.module.css";
 }
 
@@ -49,7 +48,8 @@
 .chatList,
 .userContent > *,
 .chatList ul,
-.requests {
+.requests,
+.privateMessages {
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -66,11 +66,6 @@
   text-align: center;
 }
 
-.userContent .contentPagination {
-  width: max-content;
-  margin: 0 auto;
-}
-
 .userContent .contentPagination a {
   font-size: 1.15rem;
 }
@@ -82,6 +77,11 @@
 .userContent > * {
   max-width: min(50%, 800px);
   flex-grow: 1;
+}
+
+.contentPagination {
+  width: max-content;
+  margin: 0 auto;
 }
 
 .chatList {
@@ -118,6 +118,32 @@
 .message {
   font-size: 1rem;
   white-space: pre-wrap;
+}
+
+.privateMessages .message {
+  font-size: 0.8rem;
+  position: relative;
+}
+
+.privateMessages .message button[type="submit"] {
+  position: absolute;
+  right: 10px;
+  top: 1rem;
+}
+
+.privateMessages .message p,
+.privateMessages .message a {
+  color: #ffffff;
+}
+
+.privateMessages .message p {
+  font-size: 1rem;
+  font-weight: normal;
+  padding-top: 0.75rem;
+}
+
+.privateMessageForm h3 {
+  padding-bottom: 1rem;
 }
 
 .message .created {

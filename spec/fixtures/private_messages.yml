@@ -1,0 +1,13 @@
+one:
+  id: 1
+  pub_id: "p_28fme9sz"
+  initiator_id: 2
+  receiver_id: 1
+  value: "First private message"
+
+two:
+  id: 2
+  pub_id: "p_6copqlfv"
+  initiator_id: 2
+  receiver_id: 1
+  value: "Second private message"

@@ -18,18 +18,30 @@ end
 if user_signed_in?
   json.userIsContact @userIsContact
 
-  json.friendRequestForm do
-    form_props(url: add_request_path, method: :post) do |f|
-      f.hidden_field :requestType, name: :request_type, value: "friend", id: nil
-      f.hidden_field :receiver, id: nil
-      f.submit "Send Friend Request"
+  json.forms do
+    json.friendRequestForm do
+      form_props(url: add_request_path, method: :post) do |f|
+        f.hidden_field :requestType, name: :request_type, value: "friend", id: nil
+        f.hidden_field :receiver, id: nil
+        f.submit "Send Friend Request"
+      end
     end
-  end
 
-  json.removeContactForm do
-    form_props(url: remove_contact_path, method: :delete) do |f|
-      f.hidden_field :userId, name: :user_id, id: nil
-      f.submit "Remove Contact"
+    if @userIsContact
+      json.removeContactForm do
+        form_props(url: remove_contact_path, method: :delete) do |f|
+          f.hidden_field :userId, name: :user_id, id: nil
+          f.submit "Remove Contact"
+        end
+      end
+
+      json.addMessageForm do
+        form_props(url: new_user_message_path, method: :post) do |f|
+          f.hidden_field :userId, value: @user.pub_id, name: :receiver_id, id: nil
+          f.text_area :value, autofocus: true
+          f.submit "Send Message"
+        end
+      end
     end
   end
 end

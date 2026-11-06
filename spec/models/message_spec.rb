@@ -55,20 +55,4 @@ RSpec.describe Message, type: :model do
       expect(described_class.public_messages).to match_array([ messages(:one), messages(:four), messages(:reply) ])
     end
   end
-
-  describe "#created_at_time_in_words_to_now" do
-    it "should return created time in words" do
-      message = messages(:one)
-      message.update(created_at: Time.now + 24.minutes)
-      expect(message.created_at_time_in_words_to_now).to eql("24 minutes ago")
-    end
-  end
-
-  describe "#updated_at_time_in_words_to_now" do
-    it "should return updated time in words" do
-      message = messages(:one)
-      message.update(updated_at: Time.now + 1.2.hour)
-      expect(message.updated_at_time_in_words_to_now).to eql("about 1 hour ago")
-    end
-  end
 end

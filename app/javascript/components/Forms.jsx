@@ -115,6 +115,26 @@ export const AddMessageForm = ({
   </Form>
 );
 
+export const AddPrivateMessageForm = ({ form, onSubmit }) => (
+  <Form
+    {...form.form}
+    extras={form.extras}
+    className={styles.messageForm}
+    onSubmit={onSubmit}
+    data-sg-visit
+  >
+    <input {...form.inputs.userId} />
+    <TextArea
+      {...form.inputs.value}
+      id={"new_value"}
+      className={styles.messageInput}
+      label="Add Message"
+      required
+    />
+    <SubmitButton {...form.inputs.submit} className={styles.buttonSubmit} />
+  </Form>
+);
+
 export const ChatRequestForm = ({ form }) => (
   <Form
     {...form.form}
@@ -178,6 +198,25 @@ export const DeleteMessageForm = ({ form, messageId }) => {
       <button
         type="submit"
         title="delete message"
+        className={styles.messageDeleteButton}
+      >
+        <Delete />
+      </button>
+    </Form>
+  );
+};
+
+export const DeletePrivateMessageForm = ({ form, messageId }) => {
+  const onSubmit = confirmSubmission(
+    "Are you sure that you would like to delete this message?",
+  );
+
+  return (
+    <Form {...form.form} extras={form.extras} onSubmit={onSubmit}>
+      <input {...form.inputs.messageId} value={messageId} />
+      <button
+        type="submit"
+        title="delete private message"
         className={styles.messageDeleteButton}
       >
         <Delete />

@@ -4,6 +4,7 @@ module UsersHelper
   PUBLIC_CHAT_PARAM = :public_chat_page
   PRIVATE_CHAT_PARAM = :private_chat_page
   REQUEST_PARAM = :request_page
+  MESSAGE_PARAM = :message_page
 
   def public_user_content
     chats = @user.chats.includes(:admin, :users).where(private: false).page(params[:c_page]).per(20)
@@ -14,16 +15,22 @@ module UsersHelper
   end
 
   def build_chats
-    public_parameters = pagination_parameters(PRIVATE_CHAT_PARAM, REQUEST_PARAM)
-    private_parameters = pagination_parameters(PUBLIC_CHAT_PARAM, REQUEST_PARAM)
+    public_parameters = pagination_parameters(PRIVATE_CHAT_PARAM, REQUEST_PARAM, MESSAGE_PARAM)
+    private_parameters = pagination_parameters(PUBLIC_CHAT_PARAM, REQUEST_PARAM, MESSAGE_PARAM)
     @public_chats, @public_pages = pagination_data(collect_chats, edit_user_path(public_parameters), 10, PUBLIC_CHAT_PARAM)
     @private_chats, @private_pages = pagination_data(collect_chats(true), edit_user_path(private_parameters), 10, PRIVATE_CHAT_PARAM)
   end
 
   def build_requests
-    parameters = pagination_parameters(PUBLIC_CHAT_PARAM, PRIVATE_CHAT_PARAM)
-    requests = current_user.requests.includes(:initiator, :receiver).order(created_at: :desc).page(params[:request_page]).per(10)
-    @requests, @request_pages = pagination_data(requests, edit_user_path(parameters), 10, :request_page)
+    parameters = pagination_parameters(PUBLIC_CHAT_PARAM, PRIVATE_CHAT_PARAM, MESSAGE_PARAM)
+    requests = current_user.requests.includes(:initiator, :receiver).order(created_at: :desc).page(params[REQUEST_PARAM]).per(10)
+    @requests, @request_pages = pagination_data(requests, edit_user_path(parameters), 10, REQUEST_PARAM)
+  end
+
+  def build_messages
+    parameters = pagination_parameters(PUBLIC_CHAT_PARAM, PRIVATE_CHAT_PARAM, REQUEST_PARAM)
+    messages = current_user.private_messages.includes(:initiator).order(created_at: :desc).page(params[MESSAGE_PARAM]).per(10)
+    @private_messages, @private_messages_pages = pagination_data(messages, edit_user_path(parameters), 10, MESSAGE_PARAM)
   end
 
   private

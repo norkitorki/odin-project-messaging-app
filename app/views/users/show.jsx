@@ -1,13 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "@stylesheets/User.module.css";
 import { useContent } from "@thoughtbot/superglue";
 import { Layout } from "@javascript/components";
-import {
-  FriendRequestForm,
-  RemoveContactForm,
-} from "@javascript/components/Forms";
-import Avatar from "@javascript/components/Avatar";
-import Pagination from "@javascript/components/Pagination";
+import { FriendRequestForm, RemoveContactForm } from "@components/Forms";
+import Avatar from "@components/Avatar";
+import Pagination from "@components/Pagination";
+import Modal from "@components/Modal";
+import { AddPrivateMessageForm } from "@javascript/components/Forms";
 
 export default function UsersShow() {
   const {
@@ -17,9 +16,13 @@ export default function UsersShow() {
     chats,
     messages,
     userIsContact,
-    friendRequestForm,
-    removeContactForm,
+    forms,
   } = useContent();
+
+  const [modalStatus, setModalStatus] = useState(false);
+
+  const openMessageForm = () => setModalStatus("message");
+  const closeModal = () => setModalStatus(false);
 
   return (
     <Layout>
@@ -29,14 +32,22 @@ export default function UsersShow() {
         {currentUser && (
           <div className={styles.userActions}>
             {userIsContact ? (
-              <RemoveContactForm
-                form={removeContactForm}
-                userId={user.pub_id}
-              />
+              <>
+                <RemoveContactForm
+                  form={forms.removeContactForm}
+                  userId={user.pub_id}
+                />
+                <button
+                  className={styles.modalToggleInfo}
+                  onClick={openMessageForm}
+                >
+                  Send Message
+                </button>
+              </>
             ) : (
               user.pub_id !== currentUser.pub_id && (
                 <FriendRequestForm
-                  form={friendRequestForm}
+                  form={forms.friendRequestForm}
                   userId={user.pub_id}
                 />
               )
@@ -110,6 +121,17 @@ export default function UsersShow() {
           ))}
         </div>
       </div>
+      {modalStatus === "message" && (
+        <Modal setterFunc={setModalStatus}>
+          <div className={styles.privateMessageForm}>
+            <h3>Send a private message to {user.username}</h3>
+            <AddPrivateMessageForm
+              form={forms.addMessageForm}
+              onSubmit={closeModal}
+            />
+          </div>
+        </Modal>
+      )}
     </Layout>
   );
 }

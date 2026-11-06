@@ -17,5 +17,6 @@ class UsersController < ApplicationController
   def edit
     build_chats
     build_requests
+    build_messages
   end
 end

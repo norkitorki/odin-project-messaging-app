@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "Users", type: :request do
-  fixtures :contacts, :chats, :messages, :requests, :users
+  fixtures :contacts, :chats, :messages, :private_messages, :requests, :users
 
   describe "GET /sign_up" do
     it "should create new user instance" do
@@ -83,6 +83,15 @@ RSpec.describe "Users", type: :request do
       requests = user.requests
       expect(assigns(:requests)).to match_array(requests)
       expect(assigns(:request_pages)).to eql({ current: 1, previous: nil, count: 1, totalCount: requests.count, perPage: 10, paths: [ { page: 1, url: edit_user_path(request_page: 1) } ] })
+    end
+
+    it "should define private user messages" do
+      user = users(:one)
+      get edit_user_path
+
+      private_messages = user.private_messages
+      expect(assigns(:private_messages)).to match_array(private_messages)
+      expect(assigns(:private_messages_pages)).to eql({ current: 1, previous: nil, count: 1, totalCount: private_messages.count, perPage: 10, paths: [ { page: 1, url: edit_user_path(message_page: 1) } ] })
     end
 
     context "when user is signed out" do

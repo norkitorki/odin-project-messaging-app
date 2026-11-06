@@ -35,6 +35,15 @@ class User < ApplicationRecord
     foreign_key: :initiator_id,
     dependent: :destroy
 
+  has_many :private_messages,
+    foreign_key: :receiver_id,
+    dependent: :destroy_async
+
+  has_many :sent_private_messages,
+    class_name: "PrivateMessage",
+    foreign_key: :initiator_id,
+    dependent: :destroy_async
+
   has_and_belongs_to_many :contacts,
     class_name: "User",
     join_table: :contacts,
