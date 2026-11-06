@@ -4,7 +4,7 @@ class Chat < ApplicationRecord
 
   scope :ordered_by_activity, -> { order(updated_at: :desc) }
 
-  validates :name, presence: true, uniqueness: true
+  validates :name, presence: true, uniqueness: true, length: { maximum: 30 }
 
   has_many :chat_rooms, dependent: :destroy_async
   has_many :users, through: :chat_rooms, before_add: :skip_existing_user, before_remove: :prevent_admin_removal
