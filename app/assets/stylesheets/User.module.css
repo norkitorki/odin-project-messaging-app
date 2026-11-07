@@ -86,6 +86,10 @@
 
 .chatList {
   text-align: center;
+  border: 1px solid #0986863f;
+  border-radius: 6px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 .chatList a {

@@ -17,7 +17,7 @@ const ChatList = ({ chats }) => (
   <ul>
     {chats.map((chat) => (
       <li key={chat.pub_id}>
-        <a href={`/chats/${chat.pub_id}`} data-sg-visit>
+        <a href={`/chats/${chat.pub_id}`} className={styles.chat} data-sg-visit>
           {chat.name}
         </a>
       </li>
@@ -46,41 +46,42 @@ export default function UsersEdit() {
           <button className={styles.modalToggleInfo} onClick={openAvatarForm}>
             {userAvatar ? "Update" : "Upload"} Avatar
           </button>
-          <button
-            className={styles.modalToggleInfo}
-            onClick={openPasswordForm}
-          >
+          <button className={styles.modalToggleInfo} onClick={openPasswordForm}>
             Update Password
           </button>
           {userAvatar && <DeleteAvatarForm form={forms.deleteAvatarForm} />}
           <DeleteUserForm form={forms.deleteUserForm} />
         </div>
       </div>
-      <div className={styles.badgeContainer}>
-        <div className={`${styles.badge} ${styles.chatList}`}>
-          <h3>
-            Public Chats{" "}
-            <span className={styles.collectionCount}>
-              ({chats.public.pages.totalCount})
-            </span>
-          </h3>
-          <div className={styles.contentPagination}>
-            <Pagination pages={chats.public.pages} />
+      <div className={`${styles.userContent}`}>
+        {chats.public.pages.totalCount > 0 && (
+          <div className={styles.chatList}>
+            <h3>
+              Public Chats{" "}
+              <span className={styles.highlighted}>
+                ({chats.public.pages.totalCount})
+              </span>
+            </h3>
+            <div className={styles.contentPagination}>
+              <Pagination pages={chats.public.pages} />
+            </div>
+            <ChatList chats={chats.public.data} />
           </div>
-          <ChatList chats={chats.public.data} />
-        </div>
-        <div className={`${styles.badge} ${styles.chatList}`}>
-          <h3>
-            Private Chats{" "}
-            <span className={styles.collectionCount}>
-              ({chats.private.pages.totalCount})
-            </span>
-          </h3>
-          <div className={styles.contentPagination}>
-            <Pagination pages={chats.private.pages} />
+        )}
+        {chats.private.pages.totalCount > 0 && (
+          <div className={styles.chatList}>
+            <h3>
+              Private Chats{" "}
+              <span className={styles.highlighted}>
+                ({chats.private.pages.totalCount})
+              </span>
+            </h3>
+            <div className={styles.contentPagination}>
+              <Pagination pages={chats.private.pages} />
+            </div>
+            <ChatList chats={chats.private.data} />
           </div>
-          <ChatList chats={chats.private.data} />
-        </div>
+        )}
       </div>
       <div className={styles.userContent}>
         {requests.pages.totalCount > 0 && (
