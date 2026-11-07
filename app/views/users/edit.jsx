@@ -4,6 +4,7 @@ import { Layout } from "@components";
 import {
   AvatarForm,
   DeleteAvatarForm,
+  DeletePrivateMessageForm,
   DeleteUserForm,
   EditPasswordForm,
 } from "@components/Forms";
@@ -11,7 +12,6 @@ import { useContent } from "@thoughtbot/superglue";
 import Pagination from "@components/Pagination";
 import Avatar from "@components/Avatar";
 import Modal from "@components/Modal";
-import { DeletePrivateMessageForm } from "@javascript/components/Forms";
 
 const ChatList = ({ chats }) => (
   <ul>
