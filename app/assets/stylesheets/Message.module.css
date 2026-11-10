@@ -57,11 +57,6 @@
   fill: #0bc7b7;
 }
 
-.deletedMessage {
-  color: #9b0f0f;
-  font-style: italic;
-}
-
 .message {
   background: #071e2538;
   width: max-content;

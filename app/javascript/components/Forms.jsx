@@ -194,7 +194,6 @@ export const DeleteMessageForm = ({ form, messageId }) => {
   return (
     <Form {...form.form} extras={form.extras} onSubmit={onSubmit}>
       <input {...form.inputs.messageId} value={messageId} />
-      <input {...form.inputs.destroy} />
       <button
         type="submit"
         title="delete message"

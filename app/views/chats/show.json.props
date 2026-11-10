@@ -60,9 +60,8 @@ if user_signed_in?
     end
 
     json.deleteMessageForm do
-      form_props(url: update_message_path, method: :patch) do |f|
+      form_props(url: delete_message_path, method: :delete) do |f|
         f.hidden_field :messageId, name: :message_id, id: nil
-        f.hidden_field :destroy, value: true, id: nil
       end
     end
 

@@ -105,12 +105,6 @@ const deleteMessageForm = {
       autoComplete: "off",
       type: "hidden",
     },
-    destroy: {
-      defaultValue: "true",
-      autoComplete: "off",
-      type: "hidden",
-      name: "destroy",
-    },
   },
   extras: {
     method: {

@@ -126,29 +126,6 @@ RSpec.describe "Messages", type: :request do
       end
     end
 
-    context "when destroy param is provided" do
-      it "should mark message as deleted" do
-        message = messages(:one)
-        path = path = chat_path(pub_id: chats(:public).pub_id)
-        patch update_message_path, params: { message_id: message.pub_id, destroy: 1 }, headers: { referer: path }
-        message = users(:one).messages.find(message.id)
-
-        expect(message.value).to eql("Message removed by Admin")
-        expect(message.deleted).to eql(true)
-        expect(flash[:alert]).to eql("Message deleted by Admin")
-        expect(response).to redirect_to(path)
-      end
-
-      it "should delete attached images" do
-        message = messages(:one)
-        message.images.attach(file_fixture("image-1.png"), file_fixture("image-2.png"))
-
-        expect(message.images.attached?).to eql(true)
-        patch update_message_path(message_id: message.pub_id, destroy: 1)
-        expect(users(:one).messages.find(message.id).images.attached?).to eql(false)
-      end
-    end
-
     context "when images param is provided" do
       it "should delete images" do
         message = messages(:one)
@@ -167,6 +144,54 @@ RSpec.describe "Messages", type: :request do
 
         expect(flash[:alert]).to eql("Message could not be found")
         expect(response).to redirect_to(path)
+      end
+    end
+  end
+
+  describe "DELETE /messages/delete" do
+    before do
+      sign_in(users(:one))
+    end
+
+    it "should delete message" do
+      message = messages(:one)
+      chat = message.chat
+
+      expect { delete delete_message_path(message_id: message.pub_id) }.to change { users(:one).messages.count }.by(-1)
+      expect(flash[:alert]).to eql("Message successfully deleted")
+      expect(response).to redirect_to(chat_path(pub_id: chat.pub_id))
+    end
+
+    context "when user is signed out" do
+      before do
+        sign_out(users(:one))
+      end
+
+      it "should redirect to new_user_session path" do
+        delete delete_message_path
+
+        expect(response).to have_http_status(:redirect)
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+
+    context "when message has a parent" do
+      it "should append message param to redirect path" do
+        message = messages(:reply)
+        chat = message.chat
+        parent = message.parent
+
+        expect { delete delete_message_path(message_id: message.pub_id) }.to change { users(:one).messages.count }.by(-1)
+        expect(response).to redirect_to(chat_path(pub_id: chat.pub_id, message: parent.pub_id))
+      end
+    end
+
+    context "when message could not be found" do
+      it "should redirect to chats path" do
+        delete delete_message_path(message_id: "m_invalidid")
+
+        expect(response).to redirect_to(chats_path)
+        expect(flash[:alert]).to eql("Message could not be found")
       end
     end
   end

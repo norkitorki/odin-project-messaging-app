@@ -52,7 +52,6 @@ const props = {
     pub_id: "m_1k8sbyxp",
     value: "First message",
     parent_id: null,
-    deleted: false,
     created: "about 2 weeks ago",
     updated: "about 2 weeks ago",
     user: content.currentUser,
@@ -118,7 +117,6 @@ describe("Message", () => {
             pub_id: "m_r5bysazi7",
             value: "First reply",
             parent_id: "m_1k8sbyxp",
-            deleted: false,
             created: "about 2 days ago",
             updated: "about 2 days ago",
             user: content.currentUser,
@@ -127,7 +125,6 @@ describe("Message", () => {
             pub_id: "m_r5bysazi9",
             value: "Second reply",
             parent_id: "m_1k8sbyxp",
-            deleted: false,
             created: "about 11 hours ago",
             updated: "about 11 hours ago",
             user: content.currentUser,
@@ -211,50 +208,6 @@ describe("Message", () => {
         screen.getByRole("button", { name: /update message/i }),
       ).toBeInTheDocument();
     });
-
-    describe("when message is deleted", () => {
-      beforeEach(() => {
-        const propsDeletedMessage = {
-          ...props,
-          message: {
-            ...props.message,
-            value: "Message deleted by User",
-            updated: "2 minutes ago",
-            deleted: true,
-          },
-        };
-        render(<Message {...propsDeletedMessage} />);
-      });
-
-      test("should not render delete message button", () => {
-        expect(screen.queryByTitle(/delete message/i)).not.toBeInTheDocument();
-      });
-
-      test("should not render edit message button", () => {
-        expect(screen.queryByTitle(/edit message/i)).not.toBeInTheDocument();
-      });
-    });
-  });
-
-  describe("when message is deleted", () => {
-    beforeEach(() => {
-      const propsDeletedMessage = {
-        ...props,
-        message: {
-          ...props.message,
-          value: "Message deleted by User",
-          updated: "2 minutes ago",
-          deleted: true,
-        },
-      };
-      render(<Message {...propsDeletedMessage} />);
-    });
-
-    test("should render deletion message", () => {
-      expect(
-        screen.getByText(/message deleted by user 2 minutes ago/i),
-      ).toBeInTheDocument();
-    });
   });
 
   describe("when message is a reply", () => {
@@ -313,7 +266,6 @@ describe("Message", () => {
             pub_id: "m_r5bysazi7",
             value: "First reply",
             parent_id: "m_1k8sbyxp",
-            deleted: false,
             created: "about 2 days ago",
             updated: "about 2 days ago",
             user: content.currentUser,

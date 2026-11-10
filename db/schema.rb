@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_30_130938) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_09_113025) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -69,7 +69,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_30_130938) do
 
   create_table "messages", force: :cascade do |t|
     t.string "value"
-    t.boolean "deleted", default: false
     t.string "pub_id"
     t.bigint "chat_id"
     t.bigint "user_id"

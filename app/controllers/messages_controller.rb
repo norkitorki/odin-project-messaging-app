@@ -19,8 +19,6 @@ class MessagesController < ApplicationController
   def update
     message = current_user.messages.find_by(pub_id: params[:message_id])
     if message
-      return mark_as_deleted(message) if params[:destroy]
-
       message.value = message_params[:value]
       message_params[:images]&.each { |key| message.images.find { |img| img.key == key }.purge_later }
       notice = "Message#{message.save ? ' ' : ' not '}updated"
@@ -30,22 +28,21 @@ class MessagesController < ApplicationController
     end
   end
 
+  def destroy
+    message = current_user.messages.find_by(pub_id: params[:message_id])
+
+    if message
+      chat = message.chat
+      message.destroy
+      redirect_to chat_path(pub_id: chat.pub_id, message: message.parent_id), alert: "Message successfully deleted"
+    else
+      redirect_to chats_path, alert: "Message could not be found"
+    end
+  end
+
   private
 
   def message_params
     params.require(:message).permit(:value, :parent_id, images: [])
-  end
-
-  def mark_as_deleted(message)
-    auth_user = message.chat.admin == current_user && "Admin" ||
-                message.user == current_user && "User"
-
-    message.value = "Message removed by #{auth_user}"
-    message.deleted = true
-    message.images.purge_later
-    message.replies.destroy_all
-    message.save(validate: false)
-
-    redirect_back_or_to root_path, alert: "Message deleted by #{auth_user}"
   end
 end

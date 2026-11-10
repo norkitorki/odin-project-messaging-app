@@ -61,7 +61,7 @@ class ChatsController < ApplicationController
   def redirect_to_message(chat, messages)
     message_id = params[:message]
     parent_id = params[:parent] || nil
-    index = messages.index { |m| !m.deleted && (m.pub_id == parent_id || m.pub_id == message_id) }
+    index = messages.index { |m| m.pub_id == parent_id || m.pub_id == message_id }
     if index
       page = index / 30 + 1
       redirect_to chat_path(pub_id: chat.pub_id, page: page < 1 ? 1 : page, m: message_id, p: parent_id), status: :found

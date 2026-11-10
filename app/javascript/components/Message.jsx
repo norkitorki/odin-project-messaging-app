@@ -45,7 +45,6 @@ export default function Message({ message, chat, replies, openImageInViewer }) {
   };
   const replyCallback = () => setReplying(false);
 
-  const messageDeleted = message.deleted;
   const isReply = message.parent_id !== null;
   const userIsAuthor = message.user.pub_id === currentUser?.pub_id;
   const userIsAdmin = chat.admin_id === currentUser?.pub_id;
@@ -65,28 +64,22 @@ export default function Message({ message, chat, replies, openImageInViewer }) {
       {chat.admin.pub_id === message.user.pub_id && (
         <span className={styles.adminBadge}>Admin</span>
       )}
-      <span
-        className={`${styles.messageCreationDate} ${messageDeleted ? styles.deletedMessage : ""}`}
-      >
-        {messageDeleted ? (
-          `${message.value} ${message.updated}`
-        ) : (
-          <>
-            {message.created}
-            {message.created !== message.updated &&
-              ` (updated ${message.updated})`}
-          </>
-        )}
+      <span className={styles.messageCreationDate}>
+        <>
+          {message.created}
+          {message.created !== message.updated &&
+            ` (updated ${message.updated})`}
+        </>
       </span>
       {currentUser?.pub_id && (
         <>
-          {!messageDeleted && (userIsAuthor || userIsAdmin) && (
+          {(userIsAuthor || userIsAdmin) && (
             <DeleteMessageForm
               form={forms.deleteMessageForm}
               messageId={message.pub_id}
             />
           )}
-          {!messageDeleted && userIsAuthor && (
+          {userIsAuthor && (
             <button
               title="edit message"
               className={`${styles.messageEditButton} ${editingMessage ? styles.active : ""}`}
@@ -95,7 +88,7 @@ export default function Message({ message, chat, replies, openImageInViewer }) {
               <Edit />
             </button>
           )}
-          {userIsMember && !messageDeleted && !isReply && (
+          {userIsMember && !isReply && (
             <button
               title="reply to message"
               className={`${styles.messageReplyButton} ${replying ? styles.active : ""}`}
@@ -106,65 +99,65 @@ export default function Message({ message, chat, replies, openImageInViewer }) {
           )}
         </>
       )}
-      {!messageDeleted && (
-        <button
-          title="copy message link"
-          className={styles.messageLinkButton}
-          onClick={() => copyMessageLink(message.pub_id, message.parent_id)}
-        >
-          <Link />
-        </button>
-      )}
+      <button
+        title="copy message link"
+        className={styles.messageLinkButton}
+        onClick={() => copyMessageLink(message.pub_id, message.parent_id)}
+      >
+        <Link />
+      </button>
     </div>
   );
 
   const MessageBody = () => (
     <>
-      {!messageDeleted && (
-        <div className={styles.message}>
-          <>
-            {message.value}
-            {chat.images[message.pub_id] && (
-              <div
-                onClick={openImageInViewer}
-                data-message-id={message.pub_id}
-                className={styles.messageImages}
+      <div className={styles.message}>
+        <>
+          {message.value}
+          {chat.images[message.pub_id] && (
+            <div
+              onClick={openImageInViewer}
+              data-message-id={message.pub_id}
+              className={styles.messageImages}
+            >
+              {chat.images[message.pub_id].previews.map((preview, index) => (
+                <img
+                  key={index}
+                  src={preview.url}
+                  alt={preview.filename}
+                  data-image-index={index}
+                />
+              ))}
+            </div>
+          )}
+          {replies?.length > 0 && (
+            <div className={styles.replies}>
+              <details
+                title="replies"
+                open={
+                  parentQuery === message.pub_id ||
+                  messageQuery === message.pub_id
+                    ? true
+                    : false
+                }
               >
-                {chat.images[message.pub_id].previews.map((preview, index) => (
-                  <img
-                    key={index}
-                    src={preview.url}
-                    alt={preview.filename}
-                    data-image-index={index}
-                  />
-                ))}
-              </div>
-            )}
-            {replies?.length > 0 && (
-              <div className={styles.replies}>
-                <details title="replies" open={parentQuery === message.pub_id ? true : false}>
-                  <summary>{replies.length} Replies</summary>
-                  <ol>
-                    {replies.map((message) => (
-                      <li
-                        id={message.pub_id}
-                        key={message.pub_id}
-                        className={messageDeleted ? styles.deletedMessage : ""}
-                      >
-                        <Message
-                          message={message}
-                          chat={chat}
-                          openImageInViewer={openImageInViewer}
-                        />
-                      </li>
-                    ))}
-                  </ol>
-                </details>
-              </div>
-            )}
-          </>
-        </div>
-      )}
+                <summary>{replies.length} Replies</summary>
+                <ol>
+                  {replies.map((message) => (
+                    <li id={message.pub_id} key={message.pub_id}>
+                      <Message
+                        message={message}
+                        chat={chat}
+                        openImageInViewer={openImageInViewer}
+                      />
+                    </li>
+                  ))}
+                </ol>
+              </details>
+            </div>
+          )}
+        </>
+      </div>
     </>
   );
 
@@ -179,7 +172,7 @@ export default function Message({ message, chat, replies, openImageInViewer }) {
         <details
           id={message.pub_id}
           className={`${styles.messageContainer} ${message.pub_id === messageQuery ? styles.queriedMessage : ""}`}
-          open={!messageDeleted}
+          open
         >
           <summary>
             <MessageDetails />

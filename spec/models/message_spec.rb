@@ -7,7 +7,6 @@ RSpec.describe Message, type: :model do
     message = messages(:one)
     json = message.as_json
     expect(json).to include(
-      "deleted" => message.deleted,
       "parent_id" => message.parent_id,
       "pub_id" => message.pub_id,
       "value" => message.value,
@@ -17,11 +16,6 @@ RSpec.describe Message, type: :model do
       updated: message.updated_at_time_in_words_to_now
     )
     expect(json).not_to include("id", "chat_id", "user_id", "created_at", "updated_at")
-  end
-
-  it "should not update if message is deleted" do
-    message = messages(:deleted)
-    expect { message.update!(value: "Am I deleted?") }.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Message marked as deleted")
   end
 
   it "should not create message for non included chat member" do
@@ -39,12 +33,12 @@ RSpec.describe Message, type: :model do
     it "#ordered_by_creation should order messages by time of creation" do
       messages(:one).update(created_at: Time.now + 1.hour)
       messages(:two).update(created_at: Time.now + 30.minutes)
-      expect(described_class.all).to match_array([ messages(:one), messages(:two), messages(:three), messages(:four), messages(:reply), messages(:deleted) ])
-      expect(described_class.ordered_by_creation).to match_array([ messages(:deleted), messages(:reply), messages(:three), messages(:four), messages(:two), messages(:one) ])
+      expect(described_class.all).to match_array([ messages(:one), messages(:two), messages(:three), messages(:four), messages(:reply) ])
+      expect(described_class.ordered_by_creation).to match_array([ messages(:reply), messages(:three), messages(:four), messages(:two), messages(:one) ])
     end
 
     it "#top should return messages without reply" do
-      expect(described_class.top).to match_array([ messages(:one), messages(:two), messages(:three), messages(:four), messages(:deleted) ])
+      expect(described_class.top).to match_array([ messages(:one), messages(:two), messages(:three), messages(:four) ])
     end
 
     it "#sub should return replies" do

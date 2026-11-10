@@ -42,5 +42,6 @@ Rails.application.routes.draw do
   delete "/chat/leave", to: "chat_members#destroy", as: :leave_chat
   delete "/chats/delete", to: "chats#destroy", as: :delete_chat
   delete "/contacts/remove", to: "contacts#destroy", as: :remove_contact
+  delete "/messages/delete", to: "messages#destroy", as: :delete_message
   delete "/private_messages/delete", to: "private_messages#destroy", as: :delete_private_message
 end
