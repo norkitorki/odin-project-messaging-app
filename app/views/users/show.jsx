@@ -66,60 +66,64 @@ export default function UsersShow() {
         </div>
       </div>
       <div className={styles.userContent}>
-        <div className={styles.chatList}>
-          <h3>
-            Chats{" "}
-            <span className={styles.highlighted}>
-              ({chats.pages.totalCount})
-            </span>
-          </h3>
-          {chats.pages.totalCount > chats.pages.perPage && (
-            <div className={styles.contentPagination}>
-              <Pagination pages={chats.pages} />
-            </div>
-          )}
-          <ul>
-            {chats.data.map((chat) => (
-              <li key={chat.pub_id}>
-                <a
-                  href={`/chats/${chat.pub_id}`}
-                  className={styles.chat}
-                  data-sg-visit
-                >
-                  {chat.name}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div>
-          <h3>
-            Messages{" "}
-            <span className={styles.highlighted}>
-              ({messages.pages.totalCount})
-            </span>
-          </h3>
-          {messages.pages.totalCount > messages.pages.perPage && (
-            <div className={styles.contentPagination}>
-              <Pagination pages={messages.pages} />
-            </div>
-          )}
-          {messages.data.map((message) => (
-            <a
-              key={message.pub_id}
-              href={`/chats/${message.chat.pub_id}?message=${message.pub_id}`}
-              className={styles.message}
-              data-sg-visit
-            >
-              <div>
-                <span className={styles.created}>
-                  {message.created} in {message.chat.name}
-                </span>
-                <span>{message.value}</span>
+        {chats.pages.totalCount > 0 && (
+          <div className={styles.chatList}>
+            <h3>
+              Chats{" "}
+              <span className={styles.highlighted}>
+                ({chats.pages.totalCount})
+              </span>
+            </h3>
+            {chats.pages.totalCount > chats.pages.perPage && (
+              <div className={styles.contentPagination}>
+                <Pagination pages={chats.pages} />
               </div>
-            </a>
-          ))}
-        </div>
+            )}
+            <ul>
+              {chats.data.map((chat) => (
+                <li key={chat.pub_id}>
+                  <a
+                    href={`/chats/${chat.pub_id}`}
+                    className={styles.chat}
+                    data-sg-visit
+                  >
+                    {chat.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+        {messages.pages.totalCount > 0 && (
+          <div>
+            <h3>
+              Messages{" "}
+              <span className={styles.highlighted}>
+                ({messages.pages.totalCount})
+              </span>
+            </h3>
+            {messages.pages.totalCount > messages.pages.perPage && (
+              <div className={styles.contentPagination}>
+                <Pagination pages={messages.pages} />
+              </div>
+            )}
+            {messages.data.map((message) => (
+              <a
+                key={message.pub_id}
+                href={`/chats/${message.chat.pub_id}?message=${message.pub_id}`}
+                className={styles.message}
+                data-sg-visit
+              >
+                <div>
+                  <span className={styles.created}>
+                    {message.created} in {message.chat.name}
+                  </span>
+                  <span>{message.value}</span>
+                </div>
+              </a>
+            ))}
+          </div>
+        )}
       </div>
       {modalStatus === "message" && (
         <Modal setterFunc={setModalStatus}>
