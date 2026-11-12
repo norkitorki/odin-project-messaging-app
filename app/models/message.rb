@@ -10,7 +10,7 @@ class Message < ApplicationRecord
   scope :sub, -> { where.not(parent_id: nil) }
   scope :public_messages, -> { includes(:chat, :user).where(chat: { private: false }) }
 
-  belongs_to :chat, touch: true
+  belongs_to :chat, touch: true, counter_cache: true
   belongs_to :user, touch: true
 
   has_many_attached :images do |attachable|
@@ -22,7 +22,7 @@ class Message < ApplicationRecord
     class_name: "Message",
     primary_key: :pub_id,
     foreign_key: :parent_id,
-    dependent: :destroy_async,
+    dependent: :destroy,
     before_add: :set_chat_id
 
   belongs_to :parent,

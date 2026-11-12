@@ -4,6 +4,8 @@ public:
   private: false
   pub_id: "c_s36salo6"
   admin_id: 1
+  users_count: 1
+  messages_count: 2
 
 public_two:
   id: 2
@@ -11,6 +13,8 @@ public_two:
   private: false
   pub_id: "c_a7jnl2oz"
   admin_id: 2
+  users_count: 1
+  messages_count: 0
 
 private:
   id: 3
@@ -18,6 +22,8 @@ private:
   private: true
   pub_id: "c_p34nbf3j"
   admin_id: 2
+  users_count: 1
+  messages_count: 2
 
 three:
   id: 4
@@ -25,3 +31,5 @@ three:
   private: false
   pub_id: "c_3odgy50a"
   admin_id: 1
+  users_count: 2
+  messages_count: 1

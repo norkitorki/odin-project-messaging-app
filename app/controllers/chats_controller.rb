@@ -22,7 +22,7 @@ class ChatsController < ApplicationController
       messages = @chat.messages.includes(user: [ :avatar_blob ]).ordered_by_creation
       return redirect_to_message(@chat, messages) if params[:message]
 
-      default_page = params[:page] || (messages.count / 30.0).ceil
+      default_page = params[:page] || (@chat.messages_count / 30.0).ceil
       @messages, @pages = pagination_data(messages.top.includes(:images_blobs).page(default_page).per(30), chat_path(pub_id: @chat.pub_id), 30, :page, [ :props_at, "data.messages" ])
       @new_message = @chat.messages.new
       @replies = chat_replies(messages)

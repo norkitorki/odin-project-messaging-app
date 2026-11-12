@@ -6,7 +6,7 @@ RSpec.describe Chat, type: :model do
   it "should omit id, admin_id, created_at, updated_at from json output" do
     chat = chats(:public)
     json = chat.as_json
-    expect(json).to include("name" => chat.name, "private" => chat.private, "pub_id" => chat.pub_id, admin: chat.admin)
+    expect(json).to include("name" => chat.name, "private" => chat.private, "pub_id" => chat.pub_id, admin: chat.admin, updated: "less than a minute ago")
     expect(json).not_to include("id", "admin_id", "created_at", "updated_at")
   end
 
@@ -79,14 +79,6 @@ RSpec.describe Chat, type: :model do
     end
   end
 
-  describe "#json_with_user_count" do
-    it "should include user count in json output" do
-      chat = chats(:three)
-      json = chat.as_json
-      expect(chat.json_with_user_count).to eq({ userCount: chat.users.count }.merge(json))
-    end
-  end
-
   describe "#json_with_images" do
     let(:chat) { chats(:three) }
 
@@ -96,7 +88,7 @@ RSpec.describe Chat, type: :model do
 
     it "should include message images and user count in json output" do
       json = chat.as_json
-      expect(chat.json_with_images).to eq({ images: { images: true }, userCount: chat.users.count }.merge(json))
+      expect(chat.json_with_images).to eq({ images: { images: true } }.merge(json))
     end
   end
 end

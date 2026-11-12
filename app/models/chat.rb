@@ -1,4 +1,5 @@
 class Chat < ApplicationRecord
+  include TimeHelper
   include CoolId::Model
   cool_id prefix: "c", length: 8, id_field: :pub_id
 
@@ -36,15 +37,11 @@ class Chat < ApplicationRecord
   end
 
   def as_json
-    super.except("id", "admin_id", "created_at", "updated_at").merge({ admin: admin })
-  end
-
-  def json_with_user_count
-    as_json.merge({ userCount: users.count })
+    super.except("id", "admin_id", "created_at", "updated_at", "images").merge({ admin: admin, updated: updated_at_time_in_words_to_now })
   end
 
   def json_with_images
-    as_json.merge({ images: message_images, userCount: users.count })
+    as_json.merge({ images: message_images })
   end
 
   private

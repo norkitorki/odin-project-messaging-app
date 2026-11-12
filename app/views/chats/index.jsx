@@ -1,9 +1,9 @@
 import React from "react";
 import styles from "@stylesheets/Chat.module.css";
 import { useContent } from "@thoughtbot/superglue";
-import { Layout } from "@javascript/components";
-import { Lock } from "@javascript/components/Icons";
-import Pagination from "@javascript/components/Pagination";
+import { Layout } from "@components";
+import { Activity, Lock } from "@components/Icons";
+import Pagination from "@components/Pagination";
 
 export default function ChatsIndex() {
   const { currentUser, chats } = useContent();
@@ -24,7 +24,13 @@ export default function ChatsIndex() {
             <h2>
               {chat.name}{" "}
               <span className={styles.userCountBadge}>
-                {chat.userCount} Users
+                {chat.users_count} Users
+              </span>{" "}
+              <span className={styles.messageCountBadge}>
+                {chat.messages_count} Messages
+              </span>{" "}
+              <span className={styles.activityBadge}>
+                <Activity /> {chat.updated}
               </span>{" "}
               {chat.private && <Lock />}
             </h2>

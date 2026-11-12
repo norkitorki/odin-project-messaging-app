@@ -157,7 +157,7 @@ RSpec.describe "Messages", type: :request do
       message = messages(:one)
       chat = message.chat
 
-      expect { delete delete_message_path(message_id: message.pub_id) }.to change { users(:one).messages.count }.by(-1)
+      expect { delete delete_message_path(message_id: message.pub_id) }.to change { users(:one).messages.count }.by(-2)
       expect(flash[:alert]).to eql("Message successfully deleted")
       expect(response).to redirect_to(chat_path(pub_id: chat.pub_id))
     end

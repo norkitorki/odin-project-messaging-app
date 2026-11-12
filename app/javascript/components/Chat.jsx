@@ -18,8 +18,8 @@ export function Chat({ chat }) {
   const imageViewerRef = useRef();
   const [modalStatus, setModalStatus] = useState(false);
 
-  const openInviteForm = () => setModalStatus("invite");
-  const openMessageForm = () => setModalStatus("add");
+  const openInviteForm = () => setModalStatus("inviteUser");
+  const openMessageForm = () => setModalStatus("addMessage");
   const messageCallback = () => setModalStatus(false);
   const openImageInViewer = (event) => {
     const index = event.target.dataset.imageIndex;
@@ -42,13 +42,13 @@ export function Chat({ chat }) {
           <h2>
             {chat.name}{" "}
             <p className={styles.badge}>
-              <span>{chat.userCount}</span>{" "}
+              <span>{chat.users_count}</span>{" "}
               <a href={`/chats/${chat.pub_id}/users`} data-sg-visit>
                 users
               </a>
             </p>
             <p className={styles.badge}>
-              <span>{messages.pages.totalCount}</span> messages
+              <span>{chat.messages_count}</span> messages
             </p>
           </h2>
           {currentUser && (
@@ -93,7 +93,7 @@ export function Chat({ chat }) {
           </ol>
         )}
       </div>
-      {modalStatus === "add" && (
+      {modalStatus === "addMessage" && (
         <Modal setterFunc={setModalStatus}>
           <AddMessageForm
             form={forms.addMessageForm}
@@ -101,7 +101,7 @@ export function Chat({ chat }) {
           />
         </Modal>
       )}
-      {modalStatus === "invite" && (
+      {modalStatus === "inviteUser" && (
         <Modal setterFunc={setModalStatus}>
           <div className={styles.inviteForm}>
             <h3>Invite a User to your chat</h3>

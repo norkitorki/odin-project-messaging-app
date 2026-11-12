@@ -31,6 +31,17 @@
   border-radius: 4px;
 }
 
+.messageCountBadge {
+  composes: userCountBadge;
+  border-color: #d1420a;
+}
+
+.activityBadge {
+  composes: userCountBadge;
+  border: none;
+  padding: 0.25rem 0;
+}
+
 .chatContainer {
   padding: 0 2rem 3.25rem 0;
 }
