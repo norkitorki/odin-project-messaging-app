@@ -49,7 +49,7 @@ export default function RequestsShow() {
               <InitiatorLink /> would like you to join a private chat.
             </div>
             <div>Chat: {chat.name}</div>
-            <div>Member Count: {chat.userCount}</div>
+            <div>Member Count: {chat.users_count}</div>
           </div>
         </RequestForm>
       )}

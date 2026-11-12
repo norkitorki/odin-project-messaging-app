@@ -1,7 +1,7 @@
 json.request @request
 
 if @request.request_type == "chat"
-  json.chat Chat.find_by(pub_id: @request.reference_pub_id).json_with_user_count
+  json.chat Chat.find_by(pub_id: @request.reference_pub_id)
 end
 
 json.requestForm do
