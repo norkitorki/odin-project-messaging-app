@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "Users", type: :request do
-  fixtures :contacts, :chats, :messages, :private_messages, :requests, :users
+  fixtures :contacts, :chats, :chat_rooms, :messages, :private_messages, :requests, :users
 
   describe "GET /sign_up" do
     it "should create new user instance" do
@@ -48,6 +48,14 @@ RSpec.describe "Users", type: :request do
         get user_path(pub_id: user.pub_id)
 
         expect(assigns(:userIsContact)).to eql(true)
+      end
+
+      it "should include private chats common with user" do
+        user = users(:two)
+        chats(:private).users << users(:one)
+        get user_path(pub_id: user.pub_id)
+
+        expect(assigns(:chats)).to match_array([ chats(:public_two), chats(:private) ])
       end
     end
   end
