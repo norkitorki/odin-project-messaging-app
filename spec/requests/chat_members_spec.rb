@@ -71,7 +71,7 @@ RSpec.describe "ChatMembers", type: :request do
       it "should remove user as chat member" do
         expect { delete leave_chat_path(chat_id: chat.pub_id) }.to change { chat.users.count }.by(-1)
         expect(flash[:alert]).to eql("You left a chat")
-        expect(response).to redirect_to(chats_path)
+        expect(response).to redirect_to(chat_path(pub_id: chat.pub_id))
       end
 
       it "should delete message images belonging to user" do
@@ -81,7 +81,7 @@ RSpec.describe "ChatMembers", type: :request do
         expect(message.images.attached?).to eql(true)
         expect { delete leave_chat_path(chat_id: chat.pub_id) }.to change { message.images.count }.by(-1)
         expect(flash[:alert]).to eql("You left a chat")
-        expect(response).to redirect_to(chats_path)
+        expect(response).to redirect_to(chat_path(pub_id: chat.pub_id))
       end
 
       it "should delete chat messages belonging to user" do
@@ -91,7 +91,32 @@ RSpec.describe "ChatMembers", type: :request do
         expect(chat.messages.count).to eql(3)
         expect { delete leave_chat_path(chat_id: chat.pub_id) }.to change { chat.messages.count }.by(-2)
         expect(flash[:alert]).to eql("You left a chat")
-        expect(response).to redirect_to(chats_path)
+        expect(response).to redirect_to(chat_path(pub_id: chat.pub_id))
+      end
+
+      context "when chat is private" do
+        let(:chat) { chats(:private) }
+
+        before do
+          sign_in(users(:one))
+        end
+
+        it "should redirect to chats path" do
+          chat.users << users(:one)
+          expect { delete leave_chat_path(chat_id: chat.pub_id) }.to change { chat.users.count }.by(-1)
+          expect(flash[:alert]).to eql("You left a chat")
+          expect(response).to redirect_to(chats_path)
+        end
+      end
+
+      context "when user is not a member of the chat" do
+        let(:chat) { chats(:public) }
+
+        it "should redirect to chats path" do
+          expect { delete leave_chat_path(chat_id: chat.pub_id) }.not_to change { chat.users.count }
+          expect(flash[:alert]).to eql("User is not a member of this chat")
+          expect(response).to redirect_to(chats_path)
+        end
       end
     end
   end

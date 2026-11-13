@@ -19,14 +19,15 @@ class ChatMembersController < ApplicationController
   end
 
   def destroy
-    chat = Chat.find_by(pub_id: params[:chat_id])
+    chat = current_user.chats.find_by(pub_id: params[:chat_id])
 
     if chat
-      chat.users.delete(current_user)
-      chat.messages.joins(:images_blobs).where(user: current_user).distinct.destroy_all
-      chat.messages.where(user: current_user).delete_all
+      chat.users.destroy(current_user)
+      chat.messages.where(user: current_user).destroy_all
 
-      redirect_to chats_path, alert: "You left a chat", status: :see_other
+      redirect_to chat.private ? chats_path : chat_path(pub_id: chat.pub_id), alert: "You left a chat", status: :see_other
+    else
+      redirect_to chats_path, alert: "User is not a member of this chat"
     end
   end
 end
